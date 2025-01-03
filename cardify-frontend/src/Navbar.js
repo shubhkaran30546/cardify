@@ -8,8 +8,7 @@ const Navbar = () => {
                 <li><a href="/Support">Support</a></li>
                 <li><a href="/Pricing">Pricing</a></li>
                 <li className="logo">
-                    <img src="user.png" alt="Profile" className="profile-logo"/>
-                </li>
+                    <a href= "/Profile"><img href= "/Profile" src="user.png" alt="Profile" className="profile-logo"/></a></li>
             </ul>
         </nav>
     );
