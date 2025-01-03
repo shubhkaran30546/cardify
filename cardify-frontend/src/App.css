@@ -58,9 +58,14 @@ a:hover {
 }
 
 /* Portfolio Section */
+.homepage-main {
+    margin: 70px auto;
+    max-width: 100%;
+    text-align: center;
+}
 .portfolio-preview img {
-    width: 80%;
-    max-width: 500px;
+    width: 100%;
+    max-width: 100%;
     border: 2px solid #e6e6e6;
     margin: 20px 0;
     border-radius: 5px;
@@ -68,7 +73,7 @@ a:hover {
 
 /* Features Section */
 .features-section {
-    text-align: left;
+    text-align: center;
     margin: 20px auto;
     max-width: 800px;
 }
@@ -80,6 +85,8 @@ a:hover {
 }
 
 .features-list {
+    text-align: center;
+    display: block;
     list-style: none;
     padding: 0;
     line-height: 1.8;

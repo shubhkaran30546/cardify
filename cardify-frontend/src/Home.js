@@ -7,7 +7,7 @@ const Home = () => {
             <button className="create-ecard-button">Create your eCard</button>
             <div className="portfolio-preview">
                 <img
-                    src="portfolio-placeholder.png"
+                    src="portfolio.png"
                     alt="Portfolio Preview"
                     className="portfolio-image"
                 />
