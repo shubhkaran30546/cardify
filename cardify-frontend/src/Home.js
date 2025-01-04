@@ -1,10 +1,17 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
 
 const Home = () => {
+    const navigate = useNavigate();
+    const handleOpenSignup = () => {
+        navigate("/signup");
+    };
     return (
         <div className="homepage-main">
             <h1>The Smarter Way to Share Who You Are.</h1>
-            <button className="create-ecard-button">Create your eCard</button>
+            <button className="create-ecard-button" onClick={handleOpenSignup}>
+                Create your eCard
+            </button>
             <div className="portfolio-preview">
                 <img
                     src="portfolio.png"
@@ -28,7 +35,7 @@ const Home = () => {
                     <li>Secure data sharing</li>
                 </ul>
             </div>
-            </div>
+        </div>
     );
 };
 
