@@ -8,14 +8,9 @@ import java.util.List;
 
 @RestController
 public class HomeController {
-
-    @GetMapping("/api/users")
-    public List<User> getUsers() {
-        return Arrays.asList(
-                new User("John Doe"),
-                new User("Jane Smith"),
-                new User("Alice Johnson")
-        );
+    @GetMapping("/{path:[^\\.]*}") // Matches any path without a dot (e.g., /home, /signup)
+    public String forward() {
+        return "forward:/index.html";
     }
 }
 
