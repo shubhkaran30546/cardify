@@ -8,11 +8,11 @@ const Signup = () => {
                 <h2>Create an Account</h2>
                 <button className="social-button facebook">
                     <img
-                        src="fb.png"
+                        src="linkedin.png"
                         alt="Facebook"
                         className="icon"
                     />
-                    Continue with Facebook
+                    Continue with LinkedIn
                 </button>
                 <button className="social-button google">
                     <img
