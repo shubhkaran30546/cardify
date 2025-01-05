@@ -40,12 +40,12 @@ function EmailSignup() {
     };
 
     const handleGoBack = () => {
-        navigate('/'); // Navigate back to the Signup page
+        navigate('/signup'); // Navigate back to the Signup page
     };
 
     return (
         <div className="email-signup-container">
-            <h1 className="title">Create an Account</h1>
+            <h1 className="title">Create your account</h1>
             <form className="form" onSubmit={handleSubmit}>
                 <div className="input-row">
                     <input

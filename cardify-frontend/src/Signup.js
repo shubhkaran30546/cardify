@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "./Signup.css";
 
 const Signup = () => {
+    const navigate = useNavigate(); // Initialize navigate function
+
+    const handleEmailSignup = () => {
+        navigate("/email-signup"); // Navigate to the email signup page
+    };
+
     return (
         <div className="signup-container">
             <div className="signup-card">
@@ -22,7 +29,10 @@ const Signup = () => {
                     />
                     Continue with Google
                 </button>
-                <button className="social-button email">
+                <button
+                    className="social-button email"
+                    onClick={handleEmailSignup} // Add onClick handler
+                >
                     <img
                         src="email.png"
                         alt="Email"
