@@ -16,7 +16,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests.anyRequest().authenticated())
-                .oauth2Login(oauth->oauth.defaultSuccessUrl("http://localhost:3000/"));
+                .oauth2Login(oauth->oauth.defaultSuccessUrl("http://localhost:8080/"));
         return http.build();
     }
 }
