@@ -1,17 +1,15 @@
-package com.example.cardify;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
-import java.util.List;
-
-@RestController
-public class HomeController {
-    @GetMapping("/{path:[^\\.]*}") // Matches any path without a dot (e.g., /home, /signup)
-    public String forward() {
-        return "forward:/index.html";
-    }
-}
-
-
+//package com.example.cardify;
+//
+//import org.springframework.stereotype.Controller;
+//import org.springframework.web.bind.annotation.GetMapping;
+//
+//@Controller
+//public class HomeController {
+//
+//    // Serve the React app's index.html for the root path
+//    @GetMapping(value = {"/", "/{path:[^\\.]*}"})
+//    public String home() {
+//        return "forward:/index.html";  // This serves index.html (React app) from resources/static
+//    }
+//
+//}

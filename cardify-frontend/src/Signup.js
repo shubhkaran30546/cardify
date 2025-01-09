@@ -8,7 +8,7 @@ const Signup = () => {
     const handleEmailSignup = () => {
         navigate("/email-signup"); // Navigate to the email signup page
     };const handleGoogleSignup = () => {
-        navigate("/login/oauth2/code/google"); // Navigate to the email signup page
+        window.location.href = "http://localhost:8080/login/oauth2/code/google";
     };
 
     return (
