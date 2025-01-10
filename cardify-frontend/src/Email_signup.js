@@ -27,7 +27,7 @@ function EmailSignup() {
 
         try {
             // Send the data to the backend
-            const response = await axios.post("/api/users/signup", formData);
+            const response = await axios.post("http://localhost:8080/api/users/signup", formData);
             console.log("Response:", response.data);
 
             alert("Account Created Successfully!");

@@ -1,15 +1,13 @@
-//package com.example.cardify;
-//
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//
-//@Controller
-//public class HomeController {
-//
-//    // Serve the React app's index.html for the root path
-//    @GetMapping(value = {"/", "/{path:[^\\.]*}"})
-//    public String home() {
-//        return "forward:/index.html";  // This serves index.html (React app) from resources/static
-//    }
-//
-//}
+package com.example.cardify.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController  // Use RestController instead of Controller for API responses
+public class HomeController {
+
+    @GetMapping("/hello")
+    public String home() {
+        return "Hello from Spring Boot!";
+    }
+}
