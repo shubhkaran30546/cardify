@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Email_signup.css';
+import axios from "axios";
 
 function EmailSignup() {
     const navigate = useNavigate(); // React Router hook for navigation
@@ -21,22 +22,31 @@ function EmailSignup() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('User Data:', formData);
-        alert('Account Created Successfully!');
 
-        // Clear form data
-        setFormData({
-            firstName: '',
-            lastName: '',
-            email: '',
-            phoneNumber: '',
-            password: '',
-        });
+        try {
+            // Send the data to the backend
+            const response = await axios.post("/api/users/signup", formData);
+            console.log("Response:", response.data);
 
-        // Optionally navigate back to the Signup page or another page
-        navigate('/'); // Redirect to the main Signup page after account creation
+            alert("Account Created Successfully!");
+
+            // Clear form data
+            setFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                phoneNumber: "",
+                password: "",
+            });
+
+            // Redirect to another page if needed
+            navigate("/");
+        } catch (error) {
+            console.error("Error during account creation:", error);
+            alert("Failed to create account. Please try again.");
+        }
     };
 
     const handleGoBack = () => {
@@ -94,7 +104,7 @@ function EmailSignup() {
                     />
                 </div>
                 <div className="button-row">
-                    <button type="submit" className="btn create-account-btn">
+                    <button type="submit" className="btn create-account-btn" onClick={handleSubmit}>
                         Create Account
                     </button>
                     <button
