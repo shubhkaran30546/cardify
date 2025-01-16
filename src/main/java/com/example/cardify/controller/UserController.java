@@ -36,6 +36,20 @@ public class UserController {
         }
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody User user) {
+        try {
+            User authenticatedUser = userService.LoginUser(user.getEmail(), user.getPassword());
+            if (authenticatedUser != null) {
+                return ResponseEntity.ok("Login successful!");
+            } else {
+                return ResponseEntity.status(401).body("Invalid email or password!");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Internal server error: " + e.getMessage());
+        }
+    }
+
 
 
 }

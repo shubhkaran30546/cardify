@@ -24,4 +24,12 @@ public class UserService {
     public boolean isEmailRegistered(String email) {
         return userRepository.findByEmail(email) != null;
     }
+
+    public User LoginUser(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        }
+        return null;
+    }
 }

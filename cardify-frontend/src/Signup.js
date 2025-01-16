@@ -10,9 +10,12 @@ const Signup = () => {
     };const handleGoogleSignup = () => {
         window.location.href = "http://localhost:8080/login/oauth2/code/google";
     };
+    const handleLogin = () => {
+        navigate("/login"); // Navigate to the email signup page
+        };
 
     return (
-        <div className="signup-container">
+        <body className="signup-container">
             <div className="signup-card">
                 <h2>Create an Account</h2>
                 <button className="social-button facebook">
@@ -43,9 +46,9 @@ const Signup = () => {
                     Continue with Email
                 </button>
                 <div className="divider" />
-                <button className="login-button">Login</button>
+                <button className="login-button" onClick={handleLogin}>Login</button>
             </div>
-        </div>
+        </body>
     );
 };
 

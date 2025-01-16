@@ -3,13 +3,13 @@ import {useNavigate} from "react-router-dom";
 
 const Home = () => {
     const navigate = useNavigate();
-    const handleOpenSignup = () => {
-        navigate("/signup");
+    const handleCreate = () => {
+        navigate("/create-ecard");
     };
     return (
         <div className="homepage-main">
             <h1>The Smarter Way to Share Who You Are.</h1>
-            <button className="create-ecard-button" onClick={handleOpenSignup}>
+            <button className="create-ecard-button" onClick={handleCreate}>
                 Create your eCard
             </button>
             <div className="portfolio-preview">

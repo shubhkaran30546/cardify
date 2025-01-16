@@ -1,0 +1,62 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+}
+h4 {
+    font-size: 20px;
+    margin-top: -15px
+
+}
+h1 {
+    font-size: xxx-large;
+}
+.app {
+    text-align: center;
+}
+
+header {
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+    padding-top: 100px;
+    width: 1500px;
+    background-color: #f0f0f0;
+    align-items: center;
+    display: block;
+}
+
+.profile-picture {
+    border-radius: 50%;
+    width: 100px;
+}
+
+.services {
+    padding: 40px 20px;
+    border-bottom-left-radius: 100px;
+    border-bottom-right-radius: 100px;
+}
+
+.service-cards {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 10px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-section {
+    padding: 30px;
+    background-color: #e8e8e8;
+}
+
+footer {
+    padding: 10px;
+    background-color: #d6d6d6;
+}

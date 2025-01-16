@@ -3,8 +3,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
+    padding-top: 100px;
+    /*background-color: #f5f5f5;*/
 }
 
 /* Card styling for the login form */
@@ -15,6 +15,7 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 300px;
+    background-color: #f5f5f5;
 }
 
 /* Title styling */
