@@ -76,10 +76,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
+//        try {
+//            final String jwt = authHeader.substring("Bearer ".length()).trim();
+//            final String userEmail = jwtService.extractUsername(jwt);
+//
+//            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+//                if (jwtService.isTokenValid(jwt, userDetails)) {
+//                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+//                            userDetails, null, userDetails.getAuthorities()
+//                    );
+//                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                    SecurityContextHolder.getContext().setAuthentication(authToken);
+//                }
+//            }
+//
+//        } catch (Exception exception) {
+//            System.err.println("JWT Authentication error: " + exception.getMessage());
+//            handlerExceptionResolver.resolveException(request, response, null, exception);
+//        }
+        final String jwt = authHeader.substring("Bearer ".length()).trim();
         try {
-            final String jwt = authHeader.substring("Bearer ".length()).trim();
-            final String userEmail = jwtService.extractUsername(jwt);
+            // Explicitly check if the token is expired
+            if (jwtService.isTokenExpired(jwt)) {
+                System.out.println("Token expired. Sending 401 Unauthorized.");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Token expired. Please log in again.");
+                return;
+            }
 
+            final String userEmail = jwtService.extractUsername(jwt);
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
                 if (jwtService.isTokenValid(jwt, userDetails)) {
@@ -90,12 +116,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
-
         } catch (Exception exception) {
             System.err.println("JWT Authentication error: " + exception.getMessage());
             handlerExceptionResolver.resolveException(request, response, null, exception);
+            return;
         }
-
         filterChain.doFilter(request, response);
     }
 }

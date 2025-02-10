@@ -271,9 +271,6 @@ public class PortfolioController {
         try {
             System.out.println("Received userId: " + userId);
             Portfolio portfolio = portfolioService.getPortfolioByIdAndName(userId);
-            // Print Portfolio Data in Backend Console
-            System.out.println("Fetched Portfolio for userId " + userId + ": " + portfolio);
-
             return ResponseEntity.ok(portfolio);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

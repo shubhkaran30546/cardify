@@ -5,20 +5,20 @@ import Navbar from "./Navbar";
 import Signup from "./Signup";
 import EmailSignup from "./Email_signup";
 import Login from "./Login";
-import Form from "./Form";
 import Portfolio from "./Portfolio"
+import SlidingForm from "./Form";
 function App() {
     return (
         <Router>
-            <div ClassName="App">
+            <div className="App">
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/email-signup" element={<EmailSignup />} />
                     <Route path="/login" element={<Login />} />
-                    <Route path="/create-ecard" element={<Form />} />
-                    <Route path="/support" element={<Portfolio/>} />
+                    <Route path="/create-ecard" element={<SlidingForm />} />
+                    <Route path="/portfolio/:userId" element={<Portfolio />} />
                 </Routes>
             </div>
         </Router>

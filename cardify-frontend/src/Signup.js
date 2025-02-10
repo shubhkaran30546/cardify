@@ -30,9 +30,9 @@ const Signup = () => {
     }, [location, navigate]);
 
 
-    // const handleGoogleLogin = () => {
-    //     window.location.href = "http://localhost:8080/oauth2/authorization/google";
-    // };
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    };
 
 
     const handleFacebookLogin = async () => {
@@ -56,7 +56,7 @@ const Signup = () => {
                     <img src="fb.png" alt="Facebook" className="icon" />
                     Continue with Facebook
                 </button>
-                <button className="social-button google" >
+                <button className="social-button google" onClick={handleGoogleLogin}>
                     <img src="google.png" alt="Google" className="icon" />
                     Continue with Google
                 </button>

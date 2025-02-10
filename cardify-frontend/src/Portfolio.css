@@ -7,6 +7,14 @@
 #root{
     width:100%;
 }
+.se2 {
+    display: inline;
+    color: black;
+}
+.se2:hover{
+    background: none;
+    box-shadow: none;
+}
 .se1 {
     padding-top: 30px;
     padding-bottom: 30px;
@@ -46,8 +54,16 @@ h1 {
 }
 
 .profile-picture {
+    /*border-radius: 50%;*/
+    /*width: 100px;*/
     border-radius: 50%;
-    width: 100px;
+    margin: auto;
+    margin-top: 100px;
+    object-fit: cover;
+    display: block;
+    /*float: center;*/
+    width: 150px;
+    height: 150px;
 }
 
 .services {

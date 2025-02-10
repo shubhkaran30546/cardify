@@ -71,16 +71,16 @@ const Portfolio = () => {
                 </div>
             </div>
 
-            Social Links Section
             <div className="services">
                 {portfolio.socialLinks && portfolio.socialLinks.length > 0 ? (
-                    portfolio.socialLinks.map((link, index) => (
-                        <div key={index} className="se1">
-                            <a href={link.url} target="_blank" rel="noopener noreferrer">
-                                <IoShareSocial/> {/* Just the icon */}
+                    <div className="se1"> {/* Single div wrapping all links */}
+                        {portfolio.socialLinks.map((link, index) => (
+                            <a key={index} href={link.url} className="se2" target="_blank" rel="noopener noreferrer">
+                                <IoShareSocial />
                             </a>
-                        </div>
-                    ))
+                        ))}
+                    </div>
+
                 ) : (
                     <p>No social links available.</p>
                 )}
