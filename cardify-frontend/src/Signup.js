@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
 import "./Signup.css";
 
 const Signup = () => {
@@ -57,7 +58,8 @@ const Signup = () => {
                     Continue with Facebook
                 </button>
                 <button className="social-button google" onClick={handleGoogleLogin}>
-                    <img src="google.png" alt="Google" className="icon" />
+                    {/*<img src="google.png" alt="Google" className="icon" />*/}
+                    <FcGoogle/>
                     Continue with Google
                 </button>
                 <button className="social-button email" onClick={handleEmailSignup}>

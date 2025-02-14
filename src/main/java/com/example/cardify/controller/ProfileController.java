@@ -1,0 +1,61 @@
+package com.example.cardify.controller;
+
+import com.example.cardify.Models.User;
+import com.example.cardify.service.JwtService;
+import com.example.cardify.service.UserDetailsServiceImpl;
+import com.example.cardify.service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/profile")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+public class ProfileController {
+
+    private final UserService userService;
+    private final JwtService jwtService;
+
+    public ProfileController(UserService userService, JwtService jwtService) {
+        this.userService = userService;
+        this.jwtService = jwtService;
+    }
+
+    @GetMapping
+    public ResponseEntity<Map<String, Long>> getUserId(
+            @RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+
+        try {
+            // Extract the email from the token
+            String userEmail = extractEmailFromToken(token);
+            if (userEmail == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+
+            User user = userService.GetUserByEmail(userEmail);
+            if (jwtService.isTokenValid(token.substring(7), user)) {
+                Map<String, Long> response = new HashMap<>();
+                response.put("userId", user.getUserId());
+                
+                return ResponseEntity.ok(response);  // ✅ Return JSON object
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    private String extractEmailFromToken(String token) {
+        token = token.replace("Bearer ", "").trim();
+        return jwtService.extractUsername(token);
+    }
+}

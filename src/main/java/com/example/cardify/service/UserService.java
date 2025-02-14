@@ -37,18 +37,8 @@ public class UserService {
         return null;
     }
 
-    public User registerGoogleUser(String provider, String firstName, String lastName, String email) {
-        User existingUser = userRepository.findByEmail(email);
-        if (existingUser == null) {
-            User newUser = new User();
-            newUser.setFirstName(firstName);
-            newUser.setLastName(lastName);
-            newUser.setEmail(email);
-            newUser.setProvider(provider);
-            newUser.setPassword("default_password");  // Set a default password
-            return userRepository.save(newUser);
-        }
-        return existingUser;
+    public User GetUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
 }

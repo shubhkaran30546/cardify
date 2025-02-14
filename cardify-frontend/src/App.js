@@ -7,6 +7,8 @@ import EmailSignup from "./Email_signup";
 import Login from "./Login";
 import Portfolio from "./Portfolio"
 import SlidingForm from "./Form";
+import Profile from "./Profile";
+
 function App() {
     return (
         <Router>
@@ -19,6 +21,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/create-ecard" element={<SlidingForm />} />
                     <Route path="/portfolio/:userId" element={<Portfolio />} />
+                    <Route path="/profile" element={<Profile/>}/>
                 </Routes>
             </div>
         </Router>

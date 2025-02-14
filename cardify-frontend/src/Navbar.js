@@ -13,9 +13,9 @@ const Navbar = ({ userId }) => {
                 <li><a href="/">Home</a></li>
                 <li><a href="/support">Support</a></li>
                 <li><a href="">Pricing</a></li>
-                {/*<li className="logo">*/}
-                {/*    <a><img onClick={handleOpenSignup} src="/portfolio.png" alt="Profile" className="profile-logo" /></a>*/}
-                {/*</li>*/}
+                <li className="logo">
+                    <a href="/profile"><img  src="/user.png" alt="Profile" className="profile-logo" /></a>
+                </li>
             </ul>
         </nav>
     );

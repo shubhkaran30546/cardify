@@ -15,6 +15,10 @@
     background: none;
     box-shadow: none;
 }
+.latest-shots-button1:hover {
+    box-shadow: none;
+    background: none;
+}
 .se1 {
     padding-top: 30px;
     padding-bottom: 30px;
