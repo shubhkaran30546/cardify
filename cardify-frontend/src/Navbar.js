@@ -10,12 +10,12 @@ const Navbar = ({ userId }) => {
     return (
         <nav>
             <ul className="navbar">
-                <li><a href="/">Home</a></li>
-                <li><a href="/support">Support</a></li>
-                <li><a href="">Pricing</a></li>
-                <li className="logo">
-                    <a href="/profile"><img  src="/user.png" alt="Profile" className="profile-logo" /></a>
-                </li>
+                <li><a href="/"><img className="logo" src="logo.png"/></a></li>
+                {/*<li><a href="/">HOME</a></li>*/}
+                <li><a href="/signup" className="nav1">SUPPORT</a></li>
+                <li><a href="" className="nav1">PRICING</a></li>
+                <li><a href="/profile" className="account">MY ACCOUNT</a></li>
+
             </ul>
         </nav>
     );

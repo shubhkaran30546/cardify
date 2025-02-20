@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class PortfolioService {
     private final UserRepository userRepository;
     private final SocialLinkRepository socialLinkRepository;
 
+    @Transactional
     public Portfolio saveOrUpdatePortfolio(String email, Portfolio portfolio, MultipartFile imageFile) throws IOException {
         // Attempt to find the user by email
         User user = userRepository.findByEmail(email);
@@ -43,7 +45,7 @@ public class PortfolioService {
             // Handle the case where the user is not found
             throw new UsernameNotFoundException("User not found with email: " + email); // Exception or other handling
         }
-        Long userId=user.getUserId();
+        Long userId = user.getUserId();
         System.out.println("Saving portfolio for user_id: " + userId);
 
         // If a portfolio exists for the user, update it
@@ -61,13 +63,22 @@ public class PortfolioService {
             existingPortfolio.setImageName(imageFile.getOriginalFilename());
             existingPortfolio.setImageType(imageFile.getContentType());
             existingPortfolio.setImageDate(imageFile.getBytes());
-            existingPortfolio.getSocialLinks().clear();
-            List<SocialLink> newSocialLinks = new ArrayList<>();
-            for (SocialLink socialLink : portfolio.getSocialLinks()) {
-                socialLink.setPortfolio(existingPortfolio); // Set to existing portfolio
-                newSocialLinks.add(socialLink);
+
+            // Update social links
+            List<SocialLink> existingLinks = existingPortfolio.getSocialLinks();
+            List<SocialLink> newLinks = portfolio.getSocialLinks();
+
+            // Remove links that are no longer in the updated list
+            existingLinks.removeIf(existingLink -> !newLinks.contains(existingLink));
+
+            // Add new social links
+            for (SocialLink newLink : newLinks) {
+                if (!existingLinks.contains(newLink)) {
+                    newLink.setPortfolio(existingPortfolio);
+                    existingLinks.add(newLink);
+                }
             }
-            existingPortfolio.setSocialLinks(newSocialLinks);
+
             return portfolioRepository.save(existingPortfolio);
         }
 
@@ -76,14 +87,17 @@ public class PortfolioService {
         portfolio.setImageName(imageFile.getOriginalFilename());
         portfolio.setImageType(imageFile.getContentType());
         portfolio.setImageDate(imageFile.getBytes());
+
         List<SocialLink> newSocialLinks = new ArrayList<>();
-        for (SocialLink socialLink : portfolio.getSocialLinks()) { // Fix the incorrect loop
+        for (SocialLink socialLink : portfolio.getSocialLinks()) {
             socialLink.setPortfolio(portfolio); // Ensure links are assigned correctly
             newSocialLinks.add(socialLink);
         }
         portfolio.setSocialLinks(newSocialLinks);
+
         return portfolioRepository.save(portfolio);  // Save the new portfolio
     }
+
 
 
     public Portfolio getPortfolioByIdAndName(Long userId) {
@@ -103,6 +117,7 @@ public class PortfolioService {
             Portfolio portfolio = portfolioRepository.findPortfolioWithSocialLinksByUser(user)
                     .orElseThrow(() -> new EntityNotFoundException("Portfolio not found for user with ID: " + userId));
             System.out.println("AAAAAAAAAAAAAAAAAAA444444444");
+            System.out.println(portfolio.getSocialLinks());
             return portfolio;
         } catch (Exception e) {
             e.printStackTrace(); // Print the real error

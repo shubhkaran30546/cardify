@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
+import { IoMail } from "react-icons/io5";
 import "./Signup.css";
 
 const Signup = () => {
@@ -54,7 +55,7 @@ const Signup = () => {
             <div className="signup-card">
                 <h2>Create an Account</h2>
                 <button className="social-button facebook" onClick={handleFacebookLogin}>
-                    <img src="fb.png" alt="Facebook" className="icon" />
+                    <img src="fb.png" alt="Facebook" className="icon"/>
                     Continue with Facebook
                 </button>
                 <button className="social-button google" onClick={handleGoogleLogin}>
@@ -63,12 +64,14 @@ const Signup = () => {
                     Continue with Google
                 </button>
                 <button className="social-button email" onClick={handleEmailSignup}>
-                    <img src="email.png" alt="Email" className="icon" />
+                    {/*<img src="email.png" alt="Email" className="icon" />*/}
+                    <IoMail/>
                     Continue with Email
                 </button>
-                <div className="divider" />
-                <button className="login-button" onClick={handleLogin}>Login</button>
+                <div className="divider"/>
+                <button className="login-button1" onClick={handleLogin}>Login</button>
             </div>
+            <img id="image" src="portfolio.png" alt="None"/>
         </div>
     );
 };

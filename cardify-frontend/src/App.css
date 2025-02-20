@@ -1,31 +1,50 @@
 /* Navbar */
 .navbar {
     display: flex;  /* Use Flexbox for layout */
-    justify-content: flex-end;  /* Align items to the left */
-    align-items: center;  /* Center items vertically within the navbar */
+    /*justify-content: flex-end;  !* Align items to the left *!*/
+    /*align-items: center;  !* Center items vertically within the navbar *!*/
     position: fixed;  /* Fix the navbar at the top */
     top: 0;
     right: 0;
     width: 100%;  /* Full width */
-    height: 50px;  /* Set a reasonable height */
-    background-color: #333;  /* Background color */
+    height: 60px;  /* Set a reasonable height */
+    background-color: #1E1E1E;  /* Background color */
     z-index: 1000;  /* Ensure it stays on top of other elements */
-    padding: 10px 20px;  /* Add some padding for better spacing */
 }
 
+.logo {
+   width:120px;
+    /*margin-left: 10px;*/
+    left: 40px;
+    top: 10px;
+    padding-bottom: 50px;
+    position: absolute;
+}
 ul {
     list-style-type: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
     width: 100%;
-    justify-content: space-evenly; /* Distribute the items evenly */
+    justify-content: flex-end;
+    /*justify-content: space-evenly; !* Distribute the items evenly *!*/
+    margin: 0;
 }
 
-li {
-    font-size: 18px;  /* Adjust font size */
+nav li {
+    padding: 10px 10px 0px;  /* Add some padding for better spacing */
+    font-size: large;  /* Adjust font size */
+    font-family: "Arial";
+    transition-duration: 0.35s;
 }
-
+nav li:hover {
+   color: #d94e28;
+}
+.account {
+    background-color: #d94e28;
+    border-radius: 5px;
+    transition-duration: 0.35s;
+}
+.account:hover {
+    color: #1E1E1E;
+}
 a {
     color: white;  /* Text color */
     text-decoration: none;  /* Remove underline */
@@ -33,15 +52,20 @@ a {
     display: block;  /* Make the link a block element for better clickable area */
 }
 
-a:hover {
-    background-color: #575757;  /* Darker background on hover */
+.nav1:hover {
+    color: #d94e28;  /* Darker background on hover */
 }
-.profile-logo {
-    width: 20px;  /* Set the width of the profile logo */
-    height: 20px;  /* Set the height of the profile logo */
-
+.intro {
+    display: inline-flex;
+    margin-top: 50px;
 }
-
+.intro1 {
+    font-size: xx-large;
+    width: 150%;
+    margin-left: 10px;
+    color: #1E1E1E;
+    padding-right: 20px;
+}
 .create-ecard-button {
     background-color: #00aaff;
     color: #fff;
@@ -62,21 +86,32 @@ a:hover {
     margin: 70px auto;
     max-width: 100%;
     text-align: center;
+    flex: 1;
+        animation: fadeInAnimation ease 2s;
+        animation-iteration-count: 1;
+        animation-fill-mode: forwards;
 
 }
-.portfolio-preview img {
-    width: 100%;
-    max-width: 100%;
-    border: 2px solid #e6e6e6;
-    margin: 20px 0;
-    border-radius: 5px;
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+.portfolio-preview img{
+   width: 100%;
+    height: 100%;
 }
 
 /* Features Section */
 .features-section {
     text-align: center;
     margin: 20px auto;
-    max-width: 800px;
+
+    background-color: white;
 }
 
 .features-section h2 {
@@ -85,25 +120,427 @@ a:hover {
     /*color: #333;*/
 }
 
-.features-list {
+.features-section {
     text-align: center;
-    display: block;
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+    background-color: white;
+    padding: 20px;
+    padding-bottom: 50px;
+}
+
+.scroll-container {
+    color: #1E1E1E;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+    width: 70%;
+    height: 150px;
+    background-color: #d94e28;
+    margin-left: 15%;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scroll-row {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+
+}
+
+.features-list {
+    display: flex;
+    gap: 20px;
     list-style: none;
     padding: 0;
-    line-height: 1.8;
+    margin: 0;
+    white-space: nowrap;
+    font-size: x-large;
 }
 
 .features-list li {
-    margin: 5px 0;
-    padding-left: 20px;
-    text-indent: -20px;
+    flex-shrink: 0;
+    font-size: large;
+    font-weight: bold;
+    padding: 10px 20px;
+    /*background: #e0e0e0;*/
+    border-radius: 10px;
+    white-space: nowrap;
+    color: #1E1E1E;
+}
+
+/* Row animations */
+@keyframes scroll-left {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes scroll-right {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Apply different speeds */
+.row1 .features-list {
+    animation: scroll-left 20s linear infinite;
+}
+.row2 .features-list {
+    animation: scroll-right 20s linear infinite;
+}
+.row3 .features-list {
+    animation: scroll-left 20s linear infinite;
+}
+
+.buttons {
+    width: 70%;
+    display: inline-flex;
+    align-items: center;
+}
+.signup-button {
+    background-color: #d94e28;
+    border-radius: 0;
+    width: 30%;
+    height: 45px;
+    transition-duration: 0.35s;
+}
+.signup-button:hover {
+    color: #1E1E1E;
+}
+.login-button {
+    margin-left: 10px;
+    color: #1E1E1E;
+    width: 30%;
+    height: 45px;
+    border-radius: 0;
+    border-color: #1E1E1E;
+    border-style: solid;
+    transition-duration: 0.35s;
+
+}
+.login-button:hover {
+    background-color: #d94e28;
+    color: white;
+
+}
+.motto{
+    padding-right: 100px;
+    margin-bottom: 0px;
+}
+.video {
+    height: 350px;
+    margin-bottom: 50px;
+}
+/*pricing*/
+.pricing-section {
+    text-align: center;
+    padding: 50px 20px;
+    background-color: #fff;
+}
+
+.pricing-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.pricing-description {
+    color: #666;
+    max-width: 600px;
+    margin: 10px auto 30px;
+}
+
+.toggle-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.discount-badge {
+    background-color: #ff5722;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #ff5722;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.pricing-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.pricing-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
     position: relative;
 }
 
-.features-list li::before {
-    content: "•";
-    font-size: 1rem;
-    /*color: #080909;*/
+.most-popular {
+    border: 2px solid #ff5722;
+}
+
+.popular-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff5722;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.plan-price {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: gray;
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+.new-price {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.price-detail {
+    font-size: 12px;
+    color: gray;
+}
+
+.get-started-btn {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 15px 0;
+    transition: 0.3s;
+}
+
+.get-started-btn:hover {
+    background-color: #e64a19;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.feature-list li {
+    color: #333;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+@media (max-width: 900px) {
+    .pricing-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+/*support*/
+.support-section {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 40px;
+    border-radius: 8px;
+
+}
+
+.support-content {
+    flex: 1;
+    margin-left: 0;
+    left: 0;
+}
+
+.support-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 5px;
+    left: 0;
+}
+
+.support-description {
+    font-size: 14px;
+    color: #555;
+}
+
+.support-button {
+    flex-shrink: 0;
+}
+
+.contact-btn {
+    background-color: #e64a19;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 0;
+    transition: 0.30s;
+    margin-top: 20px;
+}
+
+.contact-btn:hover {
+    color: #1E1E1E;
+}
+
+/*footer*/
+.footer {
+    position: absolute;
+    left:0;
+    right:0;
+    background-color: #1E1E1E;
+    color: white;
+    padding: 20px 40px;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+
+    box-sizing: border-box;
+    margin-bottom: 0; /* Ensure no extra space below */
+}
+
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo img {
+    width:120px;
+    /*height: 40px;*/
     margin-right: 10px;
 }
 
+.footer-social a {
+    display: inline-flex;
+    color: white;
+    margin: 0 8px;
+    font-size: 20px;
+    transition: color 0.3s;
+}
+
+.footer-social a:hover {
+    color: #d94e28;
+}
+
+.footer-divider {
+    border: 0;
+    height: 1px;
+    background-color: gray;
+    margin: 20px 0;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 0; /* Ensure no extra space below */
+    padding-bottom: 0;
+}
+
+.footer-links a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+    display: inline;
+}
+
+.footer-links a:hover {
+    color: #d94e28;
+}
+
+@media (max-width: 768px) {
+    .footer-top,
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .footer-links {
+        margin-top: 10px;
+    }
+}

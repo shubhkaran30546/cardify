@@ -130,7 +130,7 @@ const Portfolio = () => {
 
 
             {/* About Section */}
-            <div className="about">
+            <div id ="about" className="about">
                 <section className="about1">
                     <h3 className="aboutheader1">About Me</h3>
                     <p className="about2">{portfolio.about}</p>
@@ -188,6 +188,10 @@ const Portfolio = () => {
                                     loading="lazy">
                                 </iframe>
                             </div>
+                        </div>
+                        <div className="footer1">
+                            <p>Powered By</p>
+                            <a href="/" target="_blank"><img src="/logo.png"/></a>
                         </div>
                     </div>
                 </section>

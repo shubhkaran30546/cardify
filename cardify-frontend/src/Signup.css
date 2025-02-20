@@ -1,16 +1,22 @@
 /* General Container */
 .signup-container {
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     /*background-color: #1c1c1c; !* Dark background *!*/
 }
-
+#image {
+    padding-left: 100px;
+    width: 60%;
+    height: 100%;
+}
 .signup-card {
     background-color: #ffffff; /* White card background */
-    width: 350px;
+    width: 30%;
+    height: 50%;
     padding: 20px;
+    margin-left: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
@@ -64,7 +70,7 @@
     border-top: 1px solid #e6e6e6;
 }
 
-.login-button {
+.login-button1 {
     display: inline-block;
     width: 100%;
     padding: 10px;
@@ -77,6 +83,6 @@
     cursor: pointer;
 }
 
-.login-button:hover {
+.login-button1:hover {
     background-color: #f4f4f4;
 }

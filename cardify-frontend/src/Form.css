@@ -78,21 +78,21 @@ textarea {
     resize: none;
 }
 
-button {
-    padding: 12px 20px;
-    margin: 10px 5px;
-    border: none;
-    background-color: #007bff;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
+/*button {*/
+/*    padding: 12px 20px;*/
+/*    margin: 10px 5px;*/
+/*    border: none;*/
+/*    !*background-color: #007bff;*!*/
+/*    color: white;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    font-size: 16px;*/
+/*    transition: background-color 0.3s ease;*/
+/*}*/
 
-button:hover {
-    background-color: #0056b3;
-}
+/*button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
 button[type="submit"] {
     background-color: #28a745;

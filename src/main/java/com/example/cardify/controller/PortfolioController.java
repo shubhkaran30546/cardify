@@ -190,43 +190,8 @@ public class PortfolioController {
         System.out.println("PortfolioController initialized.");
     }
 
-    // Save or update portfolio
-//    @PostMapping("/save")
-//    public ResponseEntity<String> saveOrUpdatePortfolio(
-//            @RequestBody Portfolio portfolio,
-//            @RequestHeader(value = "Authorization", required = false) String token) {
-//
-//        System.out.println("Received portfolio");
-//
-//        if (token == null || !token.startsWith("Bearer ")) {
-//            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Missing or invalid token.");
-//        }
-//
-//        try {
-//            // Extract the email from the token
-//            String userEmail = extractEmailFromToken(token);
-//
-//            if (userEmail == null) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
-//            }
-//
-//            System.out.println("Email: " + userEmail);
-//            System.out.println("Portfolio ID: " + portfolio.getPortfolioId());
-//
-//            if (jwtService.isTokenValid(token.substring(7), userDetailsService.loadUserByUsername(userEmail))) {
-//                // Save or update the portfolio
-//                portfolioService.saveOrUpdatePortfolio(userEmail, portfolio);
-//                System.out.println("Portfolio saved successfully.");
-//                return ResponseEntity.ok("Portfolio saved successfully!");
-//            } else {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token validation failed.");
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving portfolio: " + e.getMessage());
-//        }
-//    }
     @PostMapping("/save")
+
     public ResponseEntity<String> saveOrUpdatePortfolio(
             @RequestPart("portfolio") Portfolio portfolio,
             @RequestPart(value = "profileImage", required = false) MultipartFile file,
