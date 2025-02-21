@@ -1,7 +1,10 @@
 import React from 'react';
+import Footer from './Footer';
 import {useNavigate} from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import {useState} from "react";
+
+
 
 const Home = () => {
     const navigate = useNavigate();
@@ -58,7 +61,7 @@ const Home = () => {
             <section className="intro">
                 <section className="intro1">
                     <h1 className="motto">The Smarter Way to Share Who You Are.</h1>
-                    <p>Cardify is a modern digital business card and CRM platform designed to help professionals and
+                    <p className="para">Cardify is a modern digital business card and CRM platform designed to help professionals and
                         businesses network smarter. Create a personalized portfolio website, share your contact details
                         with a simple QR code, and manage your leads effortlessly—all in one place.</p>
                     {/*<button className="create-ecard-button" onClick={handleCreate}>*/}
@@ -168,31 +171,7 @@ const Home = () => {
                     <button className="contact-btn">CONTACT US</button>
                 </div>
             </div>
-            <footer className="footer">
-                <div className="footer-top">
-                    <div className="footer-logo">
-                        <img src="logo.png" alt="Cardify Logo"/>
-                    </div>
-                    <div className="footer-social">
-                        <a href="#"><FaYoutube/></a>
-                        <a href="#"><FaFacebookF/></a>
-                        <a href="#"><FaTwitter/></a>
-                        <a href="#"><FaInstagram/></a>
-                        <a href="#"><FaLinkedinIn/></a>
-                    </div>
-                </div>
-
-                <hr className="footer-divider"/>
-
-                <div className="footer-bottom">
-                    <p>Cardify © 2025. All rights reserved.</p>
-                    <div className="footer-links">
-                        <a href="#">HOME</a>
-                        <a href="#">SUPPORT</a>
-                        <a href="#">PRICING</a>
-                    </div>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 };
