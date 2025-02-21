@@ -4,6 +4,7 @@ import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 import { IoMail } from "react-icons/io5";
 import "./Signup.css";
+import Footer from "./Footer";
 
 const Signup = () => {
     const navigate = useNavigate();
@@ -51,6 +52,7 @@ const Signup = () => {
     };
 
     return (
+        <div>
         <div className="signup-container">
             <div className="signup-card">
                 <h2>Create an Account</h2>
@@ -59,20 +61,26 @@ const Signup = () => {
                     Continue with Facebook
                 </button>
                 <button className="social-button google" onClick={handleGoogleLogin}>
-                    {/*<img src="google.png" alt="Google" className="icon" />*/}
-                    <FcGoogle/>
+                    <img src="1-6fa0a792.png" alt="Google" className="icon" />
+                    {/*<FcGoogle/>*/}
                     Continue with Google
                 </button>
                 <button className="social-button email" onClick={handleEmailSignup}>
-                    {/*<img src="email.png" alt="Email" className="icon" />*/}
-                    <IoMail/>
+                    <img src="email.png" alt="Email" className="icon" />
+                    {/*<IoMail/>*/}
                     Continue with Email
                 </button>
                 <div className="divider"/>
                 <button className="login-button1" onClick={handleLogin}>Login</button>
             </div>
             <img id="image" src="portfolio.png" alt="None"/>
+
         </div>
+            <div>
+                <Footer />
+            </div>
+        </div>
+
     );
 };
 

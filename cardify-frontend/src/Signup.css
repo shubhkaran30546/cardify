@@ -7,9 +7,11 @@
     /*background-color: #1c1c1c; !* Dark background *!*/
 }
 #image {
-    padding-left: 100px;
-    width: 60%;
-    height: 100%;
+    padding-left: 50px;
+    width: 67%;
+    margin-right: -9.4%;
+    margin-bottom: -5%;
+    height: 97%;
 }
 .signup-card {
     background-color: #ffffff; /* White card background */
@@ -42,6 +44,7 @@
     font-size: 0.9rem;
     font-weight: bold;
     cursor: pointer;
+    gap: 10px; /* Added for consistent spacing */
 }
 
 .social-button:hover {
@@ -49,20 +52,14 @@
 }
 
 .social-button .icon {
-    height: 60px;
-    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+    /* Removed margin-right: 10px; (replaced with gap) */
 }
 
-.facebook {
-    border-color: #4267B2;
-}
-
-.google {
-    border-color: #DB4437;
-}
-
-.email {
-    border-color: #333333;
+/* Remove individual gap properties from these classes */
+.facebook, .google, .email {
+    /* Removed gap: 10%; */
 }
 
 .divider {
