@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from './Footer';
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import {useState} from "react";
 
@@ -8,9 +8,17 @@ import {useState} from "react";
 
 const Home = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const handleCreate = () => {
         navigate("/create-ecard");
     };
+    const login = () => {
+        navigate("/login", { state: { from: location } });
+    };
+    const support =()=> {
+        window.scrollTo(0, 0);
+        navigate("/support");
+    }
     const [isYearly, setIsYearly] = useState(true);
 
     const plans = [
@@ -69,8 +77,8 @@ const Home = () => {
                     {/*</button>*/}
                     <section className="buttons">
                         <button className="signup-button" onClick={handleCreate}>GET STARTED</button>
-                        <button className="login-button">LOG IN</button>
-                    </section>
+                        <button className="login-button" onClick={login}>LOG IN</button>
+                </section>
                 </section>
                 <div className="portfolio-preview">
                     <img src="Picture1.png"
@@ -89,12 +97,24 @@ const Home = () => {
                             <li>Easy sharing options</li>
                             <li>One-click call, text, and email</li>
                             <li>QR code support</li>
+                            {/* Duplicate items for continuous scrolling */}
+                            <li>Social media integration</li>
+                            <li>Save contacts instantly</li>
+                            <li>Easy sharing options</li>
+                            <li>One-click call, text, and email</li>
+                            <li>QR code support</li>
                         </ul>
                     </div>
 
                     {/* Row 2 */}
                     <div className="scroll-row row2">
                         <ul className="features-list">
+                            <li>No downloads needed</li>
+                            <li>Display customer reviews</li>
+                            <li>Customizable designs</li>
+                            <li>Eco-friendly and paperless</li>
+                            <li>Usage analytics</li>
+                            {/* Duplicate items for continuous scrolling */}
                             <li>No downloads needed</li>
                             <li>Display customer reviews</li>
                             <li>Customizable designs</li>
@@ -111,6 +131,12 @@ const Home = () => {
                             <li>Real-time updates</li>
                             <li>Cross-platform support</li>
                             <li>Easy to use</li>
+                            {/* Duplicate items for continuous scrolling */}
+                            <li>Secure data sharing</li>
+                            <li>Fast contact exchange</li>
+                            <li>Real-time updates</li>
+                            <li>Cross-platform support</li>
+                            <li>Easy to use</li>
                         </ul>
                     </div>
                 </div>
@@ -119,7 +145,7 @@ const Home = () => {
                 <h2>YOUR PARTNER</h2>
                 <img className="video" src="Video1.png" alt="video"/>
             </div>
-            <div className="pricing-section">
+            <div id="pricing" className="pricing-section">
                 <h2 className="pricing-title">YOUR PRICING OPTIONS</h2>
                 <p className="pricing-description">
                     Choose the perfect plan for your needs. Whether you're a freelancer, growing a business, or managing
@@ -159,7 +185,7 @@ const Home = () => {
                     ))}
                 </div>
             </div>
-            <div className="support-section">
+            <div id="support" className="support-section">
                 <div className="support-content">
                     <h2 className="support-title">NEED SUPPORT?</h2>
                     <p className="support-description">
@@ -168,7 +194,7 @@ const Home = () => {
                     </p>
                 </div>
                 <div className="support-button">
-                    <button className="contact-btn">CONTACT US</button>
+                    <button className="contact-btn" onClick={support}>CONTACT US</button>
                 </div>
             </div>
             <Footer />

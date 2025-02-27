@@ -1,13 +1,14 @@
 import "./Profile.css";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 function Profile() {
     const navigate = useNavigate();
-    const [userId, setUserId] = useState(null);
+    const location = useLocation();
+    const [userName, setUserName] = useState(null);
     const [portfolioExists, setPortfolioExists] = useState(false);
 
     const isTokenExpired = (token) => {
@@ -25,7 +26,7 @@ function Profile() {
         if (!token || isTokenExpired(token)) {
             alert("Session expired. Please log in again.");
             localStorage.removeItem('token'); // Clear token
-            navigate("/signup"); // Redirect to login/signup
+            navigate("/login", { state: { from: location } }); // Redirect to login/signup
         }
     }, [navigate]);
 
@@ -37,10 +38,10 @@ function Profile() {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
-                setUserId(response.data.userId);
+                setUserName(response.data.userName);
 
                 // Check if portfolio exists
-                const portfolioResponse = await axios.get(`http://localhost:8080/api/portfolio/get/${response.data.userId}`);
+                const portfolioResponse = await axios.get(`http://localhost:8080/api/portfolio/get/${response.data.userName}`);
                 if (portfolioResponse.status === 200) {
                     setPortfolioExists(true);
                 }
@@ -53,26 +54,35 @@ function Profile() {
     }, []);
 
     return (
-        <div>
+        <div className="profile-page">
             <h1>Profile</h1>
             <div className="profile1">
                 <section className="profile">
-                    {userId && (
+                    {userName && (
                         <>
                             <button>
-                                <a href={`http://localhost:3000/portfolio/${userId}`} target="_blank" rel="noopener noreferrer">
+                                <a href={`http://localhost:3000/portfolio/${userName}`} target="_blank"
+                                   rel="noopener noreferrer">
                                     View Portfolio
                                 </a>
                             </button>
-                            <button onClick={() => navigate(`/edit-portfolio/${userId}`)}>
+                            <button onClick={() => navigate(`/edit-portfolio/${userName}`)}>
                                 {portfolioExists ? "Edit Portfolio" : "Create Portfolio"}
                             </button>
+                            <button><a href={`http://localhost:3000/api/leads/${userName}`} target="_blank"
+                                       rel="noopener noreferrer">
+                                View Leads
+                            </a></button>
+                            <button><a href={`http://localhost:3000/api/broadcast/${userName}`} target="_blank"
+                                       rel="noopener noreferrer">
+                                Send email
+                            </a></button>
                         </>
                     )}
                 </section>
                 <div className="qrcode">
                     <section className="qrcode1">
-                        <QRCodeSVG value={`http://localhost:3000/portfolio/${userId}`} size={200} />
+                        <QRCodeSVG value={`http://localhost:3000/portfolio/${userName}`} size={200} />
                     </section>
                 </div>
             </div>

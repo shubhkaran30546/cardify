@@ -1,6 +1,7 @@
 package com.example.cardify.controller;
 
 import com.example.cardify.Models.User;
+import com.example.cardify.repository.UserRepository;
 import com.example.cardify.service.JwtService;
 import com.example.cardify.service.UserDetailsServiceImpl;
 import com.example.cardify.service.UserService;
@@ -19,14 +20,16 @@ public class ProfileController {
 
     private final UserService userService;
     private final JwtService jwtService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    public ProfileController(UserService userService, JwtService jwtService) {
+    public ProfileController(UserService userService, JwtService jwtService, UserDetailsServiceImpl userDetailsService) {
         this.userService = userService;
         this.jwtService = jwtService;
+        this.userDetailsService = userDetailsService;
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, Long>> getUserId(
+    public ResponseEntity<Map<String, String>> getUserName(
             @RequestHeader(value = "Authorization", required = false) String token) {
         if (token == null || !token.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -39,10 +42,13 @@ public class ProfileController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
 
-            User user = userService.GetUserByEmail(userEmail);
-            if (jwtService.isTokenValid(token.substring(7), user)) {
-                Map<String, Long> response = new HashMap<>();
-                response.put("userId", user.getUserId());
+
+            System.out.println("profile user: " + jwtService.isTokenValid(token.substring(7), userDetailsService.loadUserByUsername(userEmail)));
+            if (jwtService.isTokenValid(token.substring(7), userDetailsService.loadUserByUsername(userEmail))) {
+                Map<String, String> response = new HashMap<>();
+                String userName = userDetailsService.loadUserByUsername(userEmail).getUsername();
+                System.out.println("profile user1: " + userName);
+                response.put("userName", userName);
                 
                 return ResponseEntity.ok(response);  // ✅ Return JSON object
             } else {

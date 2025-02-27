@@ -191,6 +191,7 @@ public class Portfolio {
     private String lastName;
     private String title;
     private String email;
+    private String companyName;
 
     @Column(length = 2048)  // Increased the size for about to 1024 characters
     private String about;
@@ -200,6 +201,7 @@ public class Portfolio {
     private String imageType;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] imageDate;
 
     @Temporal(TemporalType.TIMESTAMP)

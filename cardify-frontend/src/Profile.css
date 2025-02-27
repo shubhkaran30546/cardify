@@ -1,8 +1,15 @@
 .profile {
-    padding: 15px;
+    padding: 30px;
     border-radius: 15px;
     border-color: rgba(0, 0, 0, 0.31);
     border-style: solid;
+    display: flex;
+    flex-direction: column;
+}
+.profile button {
+    width: 100%;
+    margin: 10px;
+    background-color: #d94e28;
 }
 .profile1 {
     display: flex;
@@ -20,4 +27,10 @@
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     border-color: rgba(0, 0, 0, 0.31);
     border-style: solid;
+}
+.profile-page{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
 }

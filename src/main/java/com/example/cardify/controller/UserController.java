@@ -1,6 +1,7 @@
 package com.example.cardify.controller;
 
 import com.example.cardify.Models.User;
+import com.example.cardify.service.EmailService;
 import com.example.cardify.service.JwtService;
 import com.example.cardify.service.UserService;
 import com.example.cardify.controller.LoginResponse;
@@ -17,6 +18,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKey;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.springframework.web.servlet.function.ServerResponse.status;
 @ComponentScan
 @RestController
@@ -27,6 +31,8 @@ public class UserController {
     private final JwtService jwtService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EmailService emailService;
 
     public UserController(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
@@ -46,6 +52,12 @@ public class UserController {
                     user.getPhoneNumber(),
                     user.getPassword()
             );
+            String subject = "Signup Success";
+            Map<String, Object> templateModel = new HashMap<>();
+            templateModel.put("subject", subject);
+            templateModel.put("firstName", user.getFirstName());
+            emailService.sendTemplatedEmailWithAttachment(user.getEmail(), subject,
+                    templateModel, "welcome", null);
             return ResponseEntity.ok("User account created successfully!");
         } catch (DataIntegrityViolationException ex) {
             return ResponseEntity.status(400).body("Data constraint issue: " + ex.getMessage());

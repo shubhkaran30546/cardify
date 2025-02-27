@@ -7,17 +7,25 @@ body {
     min-height: 100vh;
     margin: 0;
 }
-
-.form-container {
+.portfolio-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.form-container1 {
     width: 700px;
-    height: 500px;
+    height: 550px;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
+    justify-content: center;
+    margin-bottom: 30px;
 }
 
 .progress-bar {
@@ -28,10 +36,17 @@ body {
     overflow: hidden;
     margin-bottom: 20px;
 }
-
+.next {
+    margin: 10px;
+    background-color: #d94e28;
+    transition: 0.35s;
+}
+.next:hover{
+    color: black;
+}
 .progress {
     height: 100%;
-    background-color: #007bff;
+    background-color: #d94e28;
     transition: width 0.3s ease;
 }
 .form-slide.active {
@@ -44,6 +59,8 @@ form {
 }
 .file-label {
     margin-top: 25px;
+    display: flex;
+    margin-left: 40px;
 }
 .slides-wrapper {
     display: flex;
@@ -63,8 +80,8 @@ form {
     text-align: center;
 }
 
-input,
-textarea {
+input
+{
     width: 90%;
     padding: 12px;
     margin: 10px 0;
@@ -76,23 +93,9 @@ textarea {
 
 textarea {
     resize: none;
+    width: 90%;
+    height: 50%;
 }
-
-/*button {*/
-/*    padding: 12px 20px;*/
-/*    margin: 10px 5px;*/
-/*    border: none;*/
-/*    !*background-color: #007bff;*!*/
-/*    color: white;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*    font-size: 16px;*/
-/*    transition: background-color 0.3s ease;*/
-/*}*/
-
-/*button:hover {*/
-/*    background-color: #0056b3;*/
-/*}*/
 
 button[type="submit"] {
     background-color: #28a745;

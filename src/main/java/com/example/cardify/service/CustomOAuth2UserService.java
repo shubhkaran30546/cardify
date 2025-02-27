@@ -30,16 +30,15 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String email = oAuth2User.getAttribute("email");
         String firstName = oAuth2User.getAttribute("given_name");
         String lastName = oAuth2User.getAttribute("family_name");
-
         System.out.println("Google Login - Email: " + email);
 
         // Find or create user in DB
         User user = userRepository.findByEmail(email);
-        if (user == null) {
-            System.out.println("User not found in DB, creating a new user...");
-            user = new User(firstName, lastName, email, null, "GOOGLE"); // Provider is GOOGLE
-            userRepository.save(user);
-        }
+//        if (user == null) {
+//            System.out.println("User not found in DB, creating a new user...");
+//            user = new User(firstName, lastName, email, "GOOGLE"); // Provider is GOOGLE
+//            userRepository.save(user);
+//        }
 
         return oAuth2User;
     }

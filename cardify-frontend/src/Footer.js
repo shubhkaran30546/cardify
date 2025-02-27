@@ -21,9 +21,9 @@ const Footer = () => {
             <div className="footer-bottom">
                 <p>Cardify © 2025. All rights reserved.</p>
                 <div className="footer-links">
-                    <a href="#">HOME</a>
-                    <a href="#">SUPPORT</a>
-                    <a href="#">PRICING</a>
+                    <a href="/">HOME</a>
+                    <a href="#support">SUPPORT</a>
+                    <a href="#pricing">PRICING</a>
                 </div>
             </div>
         </footer>

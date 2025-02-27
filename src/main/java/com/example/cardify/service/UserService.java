@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
 @Service
 public class UserService {
 
@@ -14,10 +17,36 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    private String generateUsername(String firstName, String lastName) {
+        // Create a base username using the first and last name, e.g., "johnsmith"
+        String baseUsername = (firstName + lastName).toLowerCase().replaceAll("\\s+", "");
+        String candidate = baseUsername;
+        int count = 0;
+        // Loop until a unique username is found
+        while (userRepository.existsByUsername(candidate)) {
+            count++;
+            candidate = baseUsername + count;
+        }
+        return candidate;
+    }
     public User registerUser(String firstName, String lastName, String email, String phoneNumber, String password) {
         // Hash the password before saving
         String hashedPassword = passwordEncoder.encode(password);
-        User user = new User(firstName, lastName, email, phoneNumber, hashedPassword);
+        String generatedUsername = generateUsername(firstName, lastName);
+        User user = new User(firstName, lastName, email, phoneNumber, hashedPassword, generatedUsername);
+        return userRepository.save(user);
+    }
+    public User registerOAuthUser(String firstName, String lastName, String email, String provider) {
+        String generatedUsername = generateUsername(firstName, lastName);
+        String dummyPassword = passwordEncoder.encode(UUID.randomUUID().toString());
+//        User user = new User(firstName, lastName, email, provider, generatedUsername, dummyPassword);
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.setPassword(dummyPassword);
+        user.setProvider(provider);
+        user.setUsername(generatedUsername);
         return userRepository.save(user);
     }
     public boolean isEmailRegistered(String email) {

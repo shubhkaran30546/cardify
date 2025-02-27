@@ -45,7 +45,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         boolean shouldSkip = path.matches("^/api/users/(signup|login)(/.*)?$")
                 || path.matches("^/api/portfolio/get(/.*)?$") // Allow /api/portfolio/get/*
                 || path.startsWith("/oauth2/")
-                || path.startsWith("/login/");
+                || path.startsWith("/login/")
+                || path.startsWith("/api/contact/");
 
         System.out.println("Checking if JWT should be filtered: " + path + " -> " + shouldSkip);
 
@@ -76,25 +77,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-//        try {
-//            final String jwt = authHeader.substring("Bearer ".length()).trim();
-//            final String userEmail = jwtService.extractUsername(jwt);
-//
-//            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-//                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
-//                if (jwtService.isTokenValid(jwt, userDetails)) {
-//                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-//                            userDetails, null, userDetails.getAuthorities()
-//                    );
-//                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//                    SecurityContextHolder.getContext().setAuthentication(authToken);
-//                }
-//            }
-//
-//        } catch (Exception exception) {
-//            System.err.println("JWT Authentication error: " + exception.getMessage());
-//            handlerExceptionResolver.resolveException(request, response, null, exception);
-//        }
         final String jwt = authHeader.substring("Bearer ".length()).trim();
         try {
             // Explicitly check if the token is expired
@@ -105,9 +87,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            final String userEmail = jwtService.extractUsername(jwt);
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            final String userName = jwtService.extractUsername(jwt);
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userName);
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities()

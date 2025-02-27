@@ -17,19 +17,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Service
-//@Transactional
-//public class PortfolioService {
-//
-//    @Autowired
-//    private PortfolioRepository portfolioRepository;
-//    private static final Logger logger = LoggerFactory.getLogger(PortfolioService.class);
-//    public void savePortfolio(Portfolio portfolio) {
-//        // Save the portfolio to the database
-//        logger.debug("Saving portfolio: {}", portfolio);
-//        portfolioRepository.save(portfolio);
-//    }
-//}
 @Service
 @RequiredArgsConstructor
 public class PortfolioService {
@@ -40,7 +27,7 @@ public class PortfolioService {
     @Transactional
     public Portfolio saveOrUpdatePortfolio(String email, Portfolio portfolio, MultipartFile imageFile) throws IOException {
         // Attempt to find the user by email
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByUsername(email);
         if (user == null) {
             // Handle the case where the user is not found
             throw new UsernameNotFoundException("User not found with email: " + email); // Exception or other handling
@@ -63,6 +50,7 @@ public class PortfolioService {
             existingPortfolio.setImageName(imageFile.getOriginalFilename());
             existingPortfolio.setImageType(imageFile.getContentType());
             existingPortfolio.setImageDate(imageFile.getBytes());
+            existingPortfolio.setCompanyName(portfolio.getCompanyName());
 
             // Update social links
             List<SocialLink> existingLinks = existingPortfolio.getSocialLinks();
@@ -87,7 +75,7 @@ public class PortfolioService {
         portfolio.setImageName(imageFile.getOriginalFilename());
         portfolio.setImageType(imageFile.getContentType());
         portfolio.setImageDate(imageFile.getBytes());
-
+        portfolio.setCompanyName(portfolio.getCompanyName());
         List<SocialLink> newSocialLinks = new ArrayList<>();
         for (SocialLink socialLink : portfolio.getSocialLinks()) {
             socialLink.setPortfolio(portfolio); // Ensure links are assigned correctly
@@ -100,35 +88,23 @@ public class PortfolioService {
 
 
 
-    public Portfolio getPortfolioByIdAndName(Long userId) {
+    public Portfolio getPortfolioByIdAndName(String userName) {
         // Attempt to find the user by userId
         System.out.println("AAAAAAAAAAAAAAAAAAA111111");
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
-        System.out.println("AAAAAAAAAAAAAAAAAAA2222222");
-        // Retrieve the portfolio associated with the user
+        User user = userRepository.findByUsername(userName);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found with ID: " + userId);
+            throw new UsernameNotFoundException("User not found with email: " + userName);
         }
-        // Check if the portfolio first name matches the provided name
-
-        System.out.println("AAAAAAAAAAAAAAAAAAA33333333");
+        System.out.println("AAAAAAAAAAAAAAAAAAA2222222");
         try {
             Portfolio portfolio = portfolioRepository.findPortfolioWithSocialLinksByUser(user)
-                    .orElseThrow(() -> new EntityNotFoundException("Portfolio not found for user with ID: " + userId));
+                    .orElseThrow(() -> new EntityNotFoundException("Portfolio not found for user with ID: " + userName));
             System.out.println("AAAAAAAAAAAAAAAAAAA444444444");
-            System.out.println(portfolio.getSocialLinks());
             return portfolio;
         } catch (Exception e) {
             e.printStackTrace(); // Print the real error
             throw e;
         }
-        // Debug check for social links
-//        if (portfolio.getSocialLinks() == null || portfolio.getSocialLinks().isEmpty()) {
-//            System.out.println("No social links found for portfolio with user ID: " + userId);
-//        }
-//        System.out.println("AAAAAAAAAAAAAAAAAAA555");
-//        return portfolio;
     }
 
 }

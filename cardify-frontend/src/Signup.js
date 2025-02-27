@@ -73,7 +73,6 @@ const Signup = () => {
                 <div className="divider"/>
                 <button className="login-button1" onClick={handleLogin}>Login</button>
             </div>
-            <img id="image" src="portfolio.png" alt="None"/>
 
         </div>
             <div>

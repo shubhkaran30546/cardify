@@ -20,17 +20,6 @@ public class ApplicationConfiguration {
 //        this.userRepository = userRepository;
     }
 
-//    @Bean
-//    UserDetailsService userDetailsService() {
-//        return username -> {
-//            Optional<User> userOptional = Optional.ofNullable(userRepository.findByEmail(username));
-//            if (userOptional.isEmpty()) {
-//                throw new UsernameNotFoundException("User not found");
-//            }
-//            return userOptional.get();
-//        };
-//    }
-
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

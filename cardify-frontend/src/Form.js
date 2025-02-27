@@ -1,280 +1,9 @@
-//
-// import React, { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import "./Form.css";
-// import axios from "axios";
-// import {jwtDecode} from "jwt-decode";
-//
-// const SlidingForm = () => {
-//     const [step, setStep] = useState(0);
-//     const [file, setFile] = useState(null);
-//     const navigate = useNavigate();
-//     const [portfolio, setPortfolio] = useState({
-//         firstName: '',
-//         lastName: '',
-//         title: '',
-//         about: '',
-//         email: '',
-//         address: '',
-//         phoneNumber: '',
-//         profileImage: null,
-//         socialLinks: []  // Optional, you can extend as needed
-//     });
-//     const isTokenExpired = (token) => {
-//         try {
-//             const decoded = jwtDecode(token);
-//             return decoded.exp * 1000 < Date.now(); // Convert to milliseconds
-//         } catch (error) {
-//             return true; // Assume expired if there's an error
-//         }
-//     };
-//     useEffect(() => {
-//         const token = localStorage.getItem('token');
-//
-//         if (!token || isTokenExpired(token)) {
-//             alert("Session expired. Please log in again.");
-//             localStorage.removeItem('token'); // Clear token
-//             navigate("/signup"); // Redirect to login/signup
-//         }
-//     }, [navigate]);
-//
-//     // Handle form input changes
-//     const handleChange = (e) => {
-//         const { name, value } = e.target;
-//         setPortfolio({
-//             ...portfolio,
-//             [name]: value
-//         });
-//     };
-//     const nextStep = () => setStep((prev) => Math.min(prev + 1, 4));
-//     const prevStep = () => setStep((prev) => Math.max(prev - 1, 0));
-//     const [urls, setUrls] = useState([{ url: "" }]); // Start with one input field
-//
-//     const addInputField = () => {
-//         const newUrls = [...urls, ""];
-//         setUrls(newUrls);
-//         setPortfolio({ ...portfolio, socialLinks: newUrls }); // Update socialLinks in formData
-//     };
-//     const handleFileChange = (event) => {
-//         setFile(event.target.files[0]);
-//     };
-//
-//     const handleInputChange = (index, value) => {
-//         const updatedUrls = [...urls];
-//         updatedUrls[index] = { url: value };  // Ensure it's an object
-//         setUrls(updatedUrls);
-//     };
-//
-//     const removeInputField = (index) => {
-//         const updatedUrls = urls.filter((_, i) => i !== index);
-//         setUrls(updatedUrls);
-//         setPortfolio({ ...portfolio, socialLinks: updatedUrls }); // Update socialLinks in formData
-//     };
-//     const handleSubmit = async (event) => {
-//         event.preventDefault();
-//
-//         const token = localStorage.getItem('token');
-//         if (!token) {
-//             alert("No token found. Please log in first.");
-//             navigate("/signup");
-//             return;
-//         }
-//
-//         const formData = new FormData();
-//
-//         // Ensure social links are updated
-//         portfolio.socialLinks = urls.map(link => ({ url: link.url }));
-//
-//         // Append portfolio JSON data
-//         formData.append('portfolio', new Blob([JSON.stringify(portfolio)], { type: "application/json" }));
-//
-//         // Append profile image if available
-//         if (file) {
-//             formData.append('profileImage', file);
-//         } else {
-//             alert("Please upload a profile image.");
-//             return;
-//         }
-//
-//         try {
-//             const response = await fetch("http://localhost:8080/api/portfolio/save", {
-//                 method: "POST",
-//                 headers: {
-//                     "Authorization": `Bearer ${token}`, // Do NOT add Content-Type manually
-//                 },
-//                 body: formData,
-//             });
-//
-//             if (response.status === 401) {
-//                 localStorage.removeItem("token");
-//                 alert("Session expired. Please log in again.");
-//                 navigate("/signup");
-//                 return;
-//             }
-//
-//             if (response.ok) {
-//                 alert("Portfolio saved successfully!");
-//             } else {
-//                 const errorMsg = await response.text();
-//                 console.error("Failed to save portfolio:", errorMsg);
-//                 alert("Failed to save portfolio: " + errorMsg);
-//             }
-//         } catch (error) {
-//             console.error("Error:", error);
-//             alert("Error submitting portfolio");
-//         }
-//     };
-//
-//
-//
-//     return (
-//         <div className="form-container">
-//             <div className="progress-bar">
-//                 <div className="progress" style={{ width: `${(step + 1) * 25}%` }}></div>
-//             </div>
-//
-//             <form onSubmit={handleSubmit}>
-//                 <div className="slides-wrapper">
-//                     {/* Step 1: Basic Info */}
-//                     <div className={`form-slide ${step === 0 ? "active" : ""}`}>
-//                         <h2>Step 1: Basic Info</h2>
-//                         <div className="form-group">
-//                             <input
-//                                 type="text"
-//                                 name="firstName"
-//                                 placeholder="First Name"
-//                                 value={portfolio.firstName}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                             <input
-//                                 type="text"
-//                                 name="lastName"
-//                                 placeholder="Last Name"
-//                                 value={portfolio.lastName}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-//
-//                         <div className="form-group">
-//                             <label htmlFor="profileImage" className="file-label">Profile Image</label>
-//                             <input
-//                                 type="file"
-//                                 id="profileImage"
-//                                 name="profileImage"
-//                                 onChange={handleFileChange}
-//                             />
-//                         </div>
-//
-//                         <div className="form-group">
-//                             <input
-//                                 type="text"
-//                                 name="title"
-//                                 placeholder="Title (e.g., Web Developer)"
-//                                 value={portfolio.title}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-//
-//                         <button type="button" onClick={nextStep}>
-//                             Next
-//                         </button>
-//                     </div>
-//
-//                     {/* Step 2: About Me */}
-//                     <div className={`form-slide ${step === 1 ? "active" : ""}`}>
-//                         <h2>Step 2: About Me</h2>
-//                         <textarea
-//                             name="about"
-//                             placeholder="Tell us about yourself"
-//                             value={portfolio.about}
-//                             onChange={handleChange}
-//                             required
-//                         ></textarea>
-//                         <button type="button" onClick={prevStep}>
-//                             Back
-//                         </button>
-//                         <button type="button" onClick={nextStep}>
-//                             Next
-//                         </button>
-//                     </div>
-//
-//                     {/* Step 3: Contact Info */}
-//                     <div className={`form-slide ${step === 2 ? "active" : ""}`}>
-//                         <h2>Step 3: Contact Info</h2>
-//                         <input
-//                             type="text"
-//                             name="address"
-//                             placeholder="Address"
-//                             value={portfolio.address}
-//                             onChange={handleChange}
-//                             required
-//                         />
-//                         <input
-//                             type="email"
-//                             name="email"
-//                             placeholder="Email"
-//                             value={portfolio.email}
-//                             onChange={handleChange}
-//                             required
-//                         />
-//                         <input
-//                             type="text"
-//                             name="phoneNumber"
-//                             placeholder="Phone Number"
-//                             value={portfolio.phoneNumber}
-//                             onChange={handleChange}
-//                             required
-//                         />
-//                         <button type="button" onClick={prevStep}>
-//                             Back
-//                         </button>
-//                         <button type="button" onClick={nextStep}>
-//                             Next
-//                         </button>
-//
-//                     </div>
-//
-//                     {/* Step 4: Social Links */}
-//                     <div className={`form-slide ${step === 3 ? "active" : ""}`}>
-//                         <h2>Step 4: Social Links</h2>
-//                         {urls.map((entry, index) => (
-//                             <div key={index} style={{ marginBottom: "10px", display: "flex", alignItems: "center" }}>
-//                                 <input
-//                                     type="url"
-//                                     placeholder={`Enter URL ${index + 1}`}
-//                                     value={entry.url}
-//                                     onChange={(e) => handleInputChange(index, e.target.value)}
-//                                     required
-//                                     style={{ marginRight: "10px" }}
-//                                 />
-//                                 <button type="button" onClick={() => removeInputField(index)}>Remove</button>
-//                             </div>
-//                         ))}
-//                         <button type="button" onClick={addInputField}>
-//                             Add New Link
-//                         </button>
-//                         <button type="button" onClick={prevStep}>
-//                             Back
-//                         </button>
-//                         <button type="submit" onClick={handleSubmit}>
-//                             Submit
-//                         </button>
-//                     </div>
-//                 </div>
-//             </form>
-//         </div>
-//     );
-// };
-//
-// export default SlidingForm;
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "./Form.css";
+import Footer from "./Footer";
 
 const SlidingForm = () => {
     const { userId } = useParams(); // Get userId from the URL
@@ -289,6 +18,7 @@ const SlidingForm = () => {
         email: '',
         address: '',
         phoneNumber: '',
+        companyName: '',
         profileImage: null,
         socialLinks: []
     });
@@ -310,7 +40,7 @@ const SlidingForm = () => {
         if (!token || isTokenExpired(token)) {
             alert("Session expired. Please log in again.");
             localStorage.removeItem('token'); // Clear token
-            navigate("/signup"); // Redirect to login/signup
+            navigate("/login"); // Redirect to login/signup
         }
 
         if (userId) {
@@ -378,7 +108,7 @@ const SlidingForm = () => {
         const token = localStorage.getItem('token');
         if (!token) {
             alert("No token found. Please log in first.");
-            navigate("/signup");
+            navigate("/login");
             return;
         }
 
@@ -407,7 +137,7 @@ const SlidingForm = () => {
             if (response.status === 401) {
                 localStorage.removeItem("token");
                 alert("Session expired. Please log in again.");
-                navigate("/signup");
+                navigate("/login");
                 return;
             }
 
@@ -425,7 +155,8 @@ const SlidingForm = () => {
     };
 
     return (
-        <div className="form-container">
+        <div className="portfolio-form">
+        <div className="form-container1">
             <div className="progress-bar">
                 <div className="progress" style={{ width: `${(step + 1) * 25}%` }}></div>
             </div>
@@ -435,7 +166,7 @@ const SlidingForm = () => {
                     {/* Step 1: Basic Info */}
                     <div className={`form-slide ${step === 0 ? "active" : ""}`}>
                         <h2>Step 1: Basic Info</h2>
-                        <div className="form-group">
+                        <div className="form-group1">
                             <input
                                 type="text"
                                 name="firstName"
@@ -452,9 +183,17 @@ const SlidingForm = () => {
                                 onChange={handleChange}
                                 required
                             />
+                            <input
+                                type="text"
+                                name="companyName"
+                                placeholder="Company Name"
+                                value={portfolio.companyName}
+                                onChange={handleChange}
+                                required
+                            />
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group1">
                             <label htmlFor="profileImage" className="file-label">Profile Image</label>
                             <input
                                 type="file"
@@ -464,7 +203,7 @@ const SlidingForm = () => {
                             />
                         </div>
 
-                        <div className="form-group">
+                        <div className="form-group1">
                             <input
                                 type="text"
                                 name="title"
@@ -475,7 +214,7 @@ const SlidingForm = () => {
                             />
                         </div>
 
-                        <button type="button" onClick={nextStep}>
+                        <button className="next" type="button" onClick={nextStep}>
                             Next
                         </button>
                     </div>
@@ -490,10 +229,10 @@ const SlidingForm = () => {
                             onChange={handleChange}
                             required
                         ></textarea>
-                        <button type="button" onClick={prevStep}>
+                        <button className="next" type="button" onClick={prevStep}>
                             Back
                         </button>
-                        <button type="button" onClick={nextStep}>
+                        <button className="next" type="button" onClick={nextStep}>
                             Next
                         </button>
                     </div>
@@ -525,10 +264,10 @@ const SlidingForm = () => {
                             onChange={handleChange}
                             required
                         />
-                        <button type="button" onClick={prevStep}>
+                        <button className="next" type="button" onClick={prevStep}>
                             Back
                         </button>
-                        <button type="button" onClick={nextStep}>
+                        <button className="next" type="button" onClick={nextStep}>
                             Next
                         </button>
                     </div>
@@ -546,13 +285,13 @@ const SlidingForm = () => {
                                     required
                                     style={{ marginRight: "10px" }}
                                 />
-                                <button type="button" onClick={() => removeInputField(index)}>Remove</button>
+                                <button className="next" type="button" onClick={() => removeInputField(index)}>Remove</button>
                             </div>
                         ))}
-                        <button type="button" onClick={addInputField}>
+                        <button className="next" type="button" onClick={addInputField}>
                             Add New Link
                         </button>
-                        <button type="button" onClick={prevStep}>
+                        <button className="next" type="button" onClick={prevStep}>
                             Back
                         </button>
                         <button type="submit" onClick={handleSubmit}>
@@ -561,6 +300,10 @@ const SlidingForm = () => {
                     </div>
                 </div>
             </form>
+        </div>
+        <div>
+            <Footer />
+         </div>
         </div>
     );
 };

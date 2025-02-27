@@ -1,28 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './Email_signup.css'; // Ensure this CSS file matches the login page styles
-import './Footer';
+import "./Email_signup.css"
+import {useNavigate} from "react-router-dom";
+import axios from "axios";
 import Footer from "./Footer";
-function EmailSignup() {
-    const navigate = useNavigate();
-
+function SignupForm() {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
         email: '',
         phoneNumber: '',
-        password: '',
+        password: ''
     });
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
+    const navigate = useNavigate();
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -44,90 +33,112 @@ function EmailSignup() {
         }
     };
 
-    const handleGoBack = () => {
-        navigate('/signup');
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
     return (
-        <div className="email-signup-page">
-            <div className="email-signup-container">
-                <div className="signup-card">
+        <div className="signup-page">
+
+            <div className="signup-container">
+                <form onSubmit={handleSubmit}>
+                    {/* First & Last Name side by side */}
                     <h2>Sign Up</h2>
-                    <form className="form" onSubmit={handleSubmit}>
-                        <div className="input-row">
+                    <div className="form-row">
+                        <div className="form-group">
                             <label htmlFor="firstName">First Name</label>
                             <input
-                                type="text"
+                                id="firstName"
                                 name="firstName"
+                                type="text"
                                 value={formData.firstName}
                                 onChange={handleInputChange}
                                 placeholder="First Name"
-                                className="input"
+                                required
                             />
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="lastName">Last Name</label>
                             <input
-                                type="text"
+                                id="lastName"
                                 name="lastName"
+                                type="text"
                                 value={formData.lastName}
                                 onChange={handleInputChange}
                                 placeholder="Last Name"
-                                className="input"
+                                required
                             />
                         </div>
-                        <div className="input-row">
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                placeholder="Email"
-                                className="input"
-                            />
-                        </div>
-                        <div className="input-row">
-                            <label htmlFor="phoneNumber">Phone Number</label>
-                            <input
-                                type="tel"
-                                name="phoneNumber"
-                                value={formData.phoneNumber}
-                                onChange={handleInputChange}
-                                placeholder="Phone Number"
-                                className="input"
-                            />
-                        </div>
-                        <div className="input-row">
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                name="password"
-                                value={formData.password}
-                                onChange={handleInputChange}
-                                placeholder="Create a Password"
-                                className="input full-width"
-                            />
-                        </div>
-                        <div className="button-row">
-                            <button type="submit" className="btn create-account-btn">
-                                Create Account
-                            </button>
-                            <button
-                                type="button"
-                                className="btn go-back-btn"
-                                onClick={handleGoBack}
-                            >
-                                Go Back
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
 
+                    {/* Email (full width) */}
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            placeholder="Email"
+                            required
+                        />
+                    </div>
+
+                    {/* Phone Number (full width) */}
+                    <div className="form-group">
+                        <label htmlFor="phoneNumber">Phone Number</label>
+                        <input
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            type="tel"
+                            value={formData.phoneNumber}
+                            onChange={handleInputChange}
+                            placeholder="Phone Number"
+                        />
+                    </div>
+
+                    {/* Password (full width) */}
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                            placeholder="Create a Password"
+                            required
+                        />
+                    </div>
+
+                    {/* Buttons */}
+                    {/*<div className="button-row">*/}
+                    <button type="submit" className="submit1">Create Account</button>
+                    <div className="social-login">
+                        <button type="button" className="google-btn">
+                            <img src="/1-6fa0a792.png" alt="Google"/>
+                            Log in with Google
+                        </button>
+                        <button type="button" className="facebook-btn">
+                            <img src="/fb.png" alt="Facebook"/>
+                            Log in with Facebook
+                        </button>
+                    </div>
+                    {/*<button type="button" onClick={() => console.log('Go Back clicked')}>*/}
+                    {/*    Go Back*/}
+                    {/*</button>*/}
+                    {/*</div>*/}
+                </form>
+            </div>
             <div>
-                <Footer />
+                <Footer/>
             </div>
         </div>
+
+
     );
 }
 
-export default EmailSignup;
+export default SignupForm;

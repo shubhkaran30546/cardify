@@ -1,21 +1,16 @@
 /* General Container */
 .signup-container {
     display: inline-flex;
+    justify-items: center;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    width: 70%;
     /*background-color: #1c1c1c; !* Dark background *!*/
-}
-#image {
-    padding-left: 50px;
-    width: 67%;
-    margin-right: -9.4%;
-    margin-bottom: -5%;
-    height: 97%;
 }
 .signup-card {
     background-color: #ffffff; /* White card background */
-    width: 30%;
+    width: 50%;
     height: 50%;
     padding: 20px;
     margin-left: 30px;
@@ -60,11 +55,6 @@
 /* Remove individual gap properties from these classes */
 .facebook, .google, .email {
     /* Removed gap: 10%; */
-}
-
-.divider {
-    margin: 20px 0;
-    border-top: 1px solid #e6e6e6;
 }
 
 .login-button1 {

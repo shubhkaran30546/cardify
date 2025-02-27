@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import axios from 'axios';
+import './BroadcastEmail.css';
+
+function BroadcastEmail() {
+    const [portfolioEmail, setPortfolioEmail] = useState('');
+    const [subject, setSubject] = useState('');
+    const [message, setMessage] = useState('');
+    const [image, setImage] = useState(null);
+    const [responseMessage, setResponseMessage] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Create a FormData object for the multipart/form-data request
+        const formData = new FormData();
+        formData.append('portfolioEmail', portfolioEmail);
+        formData.append('subject', subject);
+        formData.append('message', message);
+        if (image) {
+            formData.append('image', image);
+        }
+
+        try {
+            const response = await axios.post(
+                'http://localhost:8080/api/contact/broadcast',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+            setResponseMessage(response.data);
+        } catch (error) {
+            console.error(error);
+            setResponseMessage('Error sending broadcast email.');
+        }
+    };
+
+    return (
+        <div className="broadcast-container">
+            <h2 className="broadcast-title">Broadcast Email</h2>
+
+            <form onSubmit={handleSubmit} className="broadcast-form">
+                <div className="broadcast-form-group">
+                    <label className="broadcast-label">Portfolio Email:</label>
+                    <input
+                        type="email"
+                        value={portfolioEmail}
+                        onChange={(e) => setPortfolioEmail(e.target.value)}
+                        required
+                        className="broadcast-input"
+                        placeholder="you@company.com"
+                    />
+                </div>
+
+                <div className="broadcast-form-group">
+                    <label className="broadcast-label">Subject:</label>
+                    <input
+                        type="text"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                        required
+                        className="broadcast-input"
+                        placeholder="Your Email Subject"
+                    />
+                </div>
+
+                <div className="broadcast-form-group">
+                    <label className="broadcast-label">Message (HTML supported):</label>
+                    <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        required
+                        className="broadcast-textarea"
+                        placeholder="Enter your HTML message here"
+                    />
+                </div>
+
+                <div className="broadcast-form-group">
+                    <label className="broadcast-label">Image (optional):</label>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setImage(e.target.files[0])}
+                        className="broadcast-input-file"
+                    />
+                </div>
+
+                <button type="submit" className="broadcast-button">
+                    Send Broadcast Email
+                </button>
+            </form>
+
+            {responseMessage && (
+                <p className="broadcast-response">{responseMessage}</p>
+            )}
+        </div>
+    );
+}
+
+export default BroadcastEmail;

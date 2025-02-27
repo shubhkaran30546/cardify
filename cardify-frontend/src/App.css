@@ -11,7 +11,7 @@
     background-color: #1E1E1E;  /* Background color */
     z-index: 1000;  /* Ensure it stays on top of other elements */
 }
-
+html { scroll-behavior: smooth; }
 .logo {
    width:120px;
     /*margin-left: 10px;*/
@@ -27,7 +27,9 @@ ul {
     /*justify-content: space-evenly; !* Distribute the items evenly *!*/
     margin: 0;
 }
-
+.nav1{
+    transition-duration: 0.35s;
+}
 nav li {
     padding: 10px 10px 0px;  /* Add some padding for better spacing */
     font-size: large;  /* Adjust font size */
@@ -72,20 +74,6 @@ a {
     margin-bottom: 5%;
 }
 }
-.create-ecard-button {
-    background-color: #00aaff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    margin: 20px 0;
-}
-
-.create-ecard-button:hover {
-    background-color: #008ecc;
-}
 
 /* Portfolio Section */
 .homepage-main {
@@ -93,9 +81,9 @@ a {
     max-width: 100%;
     text-align: center;
     flex: 1;
-        animation: fadeInAnimation ease 2s;
-        animation-iteration-count: 1;
-        animation-fill-mode: forwards;
+    animation: fadeInAnimation ease 2s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
 
 }
 @keyframes fadeInAnimation {
@@ -155,6 +143,8 @@ a {
     overflow: hidden;
     white-space: nowrap;
     width: 100%;
+    position: relative;
+    display: flex;
 
 }
 
@@ -166,6 +156,9 @@ a {
     margin: 0;
     white-space: nowrap;
     font-size: x-large;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
 }
 
 .features-list li {
@@ -182,12 +175,12 @@ a {
 /* Row animations */
 @keyframes scroll-left {
     0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
+    100% { transform: translateX(-50%); }
 }
 
 @keyframes scroll-right {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
 }
 
 /* Apply different speeds */

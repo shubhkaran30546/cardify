@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Email Template</title>
+  <style>
+    /* Embedded CSS for styling the email */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+    .email-container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+    }
+    h2 {
+      color: #333333;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .btn {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 15px;
+      text-decoration: none;
+      border-radius: 3px;
+    }
+    </style>
+</head>
+<body>
+<p>Hello <span th:text="${firstName}">FirstName</span>,</p>
+<div th:utext="${message}">
+  Your message content goes here.
+</div>
+<p>Regards,<br/>Your Company</p>
+</body>
+</html>
