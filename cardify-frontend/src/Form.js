@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import "./Form.css";
 import Footer from "./Footer";
 
 const SlidingForm = () => {
-    const { userId } = useParams(); // Get userId from the URL
+    const { userName } = useParams(); // Get userId from the URL
     const [step, setStep] = useState(0);
     const [file, setFile] = useState(null);
     const navigate = useNavigate();
+    const location = useLocation();
+    const [isLoading, setIsLoading] = useState(false); // Loader state
     const [portfolio, setPortfolio] = useState({
         firstName: '',
         lastName: '',
@@ -38,16 +40,16 @@ const SlidingForm = () => {
         const token = localStorage.getItem('token');
 
         if (!token || isTokenExpired(token)) {
-            alert("Session expired. Please log in again.");
+            localStorage.setItem("redirectAfterLogin", location.pathname);
             localStorage.removeItem('token'); // Clear token
             navigate("/login"); // Redirect to login/signup
         }
 
-        if (userId) {
+        if (userName) {
             // Fetch the existing portfolio if userId is present (for editing)
             const fetchPortfolio = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/api/portfolio/get/${userId}`, {
+                    const response = await axios.get(`http://localhost:8080/api/portfolio/get/${userName}`, {
                         headers: {
                             "Authorization": `Bearer ${token}`,
                         }
@@ -66,7 +68,7 @@ const SlidingForm = () => {
             };
             fetchPortfolio();
         }
-    }, [navigate, userId]);
+    }, [navigate, userName]);
 
     // Handle form input changes
     const handleChange = (e) => {
@@ -104,7 +106,7 @@ const SlidingForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        setIsLoading(true); // Show loader
         const token = localStorage.getItem('token');
         if (!token) {
             alert("No token found. Please log in first.");
@@ -122,6 +124,7 @@ const SlidingForm = () => {
             formData.append('profileImage', file);
         } else {
             alert("Please upload a profile image.");
+            setIsLoading(false); // Hide loader
             return;
         }
 
@@ -143,6 +146,7 @@ const SlidingForm = () => {
 
             if (response.ok) {
                 alert("Portfolio saved successfully!");
+                navigate(`/portfolio/${userName}`)
             } else {
                 const errorMsg = await response.text();
                 console.error("Failed to save portfolio:", errorMsg);
@@ -151,6 +155,9 @@ const SlidingForm = () => {
         } catch (error) {
             console.error("Error:", error);
             alert("Error submitting portfolio");
+        }
+        finally {
+            setIsLoading(false); // Hide loader
         }
     };
 
@@ -162,6 +169,8 @@ const SlidingForm = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
+                {/* Loader */}
+                {isLoading && <div className="loader"></div>}
                 <div className="slides-wrapper">
                     {/* Step 1: Basic Info */}
                     <div className={`form-slide ${step === 0 ? "active" : ""}`}>
@@ -295,7 +304,7 @@ const SlidingForm = () => {
                             Back
                         </button>
                         <button type="submit" onClick={handleSubmit}>
-                            Submit
+                            {isLoading ? "Submitting..." : "Submit"}
                         </button>
                     </div>
                 </div>

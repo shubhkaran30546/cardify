@@ -112,7 +112,7 @@ button[type="submit"]:hover {
     margin-top: 10px;
 }
 
-h2 {
+.form-slide h2 {
     color: #343a40;
     margin-bottom: 15px;
 }
@@ -120,5 +120,36 @@ h2 {
 p {
     font-size: 16px;
     color: #6c757d;
-    margin: 10px 0;
+    /*margin: 10px 0;*/
+}
+.loader {
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 8px solid #0000;
+    border-right-color: #ffa50097;
+    position: relative;
+    animation: l24 1s infinite linear;
+    margin: 20px auto; /* Centering the loader */
+}
+
+.loader:before,
+.loader:after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: inherit;
+    animation: inherit;
+    animation-duration: 2s;
+}
+
+.loader:after {
+    animation-duration: 4s;
+}
+
+@keyframes l24 {
+    100% {
+        transform: rotate(1turn);
+    }
 }

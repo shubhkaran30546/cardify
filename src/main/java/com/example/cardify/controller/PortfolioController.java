@@ -54,9 +54,6 @@ public class PortfolioController {
 //            User user = userDetailsService.loadUserByUsername(userEmail);
             System.out.println("Email: " + userEmail);
             System.out.println("Portfolio ID: " + portfolio.getPortfolioId());
-//            String tokenUsername = jwtService.extractUsername(token);
-//            System.out.println("Token subject: " + tokenUsername);
-//            System.out.println("User details username: " + );
             System.out.println(token.substring(7));
             System.out.println(jwtService.isTokenValid(token.substring(7) , userDetailsService.loadUserByUsername(userEmail)));
 

@@ -25,8 +25,9 @@ const Signup = () => {
             console.log("✅ Token received from URL:", token);
             localStorage.setItem("token", token);
             console.log("🔄 Token stored in localStorage:", localStorage.getItem("token"));
-
-            navigate("/", { replace: true });  // Use replace to prevent back button issues
+            const redirect=localStorage.getItem("redirectAfterLogin");
+            localStorage.removeItem("redirectAfterLogin");
+            navigate(redirect, { replace: true });  // Use replace to prevent back button issues
         } else {
             console.log("❌ No token in the URL.");
         }

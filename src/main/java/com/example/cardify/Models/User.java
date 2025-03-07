@@ -79,8 +79,7 @@ public class User implements UserDetails {
     private LocalDateTime updatedAt;
 
     @Column(unique = true, nullable = false)
-    private String username; // New field for username
-
+    private String username; // New field for username/
 
     public User(String firstName, String lastName, String email, String phoneNumber, String password, String username) {
         this.firstName = firstName;

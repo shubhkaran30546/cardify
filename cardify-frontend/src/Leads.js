@@ -26,7 +26,7 @@ const Leads = () => {
         <div className="leads-container">
             {/* Header Section */}
             <div className="leads-header">
-                <div className="leads-date">MAR'24</div>
+                {/*<div className="leads-date">MAR'24</div>*/}
                 <h2 className="leads-title">Leads</h2>
                 <div className="leads-actions">
                     <input
@@ -53,7 +53,7 @@ const Leads = () => {
                 {leads.length > 0 ? (
                     leads.map((lead) => (
                         <tr key={lead.id}>
-                            <td>{lead.id}</td>
+                            <td>{lead.leadId}</td>
                             <td>{lead.company}</td>
                             <td>{lead.email}</td>
                             <td>

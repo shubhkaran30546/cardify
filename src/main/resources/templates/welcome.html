@@ -2,14 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>welcome template</title>
+    <title>Welcome to Cardify</title>
 </head>
-<body style="background-color: white;">
-<img src="logo.png" alt="logo" style="display: flex; justify-content: center; align-items: center; width: 30px;">
-<p>Hey <span th:text="${firstName}">FirstName</span>,</p>
-<p>Thank you for signing up to Cardify!
+<body style="font-family: Calibri, Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px;">
 
-  You're about to join a global community of people who rely on Cardify to share their professional brand.</p>
+<!-- Logo -->
+<div>
+    <img src="cid:logo" alt="Cardify Logo" style="width: 100px; margin-bottom: 20px;">
+</div>
+
+<!-- Greeting -->
+<p style="font-size: 18px; color: #333;">Hey <strong>{firstName}</strong>,</p>
+
+<!-- Message -->
+<p style="font-size: 16px; color: #555;">
+    Thank you for signing up to <strong>Cardify</strong>! 🎉 <br>
+    You're about to join a global community of professionals who rely on Cardify to share their brand.
+</p>
+
+<p style="font-size: 14px; color: #777;">We’re excited to have you on board!</p>
 
 </body>
 </html>

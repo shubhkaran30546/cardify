@@ -149,7 +149,6 @@ function Login() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
-    const redirectPath = location.state?.from?.pathname || "/";
     const handleGoogleLogin = () => {
         window.location.href = "http://localhost:8080/oauth2/authorization/google";
     };
@@ -174,7 +173,9 @@ function Login() {
                 { withCredentials: true }
             );
             localStorage.setItem("token", response.data.token);
-            navigate(redirectPath, { replace: true });
+            const redirect=localStorage.getItem("redirectAfterLogin");
+            localStorage.removeItem("redirectAfterLogin");
+            navigate(redirect, { replace: true });
         } catch (err) {
             setError('Login failed: Invalid email or password!');
         } finally {

@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,16 +52,10 @@ public class ContactController {
         String notes = formData.get("notes");
         User user = userRepository.findByEmail(recipientEmail);
 
-        String subject = "New Contact Form Submission: " + title;
-        String message = "<h3>Contact Details</h3>" +
-                "<p><b>Name:</b> " + firstName + " " + lastName + "</p>" +
-                "<p><b>Email:</b> " + email + "</p>" +
-                "<p><b>Phone:</b> " + phone + "</p>" +
-                "<p><b>Company:</b> " + company + "</p>" +
-                "<p><b>Message:</b> " + notes + "</p>";
+//        emailService.sendContactFormEmail(recipientEmail, formData);
         try {
-            emailService.sendEmail(recipientEmail, subject, message);
-        } catch (MessagingException e) {
+            emailService.sendContactFormEmail(recipientEmail, formData);
+        } catch (MessagingException | IOException e) {
             return "Error sending email: " + e.getMessage();
         }
 
@@ -83,9 +78,10 @@ public class ContactController {
         return "Email Sent Successfully and Lead Saved!";
     }
 
-    @GetMapping("/leads/{userId}")
-    public ResponseEntity<List<Lead>> getLeadsByPortfolio(@PathVariable Long userId) {
-        List<Lead> leads = leadService.getLeadsByPortfolioId(userId);
+    @GetMapping("/leads/{userName}")
+    public ResponseEntity<List<Lead>> getLeadsByPortfolio(@PathVariable String userName) {
+        User user = userRepository.findByUsername(userName);
+        List<Lead> leads = leadService.getLeadsByPortfolioId(user.getUserId());
         return ResponseEntity.ok(leads);
     }
 

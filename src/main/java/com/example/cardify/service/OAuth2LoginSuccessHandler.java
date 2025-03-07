@@ -2,7 +2,6 @@ package com.example.cardify.service;
 
 import com.example.cardify.Models.User;
 import com.example.cardify.repository.UserRepository;
-import com.example.cardify.service.JwtService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,9 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Component
 public class OAuth2LoginSuccessHandler implements org.springframework.security.web.authentication.AuthenticationSuccessHandler {
@@ -31,18 +27,6 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
         this.userService = userService;
         this.emailService = emailService;
     }
-    private String generateUsername(String firstName, String lastName) {
-        // Create a base username using the first and last name, e.g., "johnsmith"
-        String baseUsername = (firstName + lastName).toLowerCase().replaceAll("\\s+", "");
-        String candidate = baseUsername;
-        int count = 0;
-        // Loop until a unique username is found
-        while (userRepository.existsByUsername(candidate)) {
-            count++;
-            candidate = baseUsername + count;
-        }
-        return candidate;
-    }
 
     @Override
     @Transactional
@@ -51,16 +35,10 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
         String email = oAuth2User.getAttribute("email");
         String firstName = oAuth2User.getAttribute("given_name");
         String lastName = oAuth2User.getAttribute("family_name");
-        String generatedUsername = generateUsername(firstName, lastName);
         User user = userRepository.findByEmail(email);
         if (user == null) {
-            String subject = "Signup Success";
-            Map<String, Object> templateModel = new HashMap<>();
-            templateModel.put("subject", subject);
-            templateModel.put("firstName", firstName);
             try {
-                emailService.sendTemplatedEmailWithAttachment(email, subject,
-                        templateModel, "welcome", null);
+                emailService.sendWelcomeEmail(email, firstName);
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
@@ -72,7 +50,7 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
         String token = jwtService.generateToken(user);
         System.out.println("Generated JWT Token: " + token);
 
-        // Redirect with token
+        // Optionally append the token as a query parameter.
         String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/signup")
                 .queryParam("token", token)
                 .build().toUriString();

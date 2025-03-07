@@ -13,7 +13,9 @@ import Leads from "./Leads";
 import BroadcastEmail from "./BroadcastEmail";
 import Support from "./Support";
 import Portfolio1 from "./Portfolio1"
+import ForgotPassword from "./ForgotPassword";
 import {ScrollRestoration, BrowserRouter} from "react-router-dom";
+import ResetPassword from "./ResetPassword";
 function App() {
     return (
         <Router>
@@ -43,6 +45,8 @@ function MainApp() {
                 <Route path="/api/broadcast/:userId" element={<BroadcastEmail/>}/>
                 <Route path="/support" element={<Support/>}/>
                 <Route path="/port1" element={<Portfolio1/>}/>
+                <Route path="/forgot-password" element={<ForgotPassword/>}/>
+                <Route path="/reset-password" element={<ResetPassword/>}/>
             </Routes>
         </div>
     );

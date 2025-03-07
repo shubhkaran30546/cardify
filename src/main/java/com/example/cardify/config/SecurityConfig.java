@@ -4,6 +4,8 @@ import com.example.cardify.service.CustomOAuth2UserService;
 import com.example.cardify.service.JwtService;
 import com.example.cardify.service.OAuth2LoginSuccessHandler;
 import com.example.cardify.service.UserDetailsServiceImpl;
+import io.jsonwebtoken.io.IOException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -16,7 +18,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsConfiguration;
@@ -48,7 +53,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/users/signup", "/api/users/login", "/api/portfolio/**", "/api/**").permitAll()
-                        .requestMatchers("/oauth2/**", "/login/**", "/api/**").permitAll()
+                        .requestMatchers("/oauth2/**", "/login/**", "/api/**", "/test-email").permitAll()
                         .anyRequest().authenticated()) // Authenticate all other requests
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

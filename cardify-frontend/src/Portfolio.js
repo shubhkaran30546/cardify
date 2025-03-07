@@ -1,16 +1,17 @@
 import "./Portfolio.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram, FaGlobe } from "react-icons/fa"; // Import social icons
+import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram, FaGlobe, FaYoutube } from "react-icons/fa"; // Import social icons
 import { useParams } from 'react-router-dom';
 import { QRCodeSVG } from "qrcode.react";
-import { Icon } from 'react-icons-kit'
+import { QRCodeCanvas } from 'qrcode.react';
 const getSocialIcon = (url) => {
     if (url.includes("linkedin.com")) return <FaLinkedin />;
     if (url.includes("github.com")) return <FaGithub />;
     if (url.includes("twitter.com")) return <FaTwitter />;
     if (url.includes("facebook.com")) return <FaFacebook />;
     if (url.includes("instagram.com")) return <FaInstagram />;
+    if (url.includes("youtube.com")) return <FaYoutube />;
     return <FaGlobe />; // Default icon for unknown links
 };
 const Portfolio = () => {
@@ -18,6 +19,7 @@ const Portfolio = () => {
 
     const [portfolio, setPortfolio] = useState(null);
     const [imageUrl, setImageUrl] = useState("");
+    const [isLoading, setIsLoading] = useState(true); // Loading state
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -48,6 +50,7 @@ const Portfolio = () => {
             console.error("Error sending message:", error);
             alert("Failed to send message.");
         }
+
     };
 
 // Fetch portfolio data when the component mounts
@@ -81,6 +84,9 @@ const Portfolio = () => {
             } catch (error) {
                 console.error("Error fetching portfolio:", error);
             }
+            finally {
+                setIsLoading(false); // Hide loader once data is fetched
+            }
         })();  // Immediately execute the function
 
     }, [userId]);
@@ -88,10 +94,19 @@ const Portfolio = () => {
 
 
     // Display loading if portfolio is not yet fetched
-    if (!portfolio) {
-        return <div>Loading...</div>;
+    if (isLoading) {
+        return (
+            <div className="loader-container">
+                <div className="loader"></div>
+                <p>Loading portfolio...</p>
+            </div>
+        );
     }
 
+    // Show message if no portfolio found
+    if (!portfolio) {
+        return <div>No portfolio found.</div>;
+    }
     return (
 
         <div className="app">
@@ -138,8 +153,20 @@ const Portfolio = () => {
             </div>
             <div className="about">
                 <section className="about1">
-                    <h3 className="aboutheader1"></h3>
-                    <QRCodeSVG value={`http://localhost.com/portfolio/${userId}`} size={200}/>
+                    <h3 className="aboutheader1">Scan QR</h3>
+                    {/*<QRCodeSVG value={`http://localhost.com/portfolio/${userId}`} size={200}/>*/}
+                    <QRCodeCanvas
+                        value={`http://localhost.com/portfolio/${userId}`}
+                        fgColor="#d94e28"
+                        includeMargin
+                        imageSettings={{
+                            src:"/logo1.png",
+                            width:30,
+                            height:40,
+                            excavate:true
+                        }}
+                        size={200}
+                    />
                 </section>
             </div>
 
@@ -172,11 +199,11 @@ const Portfolio = () => {
                         <div className="contact-card">
                             <div className="contact-info">
                                 <h2>Contact Us</h2>
-                                <p><strong>Email:</strong>{portfolio.email}</p>
-                                <p><strong>Phone:</strong>{portfolio.phoneNumber}</p>
-                                <p><strong>Text:</strong>{portfolio.phoneNumber}</p>
-                                <p><strong>Company:</strong> eXp Realty</p>
-                                <p><strong>Address:</strong>{portfolio.address}</p>
+                                <p><strong>Email: </strong>{portfolio.email}</p>
+                                <p><strong>Phone: </strong>{portfolio.phoneNumber}</p>
+                                <p><strong>Text: </strong>{portfolio.phoneNumber}</p>
+                                <p><strong>Company: </strong>{portfolio.companyName}</p>
+                                <p><strong>Address: </strong>{portfolio.address}</p>
                                 <p><a href="#">Click Here For Driving Directions</a></p>
                             </div>
 

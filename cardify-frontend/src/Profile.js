@@ -1,6 +1,6 @@
 import "./Profile.css";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
@@ -8,6 +8,7 @@ import axios from "axios";
 function Profile() {
     const navigate = useNavigate();
     const location = useLocation();
+    const [searchParams] = useSearchParams();
     const [userName, setUserName] = useState(null);
     const [portfolioExists, setPortfolioExists] = useState(false);
 
@@ -21,14 +22,24 @@ function Profile() {
     };
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        // 1️⃣ Extract token from URL if present
+        const urlToken = searchParams.get("token");
 
-        if (!token || isTokenExpired(token)) {
-            alert("Session expired. Please log in again.");
-            localStorage.removeItem('token'); // Clear token
+        if (urlToken) {
+            console.log("Token received from URL:", urlToken);
+            localStorage.setItem("token", urlToken); // Save token to localStorage
+            navigate(location.pathname, { replace: true }); // Remove token from URL
+        }
+
+        // 2️⃣ Check for token in localStorage
+        const storedToken = localStorage.getItem("token");
+
+        if (!storedToken || isTokenExpired(storedToken)) {
+            localStorage.removeItem("token"); // Clear token
+            localStorage.setItem("redirectAfterLogin", location.pathname);
             navigate("/login", { state: { from: location } }); // Redirect to login/signup
         }
-    }, [navigate]);
+    }, [navigate, searchParams, location]);
 
     useEffect(() => {
         const fetchProfile = async () => {

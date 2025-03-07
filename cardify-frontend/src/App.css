@@ -464,4 +464,109 @@ input:checked + .slider:before {
     color: #1E1E1E;
 }
 
+@media (max-width: 600px) {
+    /* Adjust Navbar: Stack items vertically and reduce padding */
+    .navbar {
+        height: auto;
+        padding-bottom: 10px;
+    }
+    .navbar a {
+        padding-right: 2px;
+        padding-left: 5px;
+    }
+    .homepage-main {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 40px;
+    }
+
+    /* Intro Section: Change layout from inline-flex to column */
+    .intro {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 30px;
+        justify-content: center;
+
+    }
+    .intro1 {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        font-size: 1.2rem; /* adjust font size for mobile */
+        padding-right: 0;
+    }
+    .motto{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-right: 0;
+    }
+    .para {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .portfolio-preview {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    /* Buttons: Stack buttons vertically with full width */
+    .buttons {
+        gap: 10px;
+        width: 90%;
+        margin: 0 auto;
+    }
+    .signup-button,
+    .login-button {
+        width: 100%;
+        max-width: 100%;
+        height: 45px;
+    }
+
+    /* Features Section: Reduce container width and font sizes */
+    .features-section {
+        width: 100%;
+        background: none;
+    }
+    .scroll-container {
+        width: 90%;
+        margin: 0 auto;
+        height: 120px; /* adjust height if needed */
+    }
+    .features-list {
+        font-size: medium;
+        gap: 10px;
+    }
+
+    /* Pricing Section: Adjust padding and layout */
+    .pricing-section {
+        background: none;
+    }
+    .pricing-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Support Section: Stack content vertically */
+    .support-section {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+    }
+    .support-button {
+        margin-top: 20px;
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+}
+
 

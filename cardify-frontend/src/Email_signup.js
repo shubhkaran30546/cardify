@@ -37,6 +37,17 @@ function SignupForm() {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
+    const handleGoogleLogin = () => {
+        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+    };
+    const handleFacebookLogin = async () => {
+        try {
+            const response = await axios.get("http://localhost:8080/api/users/auth/facebook");
+            window.location.href = response.data.redirectUrl;
+        } catch (error) {
+            console.error("Error initiating Facebook login:", error);
+        }
+    };
 
     return (
         <div className="signup-page">
@@ -117,11 +128,11 @@ function SignupForm() {
                     {/*<div className="button-row">*/}
                     <button type="submit" className="submit1">Create Account</button>
                     <div className="social-login">
-                        <button type="button" className="google-btn">
+                        <button type="button" className="google-btn" onClick={handleGoogleLogin}>
                             <img src="/1-6fa0a792.png" alt="Google"/>
                             Log in with Google
                         </button>
-                        <button type="button" className="facebook-btn">
+                        <button type="button" className="facebook-btn" onClick={handleFacebookLogin}>
                             <img src="/fb.png" alt="Facebook"/>
                             Log in with Facebook
                         </button>
