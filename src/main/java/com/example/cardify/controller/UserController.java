@@ -85,7 +85,10 @@ public class UserController {
 
         String token = jwtService.generateToken(authenticatedUser);
         System.out.println("JWT Token generated for email: " + user.getEmail() + " Token: " + token);
-        LoginResponse loginResponse = new LoginResponse().setToken(token).setExpiresIn(jwtService.getExpirationTime());
+        LoginResponse loginResponse = new LoginResponse()
+                .setToken(token)
+                .setExpiresIn(jwtService.getExpirationTime())
+                .setRole(authenticatedUser.getRole().toString());
         return ResponseEntity.ok(loginResponse);
     }
 

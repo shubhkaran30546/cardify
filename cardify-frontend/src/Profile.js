@@ -11,6 +11,7 @@ function Profile() {
     const [searchParams] = useSearchParams();
     const [userName, setUserName] = useState(null);
     const [portfolioExists, setPortfolioExists] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false); // Track admin status
 
     const isTokenExpired = (token) => {
         try {
@@ -36,8 +37,13 @@ function Profile() {
 
         if (!storedToken || isTokenExpired(storedToken)) {
             localStorage.removeItem("token"); // Clear token
+            localStorage.removeItem("role");
             localStorage.setItem("redirectAfterLogin", location.pathname);
             navigate("/login", { state: { from: location } }); // Redirect to login/signup
+        }
+        const userRole = localStorage.getItem("role");
+        if (userRole === "ADMIN") {
+            setIsAdmin(true);
         }
     }, [navigate, searchParams, location]);
 
@@ -88,6 +94,11 @@ function Profile() {
                                        rel="noopener noreferrer">
                                 Send email
                             </a></button>
+                            {isAdmin && (
+                                <button onClick={() => navigate("/admin")}>
+                                    View Admin Dashboard
+                                </button>
+                            )}
                         </>
                     )}
                 </section>

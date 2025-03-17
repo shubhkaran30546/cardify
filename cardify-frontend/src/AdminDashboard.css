@@ -1,0 +1,18 @@
+.admin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    top:0;
+    padding-top: 0;
+}
+.admin button {
+    background-color: #d94e28;
+    margin: 15px;
+    height: 75px;
+    transition: 0.35s;
+    font-size: xx-large;
+}
+.admin button:hover {
+    color: black;
+}

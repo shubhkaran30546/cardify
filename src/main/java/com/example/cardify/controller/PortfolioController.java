@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/portfolio")
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
@@ -30,46 +32,61 @@ public class PortfolioController {
     }
 
     @PostMapping("/save")
-
-    public ResponseEntity<String> saveOrUpdatePortfolio(
+    public ResponseEntity<Map<String, String>> saveOrUpdatePortfolio(
             @RequestPart("portfolio") Portfolio portfolio,
             @RequestPart(value = "profileImage", required = false) MultipartFile file,
             @RequestHeader(value = "Authorization", required = false) String token) {
 
-
         System.out.println("Portfolio received: " + portfolio);
-        System.out.println("File received: " + file.getOriginalFilename());
+
+        if (file != null) {
+            System.out.println("File received: " + file.getOriginalFilename());
+        }
 
         if (token == null || !token.startsWith("Bearer ")) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Missing or invalid token.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Missing or invalid token."));
         }
 
         try {
-            // Extract the email from the token
+            // Extract email from token
             String userEmail = extractEmailFromToken(token);
-
             if (userEmail == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Invalid token."));
             }
-//            User user = userDetailsService.loadUserByUsername(userEmail);
+
+            String jwt = token.substring(7);
+            boolean isTokenValid = jwtService.isTokenValid(jwt, userDetailsService.loadUserByUsername(userEmail));
+
             System.out.println("Email: " + userEmail);
             System.out.println("Portfolio ID: " + portfolio.getPortfolioId());
-            System.out.println(token.substring(7));
-            System.out.println(jwtService.isTokenValid(token.substring(7) , userDetailsService.loadUserByUsername(userEmail)));
+            System.out.println("JWT Valid: " + isTokenValid);
 
-            if (jwtService.isTokenValid(token.substring(7), userDetailsService.loadUserByUsername(userEmail))) {
-                // Save or update the portfolio
-                portfolioService.saveOrUpdatePortfolio(userEmail, portfolio, file);
-                System.out.println("Portfolio saved successfully.");
-                return ResponseEntity.ok("Portfolio saved successfully!");
+            if (isTokenValid) {
+                // Save or update portfolio
+                Portfolio savedPortfolio = portfolioService.saveOrUpdatePortfolio(userEmail, portfolio, file);
+
+                if (savedPortfolio == null || savedPortfolio.getUser() == null) {
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(Map.of("error", "Failed to save portfolio."));
+                }
+
+                String userName = savedPortfolio.getUser().getUsername();
+                System.out.println("Portfolio saved successfully for user: " + userName);
+
+                return ResponseEntity.ok(Map.of("userName", userName));
             } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token validation failed.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error", "Token validation failed."));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving portfolio: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Error saving portfolio: " + e.getMessage()));
         }
     }
+
     @GetMapping("/get/{userName}")
     public ResponseEntity<Portfolio> getPortfolio(
             @PathVariable String userName

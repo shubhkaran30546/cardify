@@ -36,4 +36,10 @@ public class LeadService {
     public List<Lead> getLeadsByPortfolioId(Long portfolioId) {
         return leadRepository.findLeadsByPortfolioId(portfolioId);
     }
+
+    @Transactional
+    public boolean deleteLeadByUser(Long leadId, Long userId) {
+        int deletedRows = leadRepository.deleteLeadByIdAndUserId(leadId, userId);
+        return deletedRows > 0;  // Returns true if at least one row was deleted
+    }
 }

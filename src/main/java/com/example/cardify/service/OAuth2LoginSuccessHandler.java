@@ -48,11 +48,13 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
 
         // Generate JWT token
         String token = jwtService.generateToken(user);
+        String role = user.getRole().toString();
         System.out.println("Generated JWT Token: " + token);
 
         // Optionally append the token as a query parameter.
         String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/signup")
                 .queryParam("token", token)
+                .queryParam("role", role)
                 .build().toUriString();
 
         response.sendRedirect(redirectUrl);

@@ -1,5 +1,6 @@
 package com.example.cardify.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -80,6 +81,18 @@ public class User implements UserDetails {
 
     @Column(unique = true, nullable = false)
     private String username; // New field for username/
+
+    public enum Role {
+        USER, ADMIN
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role = Role.USER; // Default is USER
+
+    public boolean isAdmin() {
+        return this.role == Role.ADMIN;
+    }
 
     public User(String firstName, String lastName, String email, String phoneNumber, String password, String username) {
         this.firstName = firstName;

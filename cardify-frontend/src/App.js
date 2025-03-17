@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Home from './Home';
 import Navbar from "./Navbar";
 import Signup from "./Signup";
@@ -14,7 +14,9 @@ import BroadcastEmail from "./BroadcastEmail";
 import Support from "./Support";
 import Portfolio1 from "./Portfolio1"
 import ForgotPassword from "./ForgotPassword";
-import {ScrollRestoration, BrowserRouter} from "react-router-dom";
+import AdminDashboard from "./AdminDashboard";
+import UsersList from "./UsersList";
+import PortfoliosList from "./PortfoliosList";
 import ResetPassword from "./ResetPassword";
 function App() {
     return (
@@ -26,7 +28,7 @@ function App() {
 
 function MainApp() {
     const location = useLocation();
-
+    const isAdmin = localStorage.getItem("role") === "ADMIN";
     return (
         <div className="App">
             {/* Conditionally render different Navbars */}
@@ -47,6 +49,9 @@ function MainApp() {
                 <Route path="/port1" element={<Portfolio1/>}/>
                 <Route path="/forgot-password" element={<ForgotPassword/>}/>
                 <Route path="/reset-password" element={<ResetPassword/>}/>
+                <Route path="/admin" element={isAdmin ? <AdminDashboard /> : <Navigate to="/profile" />} />
+                <Route path="/admin/users" element={isAdmin ? <UsersList /> : <Navigate to="/profile" />} />
+                <Route path="/admin/portfolios" element={isAdmin ? <PortfoliosList /> : <Navigate to="/profile" />} />
             </Routes>
         </div>
     );

@@ -20,10 +20,12 @@ const Signup = () => {
 
         const query = new URLSearchParams(location.search);
         const token = query.get("token");
+        const role = query.get("role");
 
         if (token) {
             console.log("✅ Token received from URL:", token);
             localStorage.setItem("token", token);
+            localStorage.setItem("role", role)
             console.log("🔄 Token stored in localStorage:", localStorage.getItem("token"));
             const redirect=localStorage.getItem("redirectAfterLogin");
             localStorage.removeItem("redirectAfterLogin");

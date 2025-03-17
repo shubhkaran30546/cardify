@@ -173,6 +173,7 @@ function Login() {
                 { withCredentials: true }
             );
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("userRole", response.data.role);
             const redirect=localStorage.getItem("redirectAfterLogin");
             localStorage.removeItem("redirectAfterLogin");
             navigate(redirect, { replace: true });

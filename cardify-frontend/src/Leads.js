@@ -6,6 +6,14 @@ import "./Leads.css";
 const Leads = () => {
     const [leads, setLeads] = useState([]);
     const { userId } = useParams();
+    const deleteLead = async (leadId) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/contact/leads/${userId}/${leadId}`);
+            setLeads(leads.filter(lead => lead.leadId !== leadId));
+        } catch (error) {
+            console.error("Error deleting lead:", error);
+        }
+    };
 
     useEffect(() => {
         const fetchLeads = async () => {
@@ -60,6 +68,7 @@ const Leads = () => {
                                 {lead.firstName} {lead.lastName}
                             </td>
                             <td>{lead.phone}</td>
+                            <td><button className="delete_lead" onClick={() => deleteLead(lead.leadId)}>DELETE</button></td>
                         </tr>
                     ))
                 ) : (

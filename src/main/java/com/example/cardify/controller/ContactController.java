@@ -9,6 +9,7 @@ import com.example.cardify.service.LeadService;
 import com.example.cardify.service.PortfolioService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -131,5 +132,17 @@ public class ContactController {
 
         String responseMessage = "Broadcast email sent to " + sentCount + " out of " + leads.size() + " leads.";
         return ResponseEntity.ok(responseMessage);
+    }
+
+    @DeleteMapping("/leads/{userName}/{leadId}")
+    public ResponseEntity<String> deleteLead(@PathVariable String userName, @PathVariable Long leadId) {
+        User user = userRepository.findByUsername(userName);
+        boolean isDeleted = leadService.deleteLeadByUser(leadId, user.getUserId());
+
+        if (isDeleted) {
+            return ResponseEntity.ok("Lead deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Error: Lead not found or you don’t have permission.");
+        }
     }
 }

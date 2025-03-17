@@ -139,14 +139,23 @@ const SlidingForm = () => {
 
             if (response.status === 401) {
                 localStorage.removeItem("token");
-                alert("Session expired. Please log in again.");
+                localStorage.removeItem("token");
                 navigate("/login");
                 return;
             }
 
             if (response.ok) {
+                const responseData = await response.json(); // Get response data
+                const savedUserName = responseData?.userName || userName; // Ensure we have a username
+
+                if (!savedUserName) {
+                    alert("Error: Username is undefined.");
+                    setIsLoading(false);
+                    return;
+                }
+
                 alert("Portfolio saved successfully!");
-                navigate(`/portfolio/${userName}`)
+                navigate(`/portfolio/${savedUserName}`); // Navigate to the correct URL
             } else {
                 const errorMsg = await response.text();
                 console.error("Failed to save portfolio:", errorMsg);
