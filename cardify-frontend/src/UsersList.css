@@ -58,11 +58,20 @@
     object-fit: cover;
 }
 
-.default-avatar {
+.default-avatar1 {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 18px;
+}
+.delete-user {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    background-color: #d94e28;
+    right: 0;
+    width: 8%;
+    margin-left: 50px;
 }

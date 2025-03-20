@@ -25,6 +25,22 @@ const UsersList = () => {
 
         fetchUsers();
     }, []);
+    const handleDelete = async (userId) => {
+        if (!window.confirm("Are you sure you want to delete this user?")) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            await axios.delete(`http://localhost:8080/api/admin/users/${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            setUsers(users.filter(user => user.userId !== userId)); // Update state after deletion
+        } catch (error) {
+            console.error("Error deleting user:", error);
+            alert("Failed to delete user. Please try again.");
+        }
+    };
+
 
 
     return (
@@ -33,17 +49,18 @@ const UsersList = () => {
             <button className="back-button1" onClick={() => navigate("/admin")}>Back to Dashboard</button>
             <ul className="user-list">
                 {users.map((user, index) => (
-                    <li key={user.id ? `user-${user.id}` : `index-${index}`} className="user-item">
+                    <li key={user.userId ? `user-${user.userId}` : `index-${index}`} className="user-item">
                         <div className="user-avatar">
                             {user.profilePicture ? (
                                 <img src={user.profilePicture} alt={user.username || "User"}/>
                             ) : (
-                                <div className="default-avatar">
+                                <div className="default-avatar1">
                                     {user.username ? user.username[0].toUpperCase() : "U"}
                                 </div>
                             )}
                         </div>
-                        <span className="user-name">{user.firstName + " " +  user.lastName|| "New User"}</span>
+                        <span className="user-name">{user.firstName + " " + user.lastName || "New User"}</span>
+                        <button className="delete-user" onClick={() => handleDelete(user.userId)}>DELETE</button>
                     </li>
                 ))}
             </ul>

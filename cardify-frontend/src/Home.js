@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from './Footer';
 import {useNavigate, useLocation} from "react-router-dom";
+import {useEffect} from "react";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import {useState} from "react";
 
@@ -23,53 +24,90 @@ const Home = () => {
 
     const plans = [
         {
-            name: "Freelancer",
-            monthlyPrice: 35,
-            yearlyPrice: 25,
-            features: ["Feature Eleven", "Feature Twelve", "Feature Thirteen", "Feature Fourteen", "Feature Fifteen"],
+            name: "Individual",
+            monthlyPrice: 20,
+            yearlyPrice: 15,
+            features: [
+                "Personalized digital business card",
+                "QR code for easy sharing",
+                "Basic analytics & insights",
+                "Social media integration",
+                "Email & phone contact support",
+                "Custom profile picture & branding",
+                "Basic contact management",
+                "Mobile-friendly design",
+                "Up to 100 profile views per month",
+                "Access to standard templates",
+            ],
         },
         {
-            name: "Professional",
-            monthlyPrice: 65,
-            yearlyPrice: 55,
+            name: "Corporate",
+            monthlyPrice: 50,
+            yearlyPrice: 40,
             features: [
-                "Feature Eleven",
-                "Feature Twelve",
-                "Feature Thirteen",
-                "Feature Fourteen",
-                "Feature Fifteen",
-                "Feature Sixteen",
-                "Feature Seventeen",
-                "Feature Eighteen",
+                "All Individual Plan features",
+                "Multi-user team access",
+                "Advanced analytics & lead tracking",
+                "CRM integration",
+                "Custom branding options",
+                "Team collaboration tools",
+                "Unlimited profile views",
+                "Priority customer support",
+                "Export contacts to CSV",
+                "Integration with Google & Apple Pay",
+                "Custom domain support",
+                "Access to premium templates",
+                "Email & SMS marketing tools",
             ],
             mostPopular: true,
         },
         {
-            name: "Agency",
-            monthlyPrice: 125,
-            yearlyPrice: 95,
+            name: "Custom Solution",
+            monthlyPrice: "Contact Us",
+            yearlyPrice: "Contact Us",
             features: [
-                "Feature Eleven",
-                "Feature Twelve",
-                "Feature Thirteen",
-                "Feature Fourteen",
-                "Feature Fifteen",
-                "Feature Sixteen",
-                "Feature Seventeen",
-                "Feature Eighteen",
-                "Feature Nineteen",
-                "Feature Twenty",
-                "Feature Thirty",
-                "Feature Forty",
+                "Fully tailored website & CRM solution",
+                "Dedicated account manager",
+                "API integrations & automation",
+                "Enterprise security & compliance",
+                "24/7 priority support",
+                "Custom-designed digital cards & themes",
+                "Unlimited storage for media & documents",
+                "Role-based access control (RBAC)",
+                "Automated workflows & triggers",
+                "Single sign-on (SSO) integration",
+                "Onboarding & training for teams",
+                "Custom dashboard & reports",
+                "Scalability for large enterprises",
             ],
         },
     ];
+
+    useEffect(() => {
+        const elements = document.querySelectorAll(".anim");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        }, { threshold: 0.3 });
+
+        elements.forEach((el) => observer.observe(el));
+
+        return () => {
+            elements.forEach((el) => observer.unobserve(el));
+        };
+    }, []);
+
+
     return (
         <div className="homepage-main">
             <section className="intro">
                 <section className="intro1">
-                    <h1 className="motto">The Smarter Way to Share Who You Are.</h1>
-                    <p className="para">Cardify is a modern digital business card and CRM platform designed to help professionals and
+                    <h1 className="motto anim">The Smarter Way to Share Who You Are.</h1>
+                    <p className="para anim">Cardify is a modern digital business card and CRM platform designed to help professionals and
                         businesses network smarter. Create a personalized portfolio website, share your contact details
                         with a simple QR code, and manage your leads effortlessly—all in one place.</p>
                     {/*<button className="create-ecard-button" onClick={handleCreate}>*/}
@@ -80,13 +118,13 @@ const Home = () => {
                         <button className="login-button" onClick={login}>LOG IN</button>
                 </section>
                 </section>
-                <div className="portfolio-preview">
+                <div className="portfolio-preview anim">
                     <img src="Picture1.png"
                          alt="Portfolio Preview"
                          className="portfolio-image"/>
                 </div>
             </section>
-            <div className="features-section">
+            <div className="features-section anim">
                 <h2>WHY CHOOSE US?</h2>
                 <div className="scroll-container">
                     {/* Row 1 */}
@@ -141,11 +179,11 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <div>
+            <div className="anim">
                 <h2>YOUR PARTNER</h2>
                 <img className="video" src="Video1.png" alt="video"/>
             </div>
-            <div id="pricing" className="pricing-section">
+            <div id="pricing" className="pricing-section anim">
                 <h2 className="pricing-title">YOUR PRICING OPTIONS</h2>
                 <p className="pricing-description">
                     Choose the perfect plan for your needs. Whether you're a freelancer, growing a business, or managing
@@ -169,12 +207,12 @@ const Home = () => {
                             {plan.mostPopular && <div className="popular-badge">Most Popular</div>}
                             <h3>{plan.name}</h3>
                             <p className="plan-price">
-                                <span
-                                    className="old-price">${isYearly ? plan.monthlyPrice : plan.monthlyPrice + 10}</span>
+                                {/*<span*/}
+                                {/*    className="old-price">${isYearly ? plan.monthlyPrice : plan.monthlyPrice + 10}</span>*/}
                                 <span className="new-price">${isYearly ? plan.yearlyPrice : plan.monthlyPrice}</span>
                             </p>
-                            <p className="price-detail">${isYearly ? plan.yearlyPrice : plan.monthlyPrice} USD per
-                                month, paid annually</p>
+                            {/*<p className="price-detail">${isYearly ? plan.yearlyPrice : plan.monthlyPrice} USD per*/}
+                            {/*    month, paid annually</p>*/}
                             <button className="get-started-btn">Get Started</button>
                             <ul className="feature-list">
                                 {plan.features.map((feature, i) => (
@@ -185,7 +223,7 @@ const Home = () => {
                     ))}
                 </div>
             </div>
-            <div id="support" className="support-section">
+            <div id="support" className="support-section anim">
                 <div className="support-content">
                     <h2 className="support-title">NEED SUPPORT?</h2>
                     <p className="support-description">

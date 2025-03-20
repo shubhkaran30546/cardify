@@ -19,4 +19,6 @@ public interface LeadRepository extends JpaRepository<Lead, Long> {
     @Query("DELETE FROM Lead l WHERE l.leadId = :leadId AND l.portfolio.portfolioId IN (SELECT p.portfolioId FROM Portfolio p WHERE p.user.id = :userId)")
     int deleteLeadByIdAndUserId(@Param("leadId") Long leadId, @Param("userId") Long userId);
 
+//    void deleteByPortfolioId(Long portfolioId);
+
 }

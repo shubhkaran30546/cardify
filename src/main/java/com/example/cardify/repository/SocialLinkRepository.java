@@ -10,5 +10,7 @@ import java.util.List;
 @Repository
 public interface SocialLinkRepository extends JpaRepository<SocialLink, Long> {
     List<SocialLink> findByPortfolio(Portfolio portfolio);
+
+//    void deleteByPortfolioId(Long portfolioId);
 }
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import {useEffect} from "react";
 import Home from './Home';
 import Navbar from "./Navbar";
 import Signup from "./Signup";
@@ -29,6 +30,17 @@ function App() {
 function MainApp() {
     const location = useLocation();
     const isAdmin = localStorage.getItem("role") === "ADMIN";
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const scrollTo = params.get("scrollTo");
+
+        if (scrollTo) {
+            const section = document.getElementById(scrollTo);
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+    }, [location]);
     return (
         <div className="App">
             {/* Conditionally render different Navbars */}

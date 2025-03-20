@@ -46,6 +46,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
 
     @Setter
@@ -81,6 +82,9 @@ public class User implements UserDetails {
 
     @Column(unique = true, nullable = false)
     private String username; // New field for username/
+
+//    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private Portfolio portfolio;
 
     public enum Role {
         USER, ADMIN

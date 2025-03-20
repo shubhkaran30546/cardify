@@ -28,7 +28,7 @@ const PortfoliosList = () => {
                 if (error.response && error.response.status === 401) {
                     console.warn("Token expired or unauthorized. Redirecting to login.");
                     localStorage.removeItem("token"); // Remove invalid token
-                    localStorage.removeItem("role")
+                    localStorage.removeItem("role");
                     navigate("/login"); // Redirect to login page
                 }
             }
@@ -36,6 +36,24 @@ const PortfoliosList = () => {
 
         fetchPortfolios();
     }, []);
+
+    const handleDelete = async (portfolioId) => {
+        if (!window.confirm("Are you sure you want to delete this portfolio?")) return;
+
+        try {
+            const token = localStorage.getItem("token");
+            await axios.delete(`http://localhost:8080/api/admin/portfolios/${portfolioId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            // Remove deleted portfolio from the state
+            setPortfolios(portfolios.filter(portfolio => portfolio.portfolioId !== portfolioId));
+            alert("Portfolio deleted successfully.");
+        } catch (error) {
+            console.error("Error deleting portfolio:", error);
+            alert("Failed to delete portfolio.");
+        }
+    };
 
     return (
         <div className="admin-portfolios">
@@ -45,10 +63,9 @@ const PortfoliosList = () => {
                 {portfolios.map((portfolio, index) => (
                     <li key={portfolio.portfolioId ? `portfolio-${portfolio.portfolioId}` : `index-${index}`}
                         className="portfolio-item"
-                        onClick={() => window.open(`/portfolio/${portfolio.username}`, "_blank")} // ✅ Open in new tab
                         style={{ cursor: "pointer" }}
-                        >
-                        <div className="portfolio-avatar">
+                    >
+                        <div className="portfolio-avatar" onClick={() => window.open(`/portfolio/${portfolio.username}`, "_blank")}>
                             {portfolio.imageData ? (
                                 <img
                                     src={`data:image/png;base64,${portfolio.imageData}`}
@@ -62,11 +79,12 @@ const PortfoliosList = () => {
                                 </div>
                             )}
                         </div>
-                        <div className="portfolio-details">
+                        <div className="portfolio-details" onClick={() => window.open(`/portfolio/${portfolio.username}`, "_blank")}>
                             <span className="portfolio-name">{portfolio.firstName + " " + portfolio.lastName}</span>
                             <span className="portfolio-owner">{portfolio.title}</span>
                             <span className="portfolio-email">{portfolio.email}</span>
                         </div>
+                        <button className="delete-button" onClick={() => handleDelete(portfolio.portfolioId)}>Delete</button>
                     </li>
                 ))}
             </ul>

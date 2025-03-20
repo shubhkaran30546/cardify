@@ -1,11 +1,15 @@
 package com.example.cardify.service;
 
 import com.example.cardify.Models.User;
+import com.example.cardify.repository.LeadRepository;
+import com.example.cardify.repository.PortfolioRepository;
+import com.example.cardify.repository.SocialLinkRepository;
 import com.example.cardify.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -14,6 +18,14 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private LeadRepository leadRepository;
+
+    @Autowired
+    private SocialLinkRepository socialLinkRepository;
+
+    @Autowired
+    private PortfolioRepository portfolioRepository;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -68,6 +80,11 @@ public class UserService {
 
     public User GetUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    @Transactional
+    public void deleteUser(Long userId) {
+        userRepository.deleteByUser(userId);
     }
 
 }

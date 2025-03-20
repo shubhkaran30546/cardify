@@ -1,8 +1,13 @@
 import React from 'react';
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import './Footer.css';
+import {useNavigate} from "react-router-dom";
 
 const Footer = () => {
+    const navigate = useNavigate();
+    const handleNavigateHome = (section) => {
+        navigate(`/?scrollTo=${section}`);
+    };
     return (
         <footer className="footer">
             <div className="footer-top">
@@ -22,8 +27,8 @@ const Footer = () => {
                 <p>Cardify © 2025. All rights reserved.</p>
                 <div className="footer-links">
                     <a href="/">HOME</a>
-                    <a href="#support">SUPPORT</a>
-                    <a href="#pricing">PRICING</a>
+                    <a onClick={() => handleNavigateHome("support")}>SUPPORT</a>
+                    <a onClick={() => handleNavigateHome("pricing")}>PRICING</a>
                 </div>
             </div>
         </footer>

@@ -3,6 +3,7 @@ package com.example.cardify.service;
 import com.example.cardify.Models.Portfolio;
 import com.example.cardify.Models.SocialLink;
 import com.example.cardify.Models.User;
+import com.example.cardify.repository.LeadRepository;
 import com.example.cardify.repository.PortfolioRepository;
 import com.example.cardify.repository.SocialLinkRepository;
 import com.example.cardify.repository.UserRepository;
@@ -23,6 +24,7 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
     private final SocialLinkRepository socialLinkRepository;
+//    private LeadRepository leadRepository;
 
     @Transactional
     public Portfolio saveOrUpdatePortfolio(String email, Portfolio portfolio, MultipartFile imageFile) throws IOException {
@@ -106,5 +108,16 @@ public class PortfolioService {
             throw e;
         }
     }
+
+    @Transactional
+    public void deletePortfolio(User user) {
+        // Fetch portfolio with social links (no need to manually delete social links anymore)
+        Portfolio portfolio = portfolioRepository.findByUser(user)
+                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+
+        // Delete the portfolio, cascading delete will handle the social links
+        portfolioRepository.delete(portfolio);
+    }
+
 
 }

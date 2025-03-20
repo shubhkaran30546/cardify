@@ -11,6 +11,27 @@
     background-color: #1E1E1E;  /* Background color */
     z-index: 1000;  /* Ensure it stays on top of other elements */
 }
+/*.anim {*/
+/*    opacity: 0;*/
+/*    transform: translateY(30px);*/
+/*    animation: moveup 0.5s linear forwards;*/
+/*}*/
+/*@keyframes moveup {*/
+/*    100% {*/
+/*        opacity: 1;*/
+/*        transform: translateY(0px);*/
+/*    }*/
+/*}*/
+.anim {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease-in, transform 0.5s ease-in;
+}
+
+.anim.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 html { scroll-behavior: smooth; }
 .logo {
    width:120px;
@@ -69,10 +90,11 @@ a {
     margin-bottom: 5%;
     color: #1E1E1E;
     padding-right: 20px;
+}
 .para {
     width: 90%;
     margin-bottom: 5%;
-}
+    animation-delay: 1s;
 }
 
 /* Portfolio Section */
@@ -81,19 +103,22 @@ a {
     max-width: 100%;
     text-align: center;
     flex: 1;
-    animation: fadeInAnimation ease 2s;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    /*animation: fadeInAnimation ease 2s;*/
+    /*animation-iteration-count: 1;*/
+    /*animation-fill-mode: forwards;*/
 
 }
-@keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-    }
+/*@keyframes fadeInAnimation {*/
+/*    0% {*/
+/*        opacity: 0;*/
+/*    }*/
 
-    100% {
-        opacity: 1;
-    }
+/*    100% {*/
+/*        opacity: 1;*/
+/*    }*/
+/*}*/
+.portfolio-preview {
+    animation-delay: 0.5s;
 }
 .portfolio-preview img{
    width: 100%;
@@ -242,20 +267,23 @@ a {
 /*pricing*/
 .pricing-section {
     text-align: center;
-    padding: 50px 20px;
-    background-color: #fff;
+    padding: 60px 20px;
+    background-color: #f9f9f9;
 }
 
 .pricing-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
     text-transform: uppercase;
+    margin-bottom: 10px;
 }
 
 .pricing-description {
-    color: #666;
-    max-width: 600px;
-    margin: 10px auto 30px;
+    color: #555;
+    max-width: 700px;
+    margin: 10px auto 40px;
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 .toggle-switch {
@@ -263,23 +291,24 @@ a {
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 .discount-badge {
     background-color: #ff5722;
     color: white;
-    padding: 5px 10px;
+    padding: 6px 12px;
     border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
+    font-size: 14px;
 }
 
 .switch {
     position: relative;
     display: inline-block;
-    width: 40px;
-    height: 20px;
+    width: 50px;
+    height: 25px;
 }
 
 .switch input {
@@ -303,9 +332,9 @@ a {
 .slider:before {
     position: absolute;
     content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
+    height: 18px;
+    width: 18px;
+    left: 4px;
     bottom: 3px;
     background-color: white;
     transition: 0.4s;
@@ -317,26 +346,32 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-    transform: translateX(20px);
+    transform: translateX(25px);
 }
 
 .pricing-cards {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 25px;
     margin-top: 20px;
 }
 
 .pricing-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 25px;
+    width: 320px;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
     text-align: center;
     position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.pricing-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .most-popular {
@@ -345,38 +380,11 @@ input:checked + .slider:before {
 
 .popular-badge {
     position: absolute;
-    top: -10px;
+    top: -15px;
     left: 50%;
     transform: translateX(-50%);
     background-color: #ff5722;
-    color: white;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    font-weight: bold;
-}
-
-.plan-price {
-    font-size: 24px;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.old-price {
-    text-decoration: line-through;
-    color: gray;
-    font-size: 18px;
-    margin-right: 5px;
-}
-
-.new-price {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.price-detail {
-    font-size: 12px;
-    color: gray;
+    color: white
 }
 
 .get-started-btn {
@@ -407,7 +415,35 @@ input:checked + .slider:before {
     margin-bottom: 5px;
 }
 
-@media (max-width: 900px) {
+@media screen and (max-width: 770px) {
+    .intro {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .text-content, .image-container {
+        max-width: 100%;
+    }
+
+    .image-container {
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .buttons button {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+    .portfolio-preview {
+        height: 500px;
+    }
+}
+@media (max-width: 450px) {
+    #root {
+        width: 100%
+    }
     .pricing-cards {
         flex-direction: column;
         align-items: center;

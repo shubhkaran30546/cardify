@@ -157,7 +157,7 @@ const Portfolio = () => {
                     {/*<QRCodeSVG value={`http://localhost.com/portfolio/${userId}`} size={200}/>*/}
                     <QRCodeCanvas
                         value={`http://localhost.com/portfolio/${userId}`}
-                        fgColor="#d94e28"
+                        fgColor="#a8324c"
                         includeMargin
                         imageSettings={{
                             src:"/logo1.png",

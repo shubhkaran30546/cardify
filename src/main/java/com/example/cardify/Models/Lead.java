@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Getter
 @Setter
@@ -27,7 +29,8 @@ public class Lead {
     private String notes;
 
     @ManyToOne
-    @JoinColumn(name = "portfolio_id", referencedColumnName = "id")  // This ensures correct mapping
+    @JoinColumn(name = "portfolio_id", referencedColumnName = "id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Portfolio portfolio;
 }
