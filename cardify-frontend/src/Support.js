@@ -22,7 +22,7 @@ const Support = ()=> {
                     <input placeholder="Message"/>
                 </form>
                 <div className="support-send">
-                <button className="support-button1">Send</button></div>
+                    <button className="support-button1">Send</button></div>
             </div>
             <div>
                 <Footer/>

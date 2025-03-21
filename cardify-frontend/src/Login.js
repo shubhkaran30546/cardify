@@ -19,7 +19,6 @@ function Login() {
         window.location.href = "http://localhost:8080/oauth2/authorization/facebook";
     };
 
-
     const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -33,9 +32,15 @@ function Login() {
             );
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("userRole", response.data.role);
+
+            // If there's a redirect stored, use it; otherwise navigate to "/profile"
             const redirect = localStorage.getItem("redirectAfterLogin");
-            localStorage.removeItem("redirectAfterLogin");
-            navigate(redirect, { replace: true });
+            if (redirect) {
+                localStorage.removeItem("redirectAfterLogin");
+                navigate(redirect, { replace: true });
+            } else {
+                navigate("/profile", { replace: true });
+            }
         } catch (err) {
             setError('Login failed: Invalid email or password!');
         } finally {

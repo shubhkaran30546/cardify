@@ -138,4 +138,18 @@ public class EmailService {
         }
         mailSender.send(mimeMessage);
     }
+
+    public void sendSupportEmail(String firstName, String lastName, String email, String messageContent) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo("support@yourcompany.com"); // Replace with support email
+        helper.setSubject("New Support Request from " + firstName + " " + lastName);
+        helper.setText("""
+                Name: %s %s
+                Email: %s
+                Message: %s
+                """.formatted(firstName, lastName, email, messageContent));
+
+        mailSender.send(message);
+    }
 }

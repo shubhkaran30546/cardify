@@ -46,6 +46,7 @@ public class UserService {
         String hashedPassword = passwordEncoder.encode(password);
         String generatedUsername = generateUsername(firstName, lastName);
         User user = new User(firstName, lastName, email, phoneNumber, hashedPassword, generatedUsername);
+        user.setRole(User.Role.USER);
         return userRepository.save(user);
     }
     public User registerOAuthUser(String firstName, String lastName, String email, String provider) {

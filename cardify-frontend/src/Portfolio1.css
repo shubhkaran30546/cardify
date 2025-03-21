@@ -213,7 +213,7 @@
     flex: 1 1 400px;
     position: relative;
     /* Replace the URL below with your own image */
-    background-image: url("/Users/shubhkarandhillon/Documents/cardify/cardify-frontend/public/wallpaper.png");
+    background-image: url("../public/wallpaper.png");
     display: flex;
     align-items: center;
     justify-content: center;
