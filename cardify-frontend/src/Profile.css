@@ -1,36 +1,156 @@
-.profile {
-    padding: 30px;
-    border-radius: 15px;
-    border-color: rgba(0, 0, 0, 0.31);
-    border-style: solid;
+/*.profile {*/
+/*    padding: 30px;*/
+/*    border-radius: 15px;*/
+/*    border-color: rgba(0, 0, 0, 0.31);*/
+/*    border-style: solid;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+/*.profile button {*/
+/*    width: 100%;*/
+/*    margin: 10px;*/
+/*    background-color: #d94e28;*/
+/*}*/
+/*.profile1 {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+/*.qrcode {*/
+/*    border-color: black;*/
+/*}*/
+
+/*.qrcode1 {*/
+/*    !*border-width: 30px;*!*/
+/*    border-radius: 15px;*/
+/*    padding: 15px;*/
+/*    margin-left: 10px;*/
+/*    !*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*!*/
+/*    border-color: rgba(0, 0, 0, 0.31);*/
+/*    border-style: solid;*/
+/*}*/
+/*.profile-page{*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*}*/
+/* Profile Page Styles */
+/* Profile Page Layout */
+.profile-container {
     display: flex;
-    flex-direction: column;
-}
-.profile button {
+    height: 100vh;
     width: 100%;
-    margin: 10px;
-    background-color: #d94e28;
-}
-.profile1 {
-    display: flex;
-    align-items: center;
-}
-.qrcode {
-    border-color: black;
+    background-color: #f5f5f5;
 }
 
-.qrcode1 {
-    /*border-width: 30px;*/
-    border-radius: 15px;
-    padding: 15px;
-    margin-left: 10px;
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-    border-color: rgba(0, 0, 0, 0.31);
-    border-style: solid;
-}
-.profile-page{
-    justify-content: center;
-    align-items: center;
+/* Sidebar - Stays on the Left */
+.sidebar {
+    width: 250px;
+    height: 100vh; /* Full height */
+    background: #fff;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    left: 0;
+    top: 0;
     display: flex;
     flex-direction: column;
+}
+
+.sidebar h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Sidebar Navigation */
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Sidebar Buttons */
+.sidebar-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: none;
+    font-size: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 5px;
+    color: rgba(30, 30, 30, 0.63);
+    font-weight: bold;
+}
+
+.sidebar-btn:hover {
+    background: #f0f0f0;
+}
+
+/* Main Content - Positioned to the Right */
+.main-content {
+    margin-left: 150px; /* Adjusted to prevent overlap with sidebar */
+    padding: 30px;
+    flex: 1;
+}
+
+/* Profile Card */
+.profile-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Buttons */
+.profile-btn {
+    width: 100%;
+    display: block;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background 0.3s;
+}
+
+.profile-btn:hover {
+    background: #0056b3;
+}
+
+.admin-btn {
+    width: 100%;
+    display: block;
+    padding: 10px;
+    background: #dc3545;
+    color: white;
+    text-align: center;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.admin-btn:hover {
+    background: #a71d2a;
+}
+
+/* QR Code Section */
+.qr-section {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
