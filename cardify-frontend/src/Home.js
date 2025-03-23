@@ -60,8 +60,8 @@ const Home = () => {
         },
         {
             name: "Corporate",
-            monthlyPrice: 50,
-            yearlyPrice: 40,
+            monthlyPrice: "Contact Us",
+            yearlyPrice: "Contact Us",
             features: [
                 "All Individual Plan features",
                 "Multi-user team access",
@@ -259,11 +259,27 @@ const Home = () => {
                             {plan.mostPopular && <div className="popular-badge">Most Popular</div>}
                             <h3>{plan.name}</h3>
                             <p className="plan-price">
-                                {/* If isYearly is true, show yearly price, otherwise show monthly */}
-                                <span className="new-price">
-                                    ${isYearly ? plan.yearlyPrice : plan.monthlyPrice}
-                                </span>
+                                {plan.monthlyPrice === "Contact Us" ? (
+                                    <span className="new-price">Contact Us</span>
+                                ) : (
+                                    <>
+                                        {/* If the Yearly plan is selected, show the discounted price */}
+                                        {isYearly ? (
+                                            <>
+                    <span className="original-price">
+                        ${plan.yearlyPrice} {/* Original Price */}
+                    </span>
+                                                <span className="discounted-price">
+                        ${(plan.yearlyPrice * 0.8).toFixed(2)} {/* 20% off */}
+                    </span>
+                                            </>
+                                        ) : (
+                                            <span className="new-price">${plan.monthlyPrice}</span>
+                                        )}
+                                    </>
+                                )}
                             </p>
+
                             <button
                                 className="get-started-btn"
                                 onClick={() => {
@@ -293,7 +309,7 @@ const Home = () => {
                 </div>
             </div>
 
-            <Footer />
+            <Footer/>
         </div>
     );
 };

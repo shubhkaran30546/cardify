@@ -37,8 +37,8 @@ public class StripeController {
                 .setCancelUrl("http://localhost:3000")
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
-                                .setPrice(priceId)
                                 .setQuantity(1L)
+                                .setPrice("price_1R4qFGD8oruRmlHjPVvsbAGZ")  // Ensure this is a recurring price
                                 .build()
                 )
                 .build();

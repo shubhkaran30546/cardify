@@ -1,190 +1,144 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { QRCodeSVG } from "qrcode.react";
-import { FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram, FaGlobe } from "react-icons/fa";
+import { QRCodeSVG, QRCodeCanvas} from "qrcode.react";
+import {FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram, FaGlobe, FaPhone, FaEnvelope, FaMapMarkerAlt} from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import "./Portfolio1.css"
 const Portfolio1 = ()=>
+
 {
-    return(
-        <div className="portfolio">
-            <section className="p-intro">
-                <div className="p-profile">
-                    <div className="p-image">
-                        <img className="p-image1" src="/shubh.jpg"/>
+    const qrRef = useRef();
+
+    const downloadQR = () => {
+        const canvas = qrRef.current;
+        const url = canvas.toDataURL("image/png");
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "qrcode.png";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+    return (
+        <div className="container12">
+            <div className="intro12">
+                {/* Navbar */}
+                <nav className="navbar-port">
+                    <h1 className="logo1">
+                        Shubhkaran<span className="dot">.</span>
+                    </h1>
+                    <ul className="nav-links12">
+                        <li>Home</li>
+                        <li>About</li>
+                        <li>
+                            <button className="contact-btn12">Contact Me</button>
+                        </li>
+                    </ul>
+                </nav>
+
+                {/* Main Section */}
+                <div className="content">
+                    {/* Left Section */}
+                    <div className="text-section">
+                        <div className="hi-section">
+                            <h1>
+                                Hi! I Am <br/> Shubhkaran Dhillon
+                            </h1>
+                            <img
+                                src="shubh.jpg"
+                                alt="William Harry"
+                                className="profile-image"
+                            />
+                        </div>
+                        <p>
+                            Product designer and digital creative director working in design
+                            field for 7 years so far, specialize in user interface design.
+                        </p>
+                        <div className="buttons">
+                            <button className="hire-btn">Hire Me</button>
+                            <button className="know-btn" onClick={downloadQR}>Download QR Code</button>
+                        </div>
+                        <p className="specialization">
+                            ⚡ Product Designer and Developer specialized in UI/UX.
+                        </p>
+                        <div className="socials12"><FaLinkedin/>
+                            <FaGithub/>
+                            <FaTwitter/>
+                            <FaFacebook/></div>
                     </div>
-                    <div className="p-info">
-                        <h1>Shubhkaran Dhillon</h1>
-                        <h2>Software Engineer</h2>
-                        <h3>shubh.karan30@gmail.com</h3>
+
+                </div>
+            </div>
+            <div className="about12">
+                <div className="about-left">
+                    <QRCodeCanvas ref={qrRef} value={`http://localhost.com`} size={200}/>
+                </div>
+                <div className="about-right">
+                    <h1>About Me</h1>
+                    <p>With over a decade of experience in the real estate industry, Jatt has built a reputation as a
+                        trusted,
+                        results-driven realtor. Specializing in residential and commercial properties, Jatt is committed
+                        to providing
+                        clients with personalized service and expert guidance throughout every stage of their real
+                        estate journey.
+                        Whether you're buying your first home, selling a property, or looking for investment
+                        opportunities, Jatt's deep knowledge of the local market and attention to detail ensure you make
+                        informed decisions. His approach is client-centric, aiming to understand each individual's needs
+                        and preferences to deliver tailored solutions that align with their goals. Beyond real estate,
+                        Jatt is deeply involved in the community and is always eager to offer support and resources. His
+                        passion for helping others and commitment to excellence have earned him repeat business and
+                        long-term relationships with clients.
+                        Reach out today, and let Jatt help you find your perfect place to call home.(generated by gpt
+                        jatt)</p>
+                </div>
+            </div>
+            <div className="contact-container1">
+                {/* Left Section (Contact Info) */}
+                <div className="contact-info1">
+                    <h2>Contact Information</h2>
+                    <p>Fill up the form and our team will get back to you within 24 hours.</p>
+                    <div className="contact-details1">
+                        <p><FaPhone/> +0123 4567 8910</p>
+                        <p><FaEnvelope/> hello@flowbase.com</p>
+                        <p><FaMapMarkerAlt/> 102 Street 2714 Don</p>
+                    </div>
+                    <div className="social-icons1">
+                        <FaFacebook/>
+                        <FaTwitter/>
+                        <FaInstagram/>
+                        <FaLinkedin/>
                     </div>
                 </div>
-            </section>
-            <section className="socials">
-                <FaLinkedin/>
-                <FaGithub/>
-                <FaFacebook/>
-                <FaLinkedin/>
-                <FaGithub/>
-                <FaFacebook/>
-            </section>
-            <section className="p-about">
-                <h2>
-                    About
-                </h2>
-                <p>
-                    With over a decade of experience in the real estate industry, Jatt has built a reputation as a
-                    trusted, results-driven realtor. Specializing in residential and commercial properties, Jatt is
-                    committed to providing clients with personalized service and expert guidance throughout every stage
-                    of their real estate journey. Whether you're buying your first home, selling a property, or looking
-                    for investment opportunities, Jatt's deep knowledge of the local market and attention to detail
-                    ensure you make informed decisions. His approach is client-centric, aiming to understand each
-                    individual's needs and preferences to deliver tailored solutions that align with their goals. Beyond
-                    real estate, Jatt is deeply involved in the community and is always eager to offer support and
-                    resources. His passion for helping others and commitment to excellence have earned him repeat
-                    business and long-term relationships with clients. Reach out today, and let Jatt help you find your
-                    perfect place to call home.(generated by gpt jatt)
-                </p>
-            </section>
-            <div className="qr2">
-                <QRCodeSVG value={`http://localhost.com/portfolio/`} size={200}/>
-            </div>
-            <div className="contact-container">
-                {/* Left Panel: Contact Form */}
-                <div className="contact-left">
-                    <h1 className="contact-heading">We'd love to help</h1>
-                    <p className="contact-subheading">
-                        We’re a full service agency with experts ready to help. We’ll get in
-                        touch within 24 hours.
-                    </p>
 
-                    <form className="contact-form">
-                        <div className="contact-input-row">
-                            <div className="contact-form-group">
-                                <label htmlFor="firstName" className="contact-label">
-                                    First name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="firstName"
-                                    name="firstName"
-                                    placeholder="Jane"
-                                    className="contact-input"
-                                    required
-                                />
-                            </div>
-                            <div className="contact-form-group">
-                                <label htmlFor="lastName" className="contact-label">
-                                    Last name
-                                </label>
-                                <input
-                                    type="text"
-                                    id="lastName"
-                                    name="lastName"
-                                    placeholder="Doe"
-                                    className="contact-input"
-                                    required
-                                />
-                            </div>
+                {/* Right Section (Form) */}
+                <div className="contact-form1">
+                    <h2>Contact Us</h2>
+                    <form>
+                        <div className="form-row1">
+                            <input type="text" name="firstName" placeholder="First Name" required/>
+                            <input type="text" name="lastName" placeholder="Last Name" required/>
                         </div>
-
-                        <div className="contact-form-group">
-                            <label htmlFor="email" className="contact-label">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder="you@company.com"
-                                className="contact-input"
-                                required
-                            />
+                        <div className="form-row1">
+                            <input type="email" name="email" placeholder="Email" required/>
+                            <input type="tel" name="phone" placeholder="Phone"/>
                         </div>
-
-                        <div className="contact-form-group">
-                            <label htmlFor="phone" className="contact-label">
-                                Phone number
-                            </label>
-                            <input
-                                type="tel"
-                                id="phone"
-                                name="phone"
-                                placeholder="+1 (555) 000-0000"
-                                className="contact-input"
-                            />
+                        <div className="form-row1">
+                            <input type="text" name="title" placeholder="Title"/>
+                            <input type="text" name="company" placeholder="Company"/>
                         </div>
-                        <div className="contact-form-group">
-                            <label htmlFor="phone" className="contact-label">
-                                Company
-                            </label>
-                            <input
-                                type="text"
-                                id="company"
-                                name="company"
-                                placeholder="Company"
-                                className="contact-input"
-                            />
+                        <div className="form-group1">
+                            <textarea name="notes" placeholder="Notes"></textarea>
                         </div>
-
-                        <div className="contact-form-group">
-                            <label htmlFor="message" className="contact-label">
-                                How can we help?
-                            </label>
-                            <textarea
-                                id="message"
-                                name="message"
-                                rows="4"
-                                placeholder="Briefly describe your project or question"
-                                className="contact-textarea"
-                            ></textarea>
+                        <div className="form-group1">
+                            <button type="submit">Submit</button>
                         </div>
-
-                        <button type="submit" className="contact-button">
-                            Send message
-                        </button>
                     </form>
                 </div>
-
-                {/* Right Panel: Image / Testimonial */}
-                <div className="contact-right">
-                    <div className="contact-overlay">
-                        <div className="contact-testimonial">
-                            <div className="contact-stars">★★★★★</div>
-                            <p className="contact-quote">
-                                “Unlimited UI is the real deal. We’ve worked with a dozen agencies
-                                that simply don’t deliver. Working with experienced and
-                                knowledgeable professionals at the helm is a breath of fresh air.”
-                            </p>
-                            <div className="contact-author">
-                                — Ellie Simpson, Head of Design, Sisyphus Labs
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div className="contact-card">
-                <div className="contact-info">
-                    <h2>Contact Us</h2>
-                    <p><strong>Email:</strong>Email</p>
-                    <p><strong>Phone:</strong>Email</p>
-                    <p><strong>Text:</strong>Email</p>
-                    <p><strong>Company:</strong> eXp Realty</p>
-                    <p><strong>Address:</strong>Email</p>
-                    <p><a href="#">Click Here For Driving Directions</a></p>
-                </div>
-
-                {/* Map */}
-                <div className="map">
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2687.567130807472!2d-122.4524505!3d48.7604237!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x5485a2e2528f03c3%3A0x9417cfe5da5a7f7!2s2219%20Rimland%20Dr%20Suite%20301%2C%20Bellingham%2C%20WA%2098226%2C%20USA!5e0!3m2!1sen!2sin!4v1617135556005!5m2!1sen!2sin"
-                        allowFullScreen=""
-                        loading="lazy">
-                    </iframe>
-                </div>
-            </div>
-            <div className="footer2">
+            <div className="footer1">
                 <p>Powered By</p>
                 <a href="/" target="_blank"><img src="/logo.png"/></a>
             </div>

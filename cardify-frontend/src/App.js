@@ -44,7 +44,7 @@ function MainApp() {
     return (
         <div className="App">
             {/* Conditionally render different Navbars */}
-            {location.pathname.startsWith("/portfolio") ? <Navbar2 /> : <Navbar />}
+            {location.pathname.startsWith("/port") ?<></> : <Navbar />}
             <Routes>
 
                 <Route path="/" element={<Home />} />
