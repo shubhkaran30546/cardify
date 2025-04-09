@@ -1,0 +1,5 @@
+.manage-billing {
+    display: flex;
+    margin-left: 150px;
+    flex-direction: column;
+}

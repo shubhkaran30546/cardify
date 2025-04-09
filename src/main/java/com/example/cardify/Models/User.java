@@ -94,6 +94,11 @@ public class User implements UserDetails {
     @Column(name = "role", nullable = false)
     private Role role = Role.USER; // Default is USER
 
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
+
     public boolean isAdmin() {
         return this.role == Role.ADMIN;
     }

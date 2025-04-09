@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, matchPath } from "react-router-dom";
 import Home from './Home';
 import Navbar from "./Navbar";
 import Signup from "./Signup";
@@ -19,6 +19,7 @@ import UsersList from "./UsersList";
 import PortfoliosList from "./PortfoliosList";
 import ResetPassword from "./ResetPassword";
 import Sidebar from "./Sidebar"; // Import Sidebar
+import ManageBilling from "./ManageBilling";
 
 function App() {
     return (
@@ -46,6 +47,15 @@ function MainApp() {
     // ✅ Check if current path starts with any sidebar route
     const showSidebar = sidebarRoutes.some(route => location.pathname.startsWith(route));
 
+    // ✅ Define paths where the Navbar should not be visible (like Portfolio1)
+    const hideNavbarRoutes = ["/port1"];
+
+    // ✅ Use `matchPath` to check if the current path matches `/portfolio/:userId`
+    const showNavbar = !(
+        hideNavbarRoutes.some(route => matchPath(route, location.pathname)) ||
+        matchPath("/portfolio/:userId", location.pathname)
+    );
+
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const scrollTo = params.get("scrollTo");
@@ -60,8 +70,8 @@ function MainApp() {
 
     return (
         <div className="App">
-            {/* ✅ Conditionally Render Navbar (Hide on Portfolio/Profile) */}
-            {showSidebar ? null : <Navbar />}
+            {/* ✅ Conditionally Render Navbar (Hide on Portfolio1) */}
+            {showNavbar && !showSidebar && <Navbar />}
 
             <div className="dashboard-layout">
                 {/* ✅ Sidebar only appears when `showSidebar` is true */}
@@ -75,7 +85,7 @@ function MainApp() {
                         <Route path="/email-signup" element={<SignupForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/create-ecard" element={<SlidingForm />} />
-                        <Route path="/portfolio/:userId" element={<Portfolio />} />
+                        <Route path="/portfolio/:userId" element={<Portfolio1 />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/edit-portfolio/:userId" element={<SlidingForm />} />
                         <Route path="/api/leads/:userId" element={<Leads />} />
@@ -84,6 +94,7 @@ function MainApp() {
                         <Route path="/port1" element={<Portfolio1 />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
+                        <Route path="/billing" element={<ManageBilling />} />
                         <Route path="/admin" element={isAdmin ? <AdminDashboard /> : <Navigate to="/profile" />} />
                         <Route path="/admin/users" element={isAdmin ? <UsersList /> : <Navigate to="/profile" />} />
                         <Route path="/admin/portfolios" element={isAdmin ? <PortfoliosList /> : <Navigate to="/profile" />} />

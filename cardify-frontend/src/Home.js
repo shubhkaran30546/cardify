@@ -283,9 +283,9 @@ const Home = () => {
                             <button
                                 className="get-started-btn"
                                 onClick={() => {
-                                    if (plan.name === "Custom Solution") {
+                                    if (plan.monthlyPrice === "Contact Us") {
                                         // Navigate to a contact page
-                                        navigate("/contact");
+                                        navigate("/support");
                                     } else {
                                         // Determine correct price ID for monthly or yearly
                                         const priceId = getPriceId(plan.name, isYearly);
