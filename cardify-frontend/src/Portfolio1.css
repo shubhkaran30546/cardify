@@ -48,6 +48,13 @@ body{
     list-style: none;
     flex-direction: row;
     width: 100%;
+    color: #1E1E1E;
+}
+.nav-links12 a, li {
+    color: #1E1E1E;
+}
+.nav-links12 a:hover, li:hover {
+    color: red;
 }
 
 .contact-btn12 {
@@ -146,7 +153,6 @@ body{
 }
 .socials12{
     display: flex;
-    gap: 20px;
     font-size: xx-large;
     margin-bottom: 5%;
     color: #1E1E1E;

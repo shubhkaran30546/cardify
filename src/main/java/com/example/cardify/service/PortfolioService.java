@@ -3,10 +3,8 @@ package com.example.cardify.service;
 import com.example.cardify.Models.Portfolio;
 import com.example.cardify.Models.SocialLink;
 import com.example.cardify.Models.User;
-import com.example.cardify.repository.LeadRepository;
-import com.example.cardify.repository.PortfolioRepository;
-import com.example.cardify.repository.SocialLinkRepository;
-import com.example.cardify.repository.UserRepository;
+import com.example.cardify.Models.VisitAnalytics;
+import com.example.cardify.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,8 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +24,7 @@ public class PortfolioService {
     private final PortfolioRepository portfolioRepository;
     private final UserRepository userRepository;
     private final SocialLinkRepository socialLinkRepository;
+    private final VisitAnalyticsRepository visitAnalyticsRepository;
 //    private LeadRepository leadRepository;
 
     @Transactional
@@ -120,4 +121,24 @@ public class PortfolioService {
     }
 
 
+    public void recordVisit(String userName) {
+        LocalDate today = LocalDate.now();
+        Optional<VisitAnalytics> visit = visitAnalyticsRepository.findByUserNameAndVisitDate(userName, today);
+
+        if (visit.isPresent()) {
+            VisitAnalytics analytics = visit.get();
+            analytics.setCount(analytics.getCount() + 1);
+            visitAnalyticsRepository.save(analytics);
+        } else {
+            VisitAnalytics analytics = new VisitAnalytics();
+            analytics.setUserName(userName);
+            analytics.setVisitDate(today);
+            analytics.setCount(1);
+            visitAnalyticsRepository.save(analytics);
+        }
+    }
+
+    public List<VisitAnalytics> getVisitsByUser(String userName) {
+        return visitAnalyticsRepository.findAllByUserNameOrderByVisitDateAsc(userName);
+    }
 }

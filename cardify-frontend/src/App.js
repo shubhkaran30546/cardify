@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState} from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, matchPath } from "react-router-dom";
 import Home from './Home';
 import Navbar from "./Navbar";
@@ -20,7 +20,8 @@ import PortfoliosList from "./PortfoliosList";
 import ResetPassword from "./ResetPassword";
 import Sidebar from "./Sidebar"; // Import Sidebar
 import ManageBilling from "./ManageBilling";
-
+import CompanyList from "./CompanyList";
+import AssignUserToCompany from "./AssignUserToCompany";
 function App() {
     return (
         <Router>
@@ -43,6 +44,8 @@ function MainApp() {
         "/admin/users",
         "/admin/portfolios"
     ];
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const toggleSidebar = () => setIsSidebarOpen(prev => !prev);
 
     // ✅ Check if current path starts with any sidebar route
     const showSidebar = sidebarRoutes.some(route => location.pathname.startsWith(route));
@@ -73,12 +76,17 @@ function MainApp() {
             {/* ✅ Conditionally Render Navbar (Hide on Portfolio1) */}
             {showNavbar && !showSidebar && <Navbar />}
 
-            <div className="dashboard-layout">
+            {/*<div className="dashboard-layout">*/}
                 {/* ✅ Sidebar only appears when `showSidebar` is true */}
-                {showSidebar && <Sidebar />}
+            {showSidebar && (
+                <>
+                    <Sidebar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+                    {isSidebarOpen && <div className="overlay" onClick={toggleSidebar} />}
+                </>
+            )}
 
                 {/* ✅ Main Content (Shifts Right When Sidebar is Present) */}
-                <div className={showSidebar ? "main-content" : ""}>
+                <div className={showSidebar ? "main-content1" : ""}>
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/signup" element={<Signup />} />
@@ -97,9 +105,11 @@ function MainApp() {
                         <Route path="/billing" element={<ManageBilling />} />
                         <Route path="/admin" element={isAdmin ? <AdminDashboard /> : <Navigate to="/profile" />} />
                         <Route path="/admin/users" element={isAdmin ? <UsersList /> : <Navigate to="/profile" />} />
+                        <Route path="/admin/companies" element={isAdmin ? <CompanyList /> : <Navigate to="/profile" />} />
                         <Route path="/admin/portfolios" element={isAdmin ? <PortfoliosList /> : <Navigate to="/profile" />} />
+                        <Route path="/admin/assign-user" element={isAdmin ? <AssignUserToCompany /> : <Navigate to="/profile" />} />
                     </Routes>
-                </div>
+                {/*</div>*/}
             </div>
         </div>
     );

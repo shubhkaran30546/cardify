@@ -1,6 +1,5 @@
 package com.example.cardify.service;
 
-import com.example.cardify.controller.VCardGenerator;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;

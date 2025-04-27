@@ -1,13 +1,15 @@
 .admin-portfolios {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
     text-align: center;
     width: 100%;
-    background-color: black;
+    /*background-color: black;*/
     min-height: 100vh;
 }
 .admin-portfolios h1 {
     margin-top: 80px;
-    color: aliceblue;
 }
 
 .back-button1 {
@@ -22,6 +24,9 @@
 .portfolio-list {
     list-style: none;
     padding: 0;
+    /*margin-left: 250px;*/
+    width: 50%;
+
 }
 
 .portfolio-item {
@@ -69,4 +74,8 @@
 .portfolio-email {
     font-size: 14px;
     color: lightgray;
+}
+.delete-button{
+    background-color: #d94e28;
+    margin-left: 15px;
 }

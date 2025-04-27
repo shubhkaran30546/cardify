@@ -3,6 +3,7 @@ package com.example.cardify.controller;
 
 import com.example.cardify.Models.Portfolio;
 import com.example.cardify.Models.User;
+import com.example.cardify.Models.VisitAnalytics;
 import com.example.cardify.service.JwtService;
 import com.example.cardify.service.PortfolioService;
 import com.example.cardify.service.UserDetailsServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -29,6 +31,16 @@ public class PortfolioController {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
         System.out.println("PortfolioController initialized.");
+    }
+
+    @PostMapping("/visit/{userName}")
+    public ResponseEntity<?> recordVisit(@PathVariable String userName) {
+        portfolioService.recordVisit(userName);
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/visit/{userName}")
+    public ResponseEntity<List<VisitAnalytics>> getVisitAnalytics(@PathVariable String userName) {
+        return ResponseEntity.ok(portfolioService.getVisitsByUser(userName));
     }
 
     @PostMapping("/save")

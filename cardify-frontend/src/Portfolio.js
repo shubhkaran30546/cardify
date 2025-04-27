@@ -14,9 +14,9 @@ const getSocialIcon = (url) => {
     if (url.includes("youtube.com")) return <FaYoutube />;
     return <FaGlobe />; // Default icon for unknown links
 };
+
 const Portfolio = () => {
     const { userId } = useParams(); // Extract userId from the URL
-
     const [portfolio, setPortfolio] = useState(null);
     const [imageUrl, setImageUrl] = useState("");
     const [isLoading, setIsLoading] = useState(true); // Loading state
@@ -53,6 +53,7 @@ const Portfolio = () => {
 
     };
 
+
 // Fetch portfolio data when the component mounts
     useEffect(() => {
         if (!userId) return;  // Ensure userId is valid before making requests
@@ -71,12 +72,8 @@ const Portfolio = () => {
 
         (async () => {  // IIFE to handle async inside useEffect
             try {
-                console.log("Fetching portfolio for userId:", userId);
                 const response = await axios.get(`http://localhost:8080/api/portfolio/get/${userId}`);
-                console.log("Portfolio response:", response.data); // Debugging
                 setPortfolio(response.data);
-                console.log("AAAAAAAAA");
-                console.log(response.data["lastName"]);
 
                 if (response.data?.imageName) {
                     await fetchImage(userId);

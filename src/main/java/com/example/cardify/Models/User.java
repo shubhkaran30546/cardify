@@ -130,4 +130,15 @@ public class User implements UserDetails {
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    public enum SubscriptionType {
+        INDIVIDUAL,
+        CORPORATE,
+        CUSTOM
+    }
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription_type", nullable = false)
+    private SubscriptionType subscriptionType = SubscriptionType.INDIVIDUAL;
+
 }

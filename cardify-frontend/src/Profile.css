@@ -1,46 +1,11 @@
-/*.profile {*/
-/*    padding: 30px;*/
-/*    border-radius: 15px;*/
-/*    border-color: rgba(0, 0, 0, 0.31);*/
-/*    border-style: solid;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
-/*.profile button {*/
-/*    width: 100%;*/
-/*    margin: 10px;*/
-/*    background-color: #d94e28;*/
-/*}*/
-/*.profile1 {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*}*/
-/*.qrcode {*/
-/*    border-color: black;*/
-/*}*/
 
-/*.qrcode1 {*/
-/*    !*border-width: 30px;*!*/
-/*    border-radius: 15px;*/
-/*    padding: 15px;*/
-/*    margin-left: 10px;*/
-/*    !*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*!*/
-/*    border-color: rgba(0, 0, 0, 0.31);*/
-/*    border-style: solid;*/
-/*}*/
-/*.profile-page{*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
-/* Profile Page Styles */
 /* Profile Page Layout */
 .profile-container {
     display: flex;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
-    background-color: #f5f5f5;
+    align-items: center;
+    /*background-color: #f5f5f5;*/
 }
 
 /* Sidebar - Stays on the Left */
@@ -93,13 +58,16 @@
 
 /* Main Content - Positioned to the Right */
 .main-content {
-    margin-left: 150px; /* Adjusted to prevent overlap with sidebar */
-    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 150px;
     flex: 1;
 }
 
 /* Profile Card */
 .profile-card {
+    margin-bottom: 20px;
+    margin-right: 20px;
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -148,9 +116,106 @@
 /* QR Code Section */
 .qr-section {
     margin-top: 20px;
+    margin-right: 20px;
+    margin-bottom: 30px;
     background: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+/* Hamburger Icon */
+/* Hamburger Icon */
+.hamburger {
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+    color: #dc3545;
+    margin-bottom: 20px;
+}
+.profile-header{
+    display: inline-flex;
+}
+.profile-header button {
+    margin-top: 10px;
+}
+/* Mobile layout styles */
+@media (max-width: 768px) {
+    .main-content {
+        width: 100%;
+        margin-left: 20px;
+    }
+    .profile-container {
+        margin-left: 20px;
+    }
+    .hamburger {
+        display: inline-block;
+        padding: 0;
+        width: 30px;
+        justify-content: center;
+    }
+    .profile-header {
+        display: flex;
+        align-items: center;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -250px; /* hidden by default */
+        width: 250px;
+        height: 100%;
+        /*background-color: #1c1c1c;*/
+        /*color: white;*/
+        transition: left 0.3s ease;
+        z-index: 1000;
+        padding: 1rem;
+    }
+
+    .sidebar.open {
+        left: 0; /* shows when open */
+    }
+
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 20px;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 999;
+    }
+}
+
+@media (min-width: 769px) {
+    .main-content {
+        margin-left: 250px; /* Only for larger screens */
+    }
+}
+.close-btn {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: black;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Show close button on small screens */
+@media (max-width: 768px) {
+    .close-btn {
+        display: block;
+    }
 }

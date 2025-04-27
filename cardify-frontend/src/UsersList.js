@@ -59,7 +59,8 @@ const UsersList = () => {
                                 </div>
                             )}
                         </div>
-                        <span className="user-name">{user.firstName + " " + user.lastName || "New User"}</span>
+                        <span className="user-name">{user.firstName + " " + user.lastName + " | " || "New User"}</span>
+                        <span className="user-email">{user.email}</span>
                         <button className="delete-user" onClick={() => handleDelete(user.userId)}>DELETE</button>
                     </li>
                 ))}

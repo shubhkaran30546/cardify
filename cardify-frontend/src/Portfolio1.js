@@ -25,6 +25,32 @@ const Portfolio1 = () => {
     const [imageUrl, setImageUrl] = useState("");
     const [isLoading, setIsLoading] = useState(true);
 
+    const handleSaveContact = () => {
+        const vCardData = `
+BEGIN:VCARD
+VERSION:3.0
+N:${portfolio?.lastName || ""};${portfolio?.firstName || ""}
+FN:${portfolio?.firstName || ""} ${portfolio?.lastName || ""}
+ORG:${portfolio?.companyName || ""}
+TITLE:${portfolio?.title || ""}
+TEL;TYPE=WORK,VOICE:${portfolio?.phoneNumber || ""}
+EMAIL:${portfolio?.email || ""}
+ADR;TYPE=WORK:;;${portfolio?.address || ""}
+END:VCARD
+    `.trim();
+
+        const blob = new Blob([vCardData], { type: "text/vcard" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `${portfolio?.firstName || "contact"}.vcf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
+
+
     // Handle Contact Form Submission
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -57,6 +83,17 @@ const Portfolio1 = () => {
             alert("Failed to send message.");
         }
     };
+    useEffect(() => {
+        const recordVisit = async () => {
+            try {
+                await axios.post(`http://localhost:8080/api/portfolio/visit/${userId}`);
+            } catch (err) {
+                console.error("Error recording visit:", err);
+            }
+        };
+
+        recordVisit();
+    }, [userId]);
 
     // Fetch Portfolio Data
     useEffect(() => {
@@ -112,6 +149,11 @@ const Portfolio1 = () => {
         );
     }
 
+    // Show message if no portfolio found
+    if (!portfolio) {
+        return <div>No portfolio found.</div>;
+    }
+
     return (
         <div className="container12">
             <div className="intro12">
@@ -120,9 +162,9 @@ const Portfolio1 = () => {
                     <h1 className="logo1">{portfolio?.firstName || "User"}<span className="dot">.</span></h1>
                     <ul className="nav-links12">
                         <li>Home</li>
-                        <li href="#about12">About</li>
+                        <li><a href="#about12">About</a></li>
                         <li>
-                            <button className="contact-btn12">Contact Me</button>
+                            <a href="#contact-container1"><button className="contact-btn12">Contact Me</button></a>
                         </li>
                     </ul>
                 </nav>
@@ -142,12 +184,9 @@ const Portfolio1 = () => {
                         </div>
                         <p>{portfolio?.title || ""} in {portfolio?.companyName || ""}</p>
                         <div className="buttons">
-                            <button className="hire-btn">Hire Me</button>
+                            <button className="hire-btn" onClick={handleSaveContact}>Save Contact</button>
                             <button className="know-btn" onClick={downloadQR}>Download QR Code</button>
                         </div>
-                        <p className="specialization">
-                            ⚡ Product Designer and Developer specialized in UI/UX.
-                        </p>
 
                         {/* Social Links */}
                         {portfolio?.socialLinks?.length > 0 ? (
@@ -166,7 +205,7 @@ const Portfolio1 = () => {
             </div>
 
                 {/* About Section */}
-                <div className="about12">
+                <div className="about12" id="about12">
                     <div className="about-left">
                         <QRCodeCanvas ref={qrRef} value={`http://localhost.com/portfolio/${userId}`} size={200}/>
                     </div>
@@ -177,7 +216,7 @@ const Portfolio1 = () => {
                 </div>
 
                 {/* Contact Form */}
-                <div className="contact-container1">
+                <div className="contact-container1" id="contact-container1">
                     <div className="contact-info1">
                         <h2>Contact Information</h2>
                         <p>Fill up the form and our team will get back to you within 24 hours.</p>

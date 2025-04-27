@@ -8,6 +8,7 @@ function BroadcastEmail() {
     const [message, setMessage] = useState('');
     const [image, setImage] = useState(null);
     const [responseMessage, setResponseMessage] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

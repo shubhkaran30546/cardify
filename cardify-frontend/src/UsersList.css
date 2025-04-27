@@ -3,8 +3,8 @@
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    background-color: #111; /* Dark background */
-    color: white;
+    /*background-color: #111; !* Dark background *!*/
+    /*color: white;*/
     height: 100%;
     min-height: 100vh;
     left: 0;
@@ -17,6 +17,7 @@
     padding: 10px 15px;
     background: #d94e28;
     color: white;
+    width: 47%;
     border-radius: 5px;
     transition: 0.35s;
 }
@@ -26,6 +27,7 @@
 
 .user-list {
     list-style-type: none;
+    width: 50%;
     padding: 0;
 }
 
@@ -36,6 +38,7 @@
     padding: 10px;
     margin: 20px;
     border-radius: 10px;
+    color: white;
 }
 
 .user-avatar {
@@ -72,6 +75,10 @@
     align-items: flex-end;
     background-color: #d94e28;
     right: 0;
-    width: 8%;
+    align-content: flex-end;
     margin-left: 50px;
+}
+.user-name{
+    color: white;
+    width: 20%;
 }
