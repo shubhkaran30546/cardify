@@ -141,7 +141,7 @@ public class EmailService {
     public void sendSupportEmail(String firstName, String lastName, String email, String messageContent) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
-        helper.setTo("support@yourcompany.com"); // Replace with support email
+        helper.setTo("shubh.karan30@gmail.com"); // Replace with support email
         helper.setSubject("New Support Request from " + firstName + " " + lastName);
         helper.setText("""
                 Name: %s %s

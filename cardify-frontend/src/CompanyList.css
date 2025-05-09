@@ -1,13 +1,16 @@
 .add-company1 {
     display: flex;
     align-items: center;
-    /*justify-content: center;*/
     width: 100%;
     background-color: #d94e28;
-    margin: 15px;
+    margin: 2px 0; /* reduced vertical spacing */
+    padding: 8px 12px; /* optional: tighter button */
 }
-.admin-company-list{
+
+.admin-company-list {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 8px 0; /* reduced top/bottom spacing */
 }

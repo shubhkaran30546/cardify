@@ -1,5 +1,6 @@
 package com.example.cardify.controller;
 
+import com.example.cardify.DTO.CompanyDTO;
 import com.example.cardify.Models.Company;
 import com.example.cardify.Models.User;
 import com.example.cardify.repository.CompanyRepository;
@@ -9,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class CompanyController {
@@ -28,9 +31,13 @@ public class CompanyController {
         return ResponseEntity.ok(saved);
     }
     @GetMapping("/api/company")
-    public ResponseEntity<List<Company>> getAllCompanies() {
-        List<Company> companies = companyRepository.findAll(); // or service.getAllCompanies()
-        return ResponseEntity.ok(companies);
+    public ResponseEntity<List<CompanyDTO>> getAllCompanies() {
+        List<CompanyDTO> companyDTOs = companyRepository.findAll()
+                .stream()
+                .map(CompanyDTO::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(companyDTOs);
     }
 
 

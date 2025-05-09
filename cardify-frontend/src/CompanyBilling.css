@@ -1,0 +1,60 @@
+.billing-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background-color: #f0f4f8;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.billing-card {
+    background: #ffffff;
+    padding: 40px 50px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    max-width: 650px;
+    transition: transform 0.3s ease;
+}
+
+.billing-card:hover {
+    transform: scale(1.01);
+}
+
+.billing-card h2 {
+    margin-bottom: 25px;
+    color: #222;
+    font-size: 26px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 12px;
+}
+
+.billing-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    font-size: 18px;
+}
+
+.billing-row .label {
+    font-weight: 600;
+    color: #444;
+}
+
+.billing-row .value {
+    color: #111;
+}
+
+.billing-total {
+    margin-top: 35px;
+    padding: 20px;
+    border-top: 2px solid #e2e8f0;
+    background-color: #fff5f2;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    color: #c0392b;
+    font-weight: bold;
+    border-radius: 8px;
+}

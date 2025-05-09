@@ -20,6 +20,7 @@ import PortfoliosList from "./PortfoliosList";
 import ResetPassword from "./ResetPassword";
 import Sidebar from "./Sidebar"; // Import Sidebar
 import ManageBilling from "./ManageBilling";
+import CompanyBilling from "./CompanyBilling";
 import CompanyList from "./CompanyList";
 import AssignUserToCompany from "./AssignUserToCompany";
 function App() {
@@ -108,6 +109,10 @@ function MainApp() {
                         <Route path="/admin/companies" element={isAdmin ? <CompanyList /> : <Navigate to="/profile" />} />
                         <Route path="/admin/portfolios" element={isAdmin ? <PortfoliosList /> : <Navigate to="/profile" />} />
                         <Route path="/admin/assign-user" element={isAdmin ? <AssignUserToCompany /> : <Navigate to="/profile" />} />
+                        <Route
+                            path="/admin/:company/billing-info"
+                            element={isAdmin ? <CompanyBilling /> : <Navigate to="/profile" />}
+                        />
                     </Routes>
                 {/*</div>*/}
             </div>
