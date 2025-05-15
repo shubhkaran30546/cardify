@@ -23,7 +23,7 @@
 }
 html { scroll-behavior: smooth; }
 .logo {
-   width:120px;
+    width:120px;
     /*margin-left: 10px;*/
     left: 40px;
     top: 10px;
@@ -47,7 +47,7 @@ nav li {
     transition-duration: 0.35s;
 }
 nav li:hover {
-   color: #d94e28;
+    color: #d94e28;
 }
 .account {
     background-color: #d94e28;
@@ -88,7 +88,7 @@ a {
 /* Portfolio Section */
 .homepage-main {
     margin: 70px auto;
-    max-width: 100%;
+    max-width: 75%;
     text-align: center;
     flex: 1;
     /*animation: fadeInAnimation ease 2s;*/
@@ -100,7 +100,7 @@ a {
     animation-delay: 0.5s;
 }
 .portfolio-preview img{
-   width: 140%;
+    width: 140%;
     height: 105%;
     margin-left: -10px;
     margin-top: 0;
@@ -600,5 +600,3 @@ input:checked + .slider:before {
     }
 
 }
-
-
