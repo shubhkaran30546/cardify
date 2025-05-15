@@ -13,10 +13,11 @@ body{
     font-family: Arial, sans-serif;
 }
 .intro12 {
-    background-color: #faeeee;
+    /*background-color: #faeeee;*/
+    background-color: rgba(248, 232, 228, 0.98);
     width: 99%;
     top: 10px;
-    position: absolute;
+    /*position: absolute;*/
 }
 /* Navbar */
 .navbar-port {
@@ -36,7 +37,7 @@ body{
 }
 
 .dot {
-    color: red;
+    color: #d94e28;
 }
 
 .nav-links12 {
@@ -54,12 +55,12 @@ body{
     color: #1E1E1E;
 }
 .nav-links12 a:hover, li:hover {
-    color: red;
+    color: #d94e28;
 }
 
 .contact-btn12 {
-    border: 2px solid red;
-    color: red;
+    border: 2px solid #d94e28;
+    color: #d94e28;
     border-radius: 0;
     cursor: pointer;
     background: transparent;
@@ -68,7 +69,7 @@ body{
     transition: 0.4s;
 }
 .contact-btn12:hover {
-    background-color: red;
+    background-color: #d94e28;
     color: white;
 }
 
@@ -82,8 +83,9 @@ body{
     width: 90%;
 }
 .hi-section{
-    display:inline-flex;
-    /*flex-direction: row;*/
+    display:flex;
+    flex-direction: row;
+
 }
 /* Left Section */
 /*.text-section {*/
@@ -107,7 +109,7 @@ body{
 }
 
 .hire-btn {
-    background: red;
+    background: #d94e28;
     color: white;
     border-radius: 0px;
     border: none;
@@ -115,8 +117,8 @@ body{
 }
 
 .know-btn {
-    border: 2px solid red;
-    color: red;
+    border: 2px solid #d94e28;
+    color: #d94e28;
     border-radius: 0;
     cursor: pointer;
     background: transparent;
@@ -133,12 +135,13 @@ body{
     max-width: 50%;
 }
 
-.profile-image {
-    width: 200px;
-    height: 200px;
+.profile-picture1 {
+    width: 170px;
+    height: 170px;
     border-radius: 50%;
-    margin-top: 30px;
+    margin-top: 70px;
     margin-left: 30px;
+    margin-right: 30px;
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
@@ -171,12 +174,11 @@ body{
 .number {
     font-size: 24px;
     font-weight: bold;
-    color: red;
+    color: #d94e28;
 }
 .about12{
     display: inline-flex;
     /*flex-direction: column;*/
-    margin-top: 45%;
     align-items: center;
     justify-content: center;
     gap: 40px;
@@ -188,6 +190,7 @@ body{
     border-color: #0e0c0c;
     border-style: solid;
     border-width: thick;
+    border-radius: 10px;
     padding: 10px;
     margin-top: 15px;
 }
@@ -195,7 +198,7 @@ body{
     width: 50%;
 }
 .about12 h1{
-    color: #d33636;
+    color: #d94e28;
 }
 /*CONTACT*/
 /* Increase container width */
@@ -216,8 +219,13 @@ body{
 /* Left Side - Contact Info */
 .contact-info1 {
     flex: 1; /* Ensures equal width */
-    background: linear-gradient(135deg, #5e17eb, #4a00e0);
-    color: white;
+    /*background: linear-gradient(135deg, #5e17eb, #4a00e0);*/
+    /*color: white;*/
+    border-style: solid;
+    border-width: 5px;
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+    border-color: rgba(30, 30, 30, 0.59);
     padding: 30px;
     display: flex;
     flex-direction: column;
@@ -269,13 +277,16 @@ body{
 .form-group1 button {
     width: 100%;
     margin-top: 10px;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: white;
     padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: 0.35s;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+.form-group1 button:hover {
+    color: #cfe2f8;
 }
 
 .footer1{
@@ -290,11 +301,102 @@ body{
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
+
+    .about12{
+        width: 90%;
+    }
+    .profile-picture1{
+        margin-right: 30px;
+        margin-left: 0;
+        width: 160px;
+        height: 150px;
+    }
+    .hi-section h1{
+        font-size: 60px;
+        /*padding-left: 30px;*/
+    }
     .contact-container1 {
         flex-direction: column;
         width: 95%;
     }
     .form-row1 {
         flex-direction: column;
+    }
+    .about-right p{
+        font-size: medium;
+    }
+}
+@media (max-width: 450px) {
+    .active12{
+        margin-left: 0;
+        width: 90%;
+    }
+    .about12{
+        display: flex;
+        flex-direction: column;
+    }
+    .about-right p{
+        font-size: small;
+    }
+    .buttons button {
+        font-size: small;
+    }
+    .buttons{
+        margin-left: 0;
+        width: 100%;
+        margin-top: 0px;
+
+    }
+    .content {
+        margin-top: 120px;
+        margin-right: 0;
+    }
+    .hi-section h1{
+        font-size: x-large;
+        margin-top: 30px;
+    }
+    .text-section p{
+        margin-top: 20px;
+    }
+    .profile-picture1{
+        width: 90px;
+        height: 90px;
+        margin-right: 15px;
+        margin-top: 15px;
+    }
+    .navbar-port {
+        margin-left: 2%;
+        width: 100%;
+        gap: 0px;
+        align-items: center;
+    }
+    .navbar-port ul {
+        display: flex;
+        gap: 5px;
+        margin-left: 10px;
+    }
+    .navbar-port ul li {
+        padding: 0;
+        margin: 0;
+    }
+    .container12{
+        width: 100%;
+        align-items: center;
+    }
+    .intro12 {
+        width: 100%;
+    }
+    .nav-links12{
+        padding: 0;
+        /*margin-left: 0;*/
+    }
+    .contact-btn12{
+        width: 100%;
+        margin: 0;
+        padding: 5px;
+        font-size: medium;
+    }
+    .about-right{
+        width: 100%;
     }
 }

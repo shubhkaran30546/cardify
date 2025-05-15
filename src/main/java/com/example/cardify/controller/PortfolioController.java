@@ -30,7 +30,6 @@ public class PortfolioController {
         this.portfolioService = portfolioService;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
-        System.out.println("PortfolioController initialized.");
     }
 
     @PostMapping("/visit/{userName}")
@@ -71,10 +70,6 @@ public class PortfolioController {
             String jwt = token.substring(7);
             boolean isTokenValid = jwtService.isTokenValid(jwt, userDetailsService.loadUserByUsername(userEmail));
 
-            System.out.println("Email: " + userEmail);
-            System.out.println("Portfolio ID: " + portfolio.getPortfolioId());
-            System.out.println("JWT Valid: " + isTokenValid);
-
             if (isTokenValid) {
                 // Save or update portfolio
                 Portfolio savedPortfolio = portfolioService.saveOrUpdatePortfolio(userEmail, portfolio, file);
@@ -85,8 +80,6 @@ public class PortfolioController {
                 }
 
                 String userName = savedPortfolio.getUser().getUsername();
-                System.out.println("Portfolio saved successfully for user: " + userName);
-
                 return ResponseEntity.ok(Map.of("userName", userName));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

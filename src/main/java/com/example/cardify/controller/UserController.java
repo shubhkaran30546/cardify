@@ -74,8 +74,6 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody User user) {
 
-        System.out.println("Login attempt for email: " + user.getEmail());
-
         User authenticatedUser = userService.LoginUser(user.getEmail(), user.getPassword());
         if (authenticatedUser == null) {
             // If user is not authenticated, return 401 Unauthorized
@@ -84,7 +82,6 @@ public class UserController {
         }
 
         String token = jwtService.generateToken(authenticatedUser);
-        System.out.println("JWT Token generated for email: " + user.getEmail() + " Token: " + token);
         LoginResponse loginResponse = new LoginResponse()
                 .setToken(token)
                 .setExpiresIn(jwtService.getExpirationTime())

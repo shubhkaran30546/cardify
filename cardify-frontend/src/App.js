@@ -2,10 +2,8 @@ import React, { useEffect, useState} from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, matchPath } from "react-router-dom";
 import Home from './Home';
 import Navbar from "./Navbar";
-import Signup from "./Signup";
 import SignupForm from "./Email_signup";
 import Login from "./Login";
-import Portfolio from "./Portfolio";
 import SlidingForm from "./Form";
 import Profile from "./Profile";
 import Navbar2 from "./Navbar2";
@@ -90,8 +88,7 @@ function MainApp() {
                 <div className={showSidebar ? "main-content1" : ""}>
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route path="/email-signup" element={<SignupForm />} />
+                        <Route path="/signup" element={<SignupForm />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/create-ecard" element={<SlidingForm />} />
                         <Route path="/portfolio/:userId" element={<Portfolio1 />} />
@@ -100,7 +97,6 @@ function MainApp() {
                         <Route path="/api/leads/:userId" element={<Leads />} />
                         <Route path="/api/broadcast/:userId" element={<BroadcastEmail />} />
                         <Route path="/support" element={<Support />} />
-                        <Route path="/port1" element={<Portfolio1 />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
                         <Route path="/billing" element={<ManageBilling />} />

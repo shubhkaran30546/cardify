@@ -39,6 +39,31 @@ public class CompanyController {
 
         return ResponseEntity.ok(companyDTOs);
     }
+    @PostMapping("/api/company/delete/{companyName}")
+    public ResponseEntity<?> deleteCompany(@PathVariable String companyName) {
+        Company company = companyRepository.findByName(companyName);
+
+        if (company == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // First, detach users from company
+        List<User> users = userRepository.findByCompany(company);
+        for (User user : users) {
+            user.setCompany(null); // Remove the company reference
+            userRepository.save(user); // Update the user
+        }
+
+        // Now delete the users
+        userRepository.deleteAll(users);
+
+        // Then delete the company
+        companyRepository.delete(company);
+
+        return ResponseEntity.ok("Company and associated users deleted successfully.");
+    }
+
+
 
 
     @PostMapping("/api/company/{companyId}/assign-user")
@@ -59,6 +84,18 @@ public class CompanyController {
 
         return ResponseEntity.ok("User assigned to company with subscription type: " + subscriptionType);
     }
+
+    @GetMapping("/api/admin/company-users/{companyName}")
+    public ResponseEntity<List<User>> getUsersByCompanyName(@PathVariable String companyName) {
+        Company company = companyRepository.findByName(companyName);
+        if (company == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<User> users = userRepository.findByCompany(company);
+        return ResponseEntity.ok(users);
+    }
+
 
 
 }

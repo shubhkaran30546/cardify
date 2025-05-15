@@ -8,6 +8,26 @@ function Company_component({ companies }) {
     const [selectedCompany, setSelectedCompany] = useState(null);
     const navigate = useNavigate();
 
+    const deleteCompany = async (name) => {
+        try {
+            const token = localStorage.getItem("token");
+            const response = await axios.post(
+                `http://localhost:8080/api/company/delete/${name}`,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            if (response.status === 200) {
+                alert("Successfully deleted!");
+                window.location.reload(); // Optional: to refresh list
+            }
+        } catch (error) {
+            console.error("Error deleting company:", error);
+        }
+    }
+
     const handleViewCompany = async (companyName) => {
         try {
             const token = localStorage.getItem("token");
@@ -15,8 +35,7 @@ function Company_component({ companies }) {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
-            const users = Array.isArray(response.data) ? response.data : [];
-            setSelectedUsers(users);
+            setSelectedUsers(response.data);
             setSelectedCompany(companyName);
         } catch (error) {
             console.error("Error fetching users for company:", error);
@@ -30,17 +49,10 @@ function Company_component({ companies }) {
             <ul className="user-list">
                 {companies.map((company, index) => (
                     <li key={index} className="user-item">
-                        <div className="user-avatar">
-                            <div className="default-avatar1">
-                                {company[0] ? company[0].toUpperCase() : "?"}
-                            </div>
-                        </div>
                         <span className="user-name">{company.name || "Unnamed Company"}</span>
-                        <button className="delete-user">DELETE</button>
-                        <button className="delete-user" onClick={() => handleViewCompany(company)}>View Users</button>
-                        <button className="delete-user"
-                                onClick={() => navigate(`/admin/${company}/billing-info`)}>Billing
-                        </button>
+                        <button className="delete-user" onClick={() => deleteCompany(company.name)}>DELETE</button>
+                        <button className="delete-user" onClick={() => handleViewCompany(company.name)}>View Users</button>
+                        <button className="delete-user" onClick={() => navigate(`/admin/${company.name}/billing-info`)}>Billing</button>
                     </li>
                 ))}
             </ul>
@@ -51,7 +63,7 @@ function Company_component({ companies }) {
                     <ul className="user-list">
                         {selectedUsers.map((user, idx) => (
                             <li key={user.userId || idx} className="user-item">
-                                {/* render user card */}
+                                <span className="user-name">{user.firstName} {user.lastName} ({user.email})</span>
                             </li>
                         ))}
                     </ul>

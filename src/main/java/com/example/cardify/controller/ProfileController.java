@@ -41,13 +41,9 @@ public class ProfileController {
             if (userEmail == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
-
-
-            System.out.println("profile user: " + jwtService.isTokenValid(token.substring(7), userDetailsService.loadUserByUsername(userEmail)));
             if (jwtService.isTokenValid(token.substring(7), userDetailsService.loadUserByUsername(userEmail))) {
                 Map<String, String> response = new HashMap<>();
                 String userName = userDetailsService.loadUserByUsername(userEmail).getUsername();
-                System.out.println("profile user1: " + userName);
                 response.put("userName", userName);
                 
                 return ResponseEntity.ok(response);  // ✅ Return JSON object

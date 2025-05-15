@@ -91,7 +91,7 @@ public class StripeController {
             return new Response(false, "An error accurred while trying to create customer");
         }
 
-        String subscriptionId = stripeService.createSubscription(customerId, plan);
+        String subscriptionId = stripeService.createSubscription(customerId, plan,email);
 
         if (subscriptionId == null) {
             return new Response(false, "An error accurred while trying to create subscription");
@@ -99,20 +99,6 @@ public class StripeController {
 
         return new Response(true, "Success! your subscription id is " + subscriptionId);
     }
-
-    @PostMapping("/cancel-subscription")
-    public @ResponseBody Response cancelSubscription(String subscriptionId) {
-
-        boolean subscriptionStatus = stripeService.cancelSubscription(subscriptionId);
-
-        if (!subscriptionStatus) {
-            return new Response(false, "Faild to cancel subscription. Please try again later");
-        }
-
-        return new Response(true, "Subscription cancelled successfully");
-    }
-
-
 
     @PostMapping("/change-plan")
     public ResponseEntity<?> changePlan(@RequestBody Map<String, String> requestData) {
@@ -134,22 +120,40 @@ public class StripeController {
     }
 
     @DeleteMapping("/cancel-subscription")
-    public ResponseEntity<?> cancelSubscription(@RequestBody Map<String, String> requestData) {
-        String subscriptionId = requestData.get("subscriptionId");
-        String userName = requestData.get("userName");
-
+    public ResponseEntity<?> cancelSubscription(@RequestHeader("Authorization") String authHeader) {
         try {
+            String username = getUserNameFromToken(authHeader);
+            User user = userRepository.findByUsername(username);
+
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "User not found"));
+            }
+
+            String subscriptionId = user.getStripeSubscriptionId();
+
+            if (subscriptionId == null || subscriptionId.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "No subscription ID found for user"));
+            }
+
             Subscription subscription = Subscription.retrieve(subscriptionId);
             subscription.cancel();
 
-            // Call a method to delete the portfolio
-            deleteUserPortfolio(userName);
+            // Optionally, clear the subscription ID from the user
+            user.setStripeSubscriptionId(null);
+            userRepository.save(user);
 
-            return ResponseEntity.ok(Map.of("message", "Subscription cancelled and portfolio deleted"));
+            return ResponseEntity.ok(Map.of("message", "Subscription cancelled successfully"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Invalid token"));
         } catch (StripeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Stripe error: " + e.getMessage()));
         }
     }
+
 
     private void deleteUserPortfolio(String userName) {
         User user = userRepository.findByUsername(userName);
@@ -158,91 +162,82 @@ public class StripeController {
 
     @GetMapping("/get-subscription")
     public ResponseEntity<?> getUserSubscription(@RequestHeader("Authorization") String authHeader) {
-        String username = getUserNameFromToken(authHeader);
-        System.out.println("subs user"+username);
+        String username;
 
         try {
-            // Retrieve the Stripe Customer using the username (assuming username is the email)
-            String customerId = getStripeCustomerIdFromUsername(username);
-            if (customerId == null) {
-                System.out.println("Customer not found");
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Customer not found"));
+            username = getUserNameFromToken(authHeader);
+            System.out.println("🔐 Extracted username from token: " + username);
+        } catch (Exception e) {
+            System.err.println("❌ Failed to extract username: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Invalid token"));
+        }
+
+        try {
+            // Lookup user in your database
+            User user = userRepository.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "User not found"));
             }
 
-            // Fetch subscriptions for the customer
-            Map<String, Object> params = new HashMap<>();
-            params.put("customer", customerId);
-            params.put("limit", 1); // Get the latest subscription
+            String subscriptionId = user.getStripeSubscriptionId();
+            if (subscriptionId == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "No subscription ID found for user"));
+            }
+            System.out.println("Subscription id: " + subscriptionId);
+            Subscription subscription = stripeService.getSubscriptionById(subscriptionId);
+            if (subscription == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Stripe subscription not found"));
+            }
+            System.out.println("stripe service success");
 
-            List<Subscription> subscriptions = Subscription.list(params).getData();
-
-            if (subscriptions.isEmpty()) {
-                System.out.println("No subscriptions found");
-                return ResponseEntity.ok(Map.of("message", "No active subscription"));
+            if (subscription.getItems() == null || subscription.getItems().getData().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "No subscription items found"));
             }
 
-            Subscription activeSubscription = subscriptions.getFirst();
-            System.out.println("Active subscription: "+activeSubscription.getId());
-            System.out.println("Active subscription plan: "+activeSubscription.getItems().getData().getFirst().getPrice().getNickname());
+            var item = subscription.getItems().getData().get(0);
+            if (item == null || item.getPrice() == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of("error", "Price details are missing from subscription item"));
+            }
+
+            Price price = item.getPrice();
+
             return ResponseEntity.ok(Map.of(
-                    "id", activeSubscription.getId(),
-                    "plan", Objects.requireNonNullElse(activeSubscription.getItems().getData().get(0).getPlan(), "No Active Plan")
+                    "subscriptionId", subscription.getId(),
+                    "planId", price.getId(),
+                    "planName", price.getNickname() != null ? price.getNickname() : "Unnamed Plan",
+                    "amount", price.getUnitAmount() != null ? price.getUnitAmount() / 100.0 : 0.0,
+                    "currency", price.getCurrency(),
+                    "interval", price.getRecurring() != null ? price.getRecurring().getInterval() : "unknown",
+                    "email", user.getEmail(),
+                    "username", user.getUsername()
             ));
-        } catch (StripeException e) {
-            System.out.println(e.getMessage());
+
+
+        } catch (Exception e) {
+            System.err.println("❌ Stripe or internal error: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", e.getMessage()));
         }
-    }
-
-    public String getStripeCustomerIdFromUsername(String username) throws StripeException {
-        // Search for the customer in Stripe using the email (assuming username is the email)
-        User user = userRepository.findByUsername(username);
-        String email = user.getEmail();
-        Map<String, Object> params = new HashMap<>();
-        params.put("email", email); // If username is stored as email
-
-        List<Customer> customers = Customer.list(params).getData();
-
-        if (!customers.isEmpty()) {
-            return customers.get(0).getId(); // Return the first matching customer ID
-        }
-
-        return null; // Customer not found
     }
 
 
     private String getUserNameFromToken(String token) {
         if (token == null || !token.startsWith("Bearer ")) {
+            System.err.println("Invalid token: " + token);
             throw new IllegalArgumentException("Invalid Authorization Header");
         }
         token = token.replace("Bearer ", "").trim();
-        return jwtService.extractUsername(token); // Ensure jwtService is correctly parsing the token
+        return jwtService.extractUsername(token);  // Should return the username (usually email)
     }
 
+    public String getStripeCustomerIdFromUsername(String username) throws StripeException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) return null;
 
-    @GetMapping("/get-plans")
-    public ResponseEntity<List<Map<String, String>>> getPlans() {
-        try {
-            // Fetch all prices (subscriptions)
-            Map<String, Object> params = new HashMap<>();
-            params.put("limit", 10); // Adjust the limit as needed
-            List<Price> prices = Price.list(params).getData();
-
-            List<Map<String, String>> planList = prices.stream()
-                    .map(price -> Map.of(
-                            "id", price.getId(),
-                            "name", price.getNickname() != null ? price.getNickname() : "Unnamed Plan",
-                            "priceId", price.getId()
-                    ))
-                    .toList();
-
-            return ResponseEntity.ok(planList);
-        } catch (StripeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
-        }
+        String email = user.getEmail();
+        System.out.println("email of stripe customer is " + email);
+        return email;
     }
-
-
-
 
 }

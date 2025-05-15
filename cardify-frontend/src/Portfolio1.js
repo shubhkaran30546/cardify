@@ -163,7 +163,7 @@ END:VCARD
                     <ul className="nav-links12">
                         <li>Home</li>
                         <li><a href="#about12">About</a></li>
-                        <li>
+                        <li className="active12">
                             <a href="#contact-container1"><button className="contact-btn12">Contact Me</button></a>
                         </li>
                     </ul>
@@ -173,14 +173,14 @@ END:VCARD
                 <div className="content">
                     <div className="text-section">
                         <div className="hi-section">
-                            <h1>
-                                Hi! I Am <br/> {portfolio?.firstName || "User"} {portfolio?.lastName || ""}
-                            </h1>
                             <img
                                 src={imageUrl || "/linkedin.png"}
                                 alt="User Profile"
-                                className="profile-picture"
+                                className="profile-picture1"
                             />
+                            <h1>
+                                Hi! I Am <br/> {portfolio?.firstName || "User"} {portfolio?.lastName || ""}
+                            </h1>
                         </div>
                         <p>{portfolio?.title || ""} in {portfolio?.companyName || ""}</p>
                         <div className="buttons">
@@ -192,7 +192,7 @@ END:VCARD
                         {portfolio?.socialLinks?.length > 0 ? (
                             <div className="socials12">
                                 {portfolio.socialLinks.map((link, index) => (
-                                    <a key={index} href={link.url} className="se2" target="_blank" rel="noopener noreferrer">
+                                    <a key={index} href={link.url.startsWith('http') ? link.url : `https://${link.url}`} className="se2" target="_blank" rel="noopener noreferrer">
                                         {getSocialIcon(link.url)}
                                     </a>
                                 ))}
@@ -219,7 +219,7 @@ END:VCARD
                 <div className="contact-container1" id="contact-container1">
                     <div className="contact-info1">
                         <h2>Contact Information</h2>
-                        <p>Fill up the form and our team will get back to you within 24 hours.</p>
+                        <p>Fill up the form and I will get back to you within 24 hours.</p>
                         <div className="contact-details1">
                             <p><FaPhone/> {portfolio?.phoneNumber || "N/A"}</p>
                             <p><FaEnvelope/> {portfolio?.email || "N/A"}</p>
@@ -228,7 +228,7 @@ END:VCARD
                     </div>
 
                     <div className="contact-form1">
-                        <h2>Contact Us</h2>
+                        <h2>Contact Me</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-row1">
                                 <input type="text" name="firstName" placeholder="First Name" required/>

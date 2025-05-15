@@ -63,8 +63,8 @@ const CompanyList = () => {
 
     return (
         <div className="admin-company-list">
-            <div className="admin-section">
-                <h2>Companies</h2>
+            <div className="company-section">
+                <h1>Companies</h1>
 
                 <div className="add-company">
                     <input
@@ -75,15 +75,9 @@ const CompanyList = () => {
                     />
                     <button onClick={handleAddCompany} className="add-company1">Add Company</button>
                 </div>
-
-                <ul className="company-list">
-                    {companies.map((company, index) => (
-                        <li key={company.id || index}>{company.name}</li>
-                    ))}
-                </ul>
             </div>
 
-            <div className="admin-section">
+            <div className="company-section">
                 <h2>Corporate Features</h2>
                 <button onClick={() => navigate("/admin/assign-user")} className="add-company1">Assign Users to Company</button>
                 <button onClick={() => navigate("/admin/subscriptions")} className="add-company1">Manage Subscription Types</button>

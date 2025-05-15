@@ -1,10 +1,11 @@
 
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { jwtDecode } from "jwt-decode";
 import Sidebar from "./Sidebar.js";
+import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
 
 import "./Profile.css"; // Import separate CSS
@@ -21,6 +22,47 @@ function Profile() {
     const [isOpen, setIsOpen] = useState(false);
     const toggleSidebar = () => setIsOpen(!isOpen);
     const [visitData, setVisitData] = useState([]);
+    const qrRef = useRef();
+
+    const handleShare = async () => {
+        const canvas = document.getElementById("qrCanvas");
+        if (!canvas) {
+            console.error("Canvas not found");
+            return;
+        }
+
+        canvas.toBlob(async (blob) => {
+            if (!blob) {
+                console.error("Failed to convert canvas to blob");
+                return;
+            }
+
+            const file = new File([blob], "qr-code.png", { type: "image/png" });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        title: "My QR Code",
+                        text: "Scan this QR code to connect with me!",
+                        files: [file],
+                    });
+                } catch (err) {
+                    if (err.name !== "AbortError") {
+                        console.error("Sharing failed:", err);
+                    }
+                }
+            } else {
+                const url = URL.createObjectURL(blob);
+                window.open(url, "_blank");
+            }
+        }, "image/png");
+    };
+
+
+
+
+
+
 
     const isTokenExpired = (token) => {
         try {
@@ -106,7 +148,7 @@ function Profile() {
             <div className="main-content">
                 <div className="profile-header">
                     <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</button>
-                    <Sidebar userName={userName} isAdmin={isAdmin} isOpen={isOpen} toggleSidebar={toggleSidebar} />
+                    <Sidebar userName={userName} isAdmin={isAdmin} isOpen={isOpen} toggleSidebar={toggleSidebar}/>
 
                     <h1>Profile</h1>
                 </div>
@@ -126,36 +168,45 @@ function Profile() {
                         </div>
                     )}
                 </div>
-                    <div className="profile-card">
-                        {userName && (
-                            <div className="button-group">
-                                <a href={`http://localhost:3000/portfolio/${userName}`} target="_blank"
-                                   rel="noopener noreferrer"
-                                   className="profile-btn">View Portfolio</a>
-                                <a href={`http://localhost:3000/create-ecard`} target="_blank" rel="noopener noreferrer"
-                                   className="profile-btn">
-                                    {portfolioExists ? "Edit Portfolio" : "Create Portfolio"}
+                <div className="profile-card">
+                    {userName && (
+                        <div className="button-group">
+                            <a href={`http://localhost:3000/portfolio/${userName}`} target="_blank"
+                               rel="noopener noreferrer"
+                               className="profile-btn">View Portfolio</a>
+                            <a href={`http://localhost:3000/create-ecard`} target="_blank" rel="noopener noreferrer"
+                               className="profile-btn">
+                                {portfolioExists ? "Edit Portfolio" : "Create Portfolio"}
+                            </a>
+                            <a href={`http://localhost:3000/api/leads/${userName}`} rel="noopener noreferrer"
+                               className="profile-btn">View Leads</a>
+                            <a href={`http://localhost:3000/api/broadcast/${userName}`} rel="noopener noreferrer"
+                               className="profile-btn">Send Email</a>
+                            {isAdmin && (
+                                <a onClick={() => navigate("/admin")} className="admin-btn">
+                                    View Admin Dashboard
                                 </a>
-                                <a href={`http://localhost:3000/api/leads/${userName}`} rel="noopener noreferrer"
-                                   className="profile-btn">View Leads</a>
-                                <a href={`http://localhost:3000/api/broadcast/${userName}`} rel="noopener noreferrer"
-                                   className="profile-btn">Send Email</a>
-                                {isAdmin && (
-                                    <a onClick={() => navigate("/admin")} className="admin-btn">
-                                        View Admin Dashboard
-                                    </a>
-                                )}
-                            </div>
-                        )}
-                    </div>
+                            )}
+                        </div>
+                    )}
+                </div>
 
                 {/* QR Code Section */}
-                    <div className="qr-section">
-                        <QRCodeSVG value={`http://localhost:3000/portfolio/${userName}`} size={200}/>
-                    </div>
+                <div className="qr-section">
+                    <QRCodeCanvas
+                        id="qrCanvas"
+                        value={`http://localhost:3000/portfolio/${userName}`}
+                        size={200}
+                        className="qr-code"
+                    />
+                    <button onClick={handleShare} className="profile-btn">
+                        Share QR Code
+                    </button>
                 </div>
-            </div>
-            );
-            }
 
-            export default Profile;
+            </div>
+        </div>
+    );
+}
+
+export default Profile;
