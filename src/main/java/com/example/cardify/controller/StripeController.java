@@ -61,7 +61,7 @@ public class StripeController {
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
                                 .setQuantity(1L)
-                                .setPrice("price_1R4qFGD8oruRmlHjPVvsbAGZ")  // Ensure this is a recurring price
+                                .setPrice(priceId)  // Ensure this is a recurring price
                                 .build()
                 )
                 .build();
