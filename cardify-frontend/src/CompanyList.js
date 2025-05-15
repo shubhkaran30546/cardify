@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './CompanyList.css';
-
+import Company_component from "./Company_component";
 const CompanyList = () => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false);
@@ -11,12 +11,22 @@ const CompanyList = () => {
     useEffect(() => {
         const userRole = localStorage.getItem("role");
         setIsAdmin(userRole === "ADMIN");
-
+        const token = localStorage.getItem("token");
         // Fetch companies on load
-        fetch("http://localhost:8080/api/company")
-            .then(res => res.json())
-            .then(data => setCompanies(data))
-            .catch(err => console.error("Error fetching companies", err));
+        fetch("http://localhost:8080/api/company", {
+            headers: {
+                "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+            },})
+            .then(res => {
+                if (!res.ok) throw new Error("Failed to fetch");
+                return res.json();
+            })
+            .then(data => {
+                setCompanies(data);
+                console.log("Fetched companies:", data); // Debug
+            })
+            .catch(err => console.error("❌ Error fetching companies:", err));
     }, []);
 
     const handleAddCompany = async () => {
@@ -53,8 +63,8 @@ const CompanyList = () => {
 
     return (
         <div className="admin-company-list">
-            <div className="admin-section">
-                <h2>Companies</h2>
+            <div className="company-section">
+                <h1>Companies</h1>
 
                 <div className="add-company">
                     <input
@@ -65,19 +75,16 @@ const CompanyList = () => {
                     />
                     <button onClick={handleAddCompany} className="add-company1">Add Company</button>
                 </div>
-
-                <ul className="company-list">
-                    {companies.map(company => (
-                        <li key={company.id}>{company.name}</li>
-                    ))}
-                </ul>
             </div>
 
-            <div className="admin-section">
+            <div className="company-section">
                 <h2>Corporate Features</h2>
                 <button onClick={() => navigate("/admin/assign-user")} className="add-company1">Assign Users to Company</button>
                 <button onClick={() => navigate("/admin/subscriptions")} className="add-company1">Manage Subscription Types</button>
             </div>
+            {/* ✅ Pass the full company objects to the component */}
+            <Company_component companies={companies} />
+
         </div>
     );
 };

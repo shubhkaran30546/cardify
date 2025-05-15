@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "./Assign.css"
 const AssignUserToCompany = () => {
     const [users, setUsers] = useState([]);
     const [companies, setCompanies] = useState([]);
@@ -13,13 +13,19 @@ const AssignUserToCompany = () => {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(data => setUsers(data));
+            .then(data => {
+                console.log("Users fetched:", data); // 👈 Logs the user data
+                setUsers(data);
+            })
 
         fetch("http://localhost:8080/api/company", {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
-            .then(data => setCompanies(data));
+            .then(data => {
+                console.log("Users fetched:", data); // 👈 Logs the user data
+                setCompanies(data);
+            })
     }, []);
 
     const handleAssign = async () => {
@@ -51,7 +57,7 @@ const AssignUserToCompany = () => {
             <select value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
                 <option value="">Select User</option>
                 {users.map(user => (
-                    <option key={user.id} value={user.id}>{user.email}</option>
+                    <option key={user.userId} value={user.userId}>{user.email}</option>
                 ))}
             </select>
 
@@ -62,7 +68,7 @@ const AssignUserToCompany = () => {
                 ))}
             </select>
 
-            <button onClick={handleAssign}>Assign</button>
+            <button onClick={handleAssign} className="submit2">Assign</button>
         </div>
     );
 };

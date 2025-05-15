@@ -46,9 +46,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 || path.matches("^/api/portfolio/get(/.*)?$") // Allow /api/portfolio/get/*
                 || path.startsWith("/oauth2/")
                 || path.startsWith("/login/")
+                || path.startsWith("/api/")
                 || path.startsWith("/api/contact/");
-
-        System.out.println("Checking if JWT should be filtered: " + path + " -> " + shouldSkip);
 
         return shouldSkip;  // True means skip filtering, False means apply JWT filter
     }
@@ -63,13 +62,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         if (shouldNotFilter(request)) {
-            System.out.println("Skipping JWT filter for: " + request.getRequestURI());
             filterChain.doFilter(request, response);
             return;
         }
 
         final String authHeader = request.getHeader("Authorization");
-        System.out.println("Authorization Header: " + authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             System.out.println("Invalid Authorization Header. Skipping authentication.");

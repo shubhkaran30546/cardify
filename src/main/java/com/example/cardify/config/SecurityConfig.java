@@ -52,7 +52,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/signup", "/api/users/login", "/api/portfolio/**", "/api/**", "api/company").permitAll()
+                        .requestMatchers("/api/users/signup", "/api/users/login", "/api/portfolio/**", "/api/**", "/api/company/**").permitAll()
                         .requestMatchers("/oauth2/**", "/login/**", "/api/**", "/test-email").permitAll()
                         .anyRequest().authenticated()) // Authenticate all other requests
                 .httpBasic(Customizer.withDefaults())

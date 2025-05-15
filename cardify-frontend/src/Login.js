@@ -107,14 +107,10 @@ function Login() {
                                 <img src="/1-6fa0a792.png" alt="Google" />
                                 Log in with Google
                             </button>
-                            <button type="button" className="facebook-btn" onClick={handleFacebookLogin}>
-                                <img src="/fb.png" alt="Facebook" />
-                                Log in with Facebook
-                            </button>
                         </div>
 
                         <div className="signup-link">
-                            No Account Yet? <a href="/email-signup">Sign Up</a>
+                            No Account Yet? <a href="/signup">Sign Up</a>
                         </div>
                     </form>
                 </div>

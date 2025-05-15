@@ -27,7 +27,7 @@ const Footer = () => {
                 <p>Cardify © 2025. All rights reserved.</p>
                 <div className="footer-links">
                     <a href="/">HOME</a>
-                    <a onClick={() => handleNavigateHome("support")}>SUPPORT</a>
+                    <a href="/support">SUPPORT</a>
                     <a onClick={() => handleNavigateHome("pricing")}>PRICING</a>
                 </div>
             </div>

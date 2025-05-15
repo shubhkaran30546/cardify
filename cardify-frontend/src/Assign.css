@@ -1,0 +1,10 @@
+.admin-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 50vh;
+}
+.submit2 {
+    background-color: rgb(217, 78, 40);
+    width: 20%;
+}

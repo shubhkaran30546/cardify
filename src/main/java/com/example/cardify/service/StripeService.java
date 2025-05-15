@@ -3,20 +3,23 @@ package com.example.cardify.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.example.cardify.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.stripe.Stripe;
-import com.stripe.model.Charge;
-import com.stripe.model.Coupon;
 import com.stripe.model.Customer;
 import com.stripe.model.Subscription;
+import com.example.cardify.Models.User;
 
 @Service
 public class StripeService {
 
     @Value("${stripe.secret.key}")
     private String API_SECT_KEY;
+    @Autowired
+    private UserRepository userRepository;
 
 
     public String createCustomer(String email, String token) {
@@ -34,14 +37,15 @@ public class StripeService {
             Customer customer = Customer.create(customerParams);
             id = customer.getId();
 
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return id;
     }
 
-    public String createSubscription(String customerId, String plan) {
-
+    public String createSubscription(String customerId, String plan,String email) {
         String subscriptionId = null;
 
         try {
@@ -58,13 +62,22 @@ public class StripeService {
             params.put("items", items);
 
             Subscription subscription = Subscription.create(params);
-
             subscriptionId = subscription.getId();
+
+            // 🟢 Set the subscription ID in the database
+            User user = userRepository.findByEmail(email);
+            if (user != null) {
+                user.setStripeSubscriptionId(subscriptionId);
+                userRepository.save(user);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return subscriptionId;
     }
+
 
     public boolean cancelSubscription(String subscriptionId) {
 
@@ -80,5 +93,15 @@ public class StripeService {
         }
         return subscriptionStatus;
     }
+    public Subscription getSubscriptionById(String subscriptionId) {
+        try {
+            Stripe.apiKey = API_SECT_KEY;
+            return Subscription.retrieve(subscriptionId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }

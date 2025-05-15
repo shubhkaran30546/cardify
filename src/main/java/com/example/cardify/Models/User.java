@@ -83,6 +83,14 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String username; // New field for username/
 
+
+
+    @Column(name = "stripe_subscription_id", nullable = true)
+    @Setter
+    @Getter
+    private String stripeSubscriptionId;
+
+
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Portfolio portfolio;
 
@@ -117,6 +125,8 @@ public class User implements UserDetails {
         this.email = email;
         this.provider = provider;
     }
+
+
 
     // Getters and Setters (omitted for brevity)
 

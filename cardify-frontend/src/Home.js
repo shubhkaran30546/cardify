@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Footer from './Footer';
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
@@ -10,6 +10,7 @@ const stripePromise = loadStripe('pk_test_51R4pAYD8oruRmlHjNcig752oNyfhuwVtIm9sm
 const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const videoRef = useRef(null);
 
     // 2) Price ID map (for monthly/yearly)
     //    Replace these placeholders with your real Stripe price IDs:
@@ -24,16 +25,25 @@ const Home = () => {
     const handleCreate = () => {
         navigate("/create-ecard");
     };
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const handleKeyDown = (e) => {
+            e.preventDefault();
+        };
+
+        video.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            video.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
 
     // Log In
     const login = () => {
         navigate("/login", { state: { from: location } });
-    };
-
-    // Support
-    const support = () => {
-        window.scrollTo(0, 0);
-        navigate("/support");
     };
 
     // 3) Toggle between monthly & yearly
@@ -168,11 +178,11 @@ const Home = () => {
                     </p>
                     <section className="buttons">
                         <button className="signup-button" onClick={handleCreate}>GET STARTED</button>
-                        <button className="login-button" onClick={login}>LOG IN</button>
+                        <button className="login-button2" onClick={login}>LOG IN</button>
                     </section>
                 </section>
                 <div className="portfolio-preview anim">
-                    <img src="Picture1.png" alt="Portfolio Preview" className="portfolio-image" />
+                    <img src="Frame50.png" alt="Portfolio Preview" className="portfolio-image" />
                 </div>
             </section>
 
@@ -227,8 +237,24 @@ const Home = () => {
 
             {/* PARTNER SECTION */}
             <div className="anim">
-                <h2>YOUR PARTNER</h2>
-                <img className="video" src="Video1.png" alt="video" />
+                <h2>WATCH HOW IT WORKS</h2>
+                {/*<img className="video" src="Video1.png" alt="video" />*/}
+                <video
+                    ref={videoRef}
+                    className="video"
+                    src="clipping.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    controls={false} // disables default video controls
+                    onContextMenu={e => e.preventDefault()} // disable right-click menu
+                    onMouseDown={e => e.preventDefault()} // disable mouse down
+                    onSelectStart={e => e.preventDefault()} // disable text selection
+                    onDragStart={e => e.preventDefault()} // disable dragging
+                    tabIndex={-1} // remove keyboard focus
+                    style={{userSelect: 'none', pointerEvents: 'none'}} // prevent interaction
+                />
             </div>
 
             {/* PRICING SECTION */}
@@ -236,7 +262,8 @@ const Home = () => {
                 <h2 className="pricing-title">YOUR PRICING OPTIONS</h2>
                 <p className="pricing-description">
                     Choose the perfect plan for your needs. Whether you're a freelancer, growing a business, or managing
-                    a large team, our flexible pricing options offer the right features and scalability to help you succeed.
+                    a large team, our flexible pricing options offer the right features and scalability to help you
+                    succeed.
                 </p>
 
                 <div className="toggle-switch">

@@ -16,7 +16,7 @@ const Navbar = ({ userId }) => {
                     <a href="/"><img className="logo" src="/logo.png" alt=""/></a>
                 </li>
                 <li>
-                    <a onClick={() => handleNavigateHome("support")} className="nav1">SUPPORT</a>
+                    <a href="/support" className="nav1">SUPPORT</a>
                 </li>
                 <li>
                     <a onClick={() => handleNavigateHome("pricing")} className="nav1">PRICING</a>

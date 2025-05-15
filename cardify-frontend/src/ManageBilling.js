@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import './ManageBilling.css'
+import './ManageBilling.css';
+
 function ManageBilling() {
     const navigate = useNavigate();
     const [subscription, setSubscription] = useState(null);
@@ -12,14 +12,15 @@ function ManageBilling() {
     const userName = localStorage.getItem("userName");
 
     useEffect(() => {
-        // Fetch the current subscription
         const fetchSubscription = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/get-subscription", {
+                const res = await fetch("http://localhost:8080/api/get-subscription", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-                console.log(response.data);
-                setSubscription(response.data);
+                if (!res.ok) throw new Error("Failed to fetch subscription");
+                const data = await res.json();
+                setSubscription(data);
+                console.log("subscription" + JSON.stringify(data));
             } catch (error) {
                 console.error("Error fetching subscription:", error);
             } finally {
@@ -27,11 +28,12 @@ function ManageBilling() {
             }
         };
 
-        // Fetch available plans
         const fetchPlans = async () => {
             try {
-                const response = await axios.get("http://localhost:8080/api/get-plans");
-                setPlans(response.data);
+                const res = await fetch("http://localhost:8080/api/get-plans");
+                if (!res.ok) throw new Error("Failed to fetch plans");
+                const data = await res.json();
+                setPlans(data);
             } catch (error) {
                 console.error("Error fetching plans:", error);
             }
@@ -41,25 +43,35 @@ function ManageBilling() {
         fetchPlans();
     }, [token]);
 
-    const handleChangePlan = async (newPriceId) => {
-        try {
-            await axios.post("http://localhost:8080/api/change-plan",
-                { subscriptionId: subscription.id, newPriceId },
-                { headers: { Authorization: `Bearer ${token}` } }
-            );
-            alert("Plan changed successfully!");
-            window.location.reload();
-        } catch (error) {
-            console.error("Error changing plan:", error);
-        }
-    };
+    // we only have one plan right now.
+    // const handleChangePlan = async (newPriceId) => {
+    //     try {
+    //         await axios.post("http://localhost:8080/api/change-plan",
+    //             { subscriptionId: subscription.id, newPriceId },
+    //             { headers: { Authorization: `Bearer ${token}` } }
+    //         );
+    //         alert("Plan changed successfully!");
+    //         window.location.reload();
+    //     } catch (error) {
+    //         console.error("Error changing plan:", error);
+    //     }
+    // };
 
     const handleCancelSubscription = async () => {
         try {
-            await axios.delete("http://localhost:8080/api/cancel-subscription", {
-                data: { subscriptionId: subscription.id, userName },
-                headers: { Authorization: `Bearer ${token}` }
+            const res = await fetch("http://localhost:8080/api/cancel-subscription", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ subscriptionId: subscription.id, userName })
             });
+
+            if (!res.ok) {
+                throw new Error("Failed to cancel subscription");
+            }
+
             alert("Subscription cancelled and portfolio deleted.");
             navigate("/profile");
         } catch (error) {
@@ -71,21 +83,34 @@ function ManageBilling() {
 
     return (
         <div className="manage-billing">
-            <h1>Manage Billing</h1>
+            <h1 className="billing-title">Manage Billing</h1>
+
             {subscription ? (
-                <>
-                    <p>Current Plan: {subscription.planName}</p>
-                    <h3>Change Plan</h3>
-                    {plans.map((plan) => (
-                        <button key={plan.id} onClick={() => handleChangePlan(plan.priceId)}>
-                            Switch to {plan.name}
-                        </button>
-                    ))}
-                    <br /><br />
-                    <button onClick={handleCancelSubscription} style={{ color: "red" }}>
+                <div className="subscription-card">
+                    <h2>Current Plan</h2>
+                    <div className="plan-details">
+                        <p><strong>Plan Name:</strong> {subscription.planName}</p>
+                        <p><strong>Amount:</strong> ${subscription.amount} {subscription.currency?.toUpperCase()}</p>
+                        <p><strong>Billing Cycle:</strong> {subscription.interval}</p>
+                    </div>
+
+                    <button onClick={handleCancelSubscription} className="cancel-button">
                         Cancel Subscription
                     </button>
-                </>
+
+                    {/*<h3>Available Plans</h3>*/}
+                    {/*<div className="plans-grid">*/}
+                    {/*    {plans.map((plan) => (*/}
+                    {/*        <button*/}
+                    {/*            key={plan.id}*/}
+                    {/*            className="plan-button"*/}
+                    {/*            onClick={() => handleChangePlan(plan.priceId)}*/}
+                    {/*        >*/}
+                    {/*            Switch to {plan.name}*/}
+                    {/*        </button>*/}
+                    {/*    ))}*/}
+                    {/*</div>*/}
+                </div>
             ) : (
                 <p>No active subscription found.</p>
             )}

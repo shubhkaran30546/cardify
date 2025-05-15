@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import "./Email_signup.css"
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useLocation} from "react-router-dom";
+import {useEffect} from "react";
 import axios from "axios";
 import Footer from "./Footer";
 function SignupForm() {
+    const navigate = useNavigate();
+    const location = useLocation();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -11,7 +14,25 @@ function SignupForm() {
         phoneNumber: '',
         password: ''
     });
-    const navigate = useNavigate();
+    useEffect(() => {
+        console.log("Current URL:", window.location.href);
+        console.log("React Router location object:", location);
+
+        const query = new URLSearchParams(location.search);
+        const token = query.get("token");
+        const role = query.get("role");
+
+        if (token) {
+            localStorage.setItem("token", token);
+            localStorage.setItem("role", role)
+            const redirect=localStorage.getItem("redirectAfterLogin");
+            localStorage.removeItem("redirectAfterLogin");
+            navigate(redirect, { replace: true });  // Use replace to prevent back button issues
+        } else {
+            console.log("❌ No token in the URL.");
+        }
+    }, [location, navigate]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -26,7 +47,7 @@ function SignupForm() {
                 phoneNumber: "",
                 password: "",
             });
-            navigate("/");
+            navigate("/login");
         } catch (error) {
             console.error("Error during account creation:", error);
             alert("Failed to create account. Please try again.");

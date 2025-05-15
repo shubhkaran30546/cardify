@@ -36,8 +36,6 @@ public class PortfolioService {
             throw new UsernameNotFoundException("User not found with email: " + email); // Exception or other handling
         }
         Long userId = user.getUserId();
-        System.out.println("Saving portfolio for user_id: " + userId);
-
         // If a portfolio exists for the user, update it
         Portfolio existingPortfolio = portfolioRepository.findByUser(user).orElse(null);
         if (existingPortfolio != null) {
@@ -93,16 +91,13 @@ public class PortfolioService {
 
     public Portfolio getPortfolioByIdAndName(String userName) {
         // Attempt to find the user by userId
-        System.out.println("AAAAAAAAAAAAAAAAAAA111111");
         User user = userRepository.findByUsername(userName);
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + userName);
         }
-        System.out.println("AAAAAAAAAAAAAAAAAAA2222222");
         try {
             Portfolio portfolio = portfolioRepository.findPortfolioWithSocialLinksByUser(user)
                     .orElseThrow(() -> new EntityNotFoundException("Portfolio not found for user with ID: " + userName));
-            System.out.println("AAAAAAAAAAAAAAAAAAA444444444");
             return portfolio;
         } catch (Exception e) {
             e.printStackTrace(); // Print the real error
