@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -24,4 +25,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteByUser(@Param("userId") Long userId);
 
     List<User> findByCompany(Company company);
+    List<User> findAllByDeletionScheduledAtBeforeAndStripeSubscriptionIdIsNull(LocalDateTime time);
 }

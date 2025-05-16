@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @RestController
@@ -91,6 +92,7 @@ public class StripeController {
             if (user == null) return ResponseEntity.status(404).body("User not found");
 
             user.setStripeSubscriptionId(subscriptionId);
+            user.setDeletionScheduledAt(null);
             userRepository.save(user);
 
             try {
@@ -218,6 +220,7 @@ public class StripeController {
 
             // Optionally, clear the subscription ID from the user
             user.setStripeSubscriptionId(null);
+            user.setDeletionScheduledAt(LocalDateTime.now().plusDays(30)); // Schedule deletion in 30 days
             userRepository.save(user);
 
             return ResponseEntity.ok(Map.of("message", "Subscription cancelled successfully"));

@@ -83,7 +83,8 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false)
     private String username; // New field for username/
 
-
+    @Column
+    private LocalDateTime deletionScheduledAt;
 
     @Column(name = "stripe_subscription_id", nullable = true)
     @Setter
