@@ -16,7 +16,7 @@ const Home = () => {
     //    Replace these placeholders with your real Stripe price IDs:
     const priceIds = {
         individualMonthly: 'price_1R4qFGD8oruRmlHjPVvsbAGZ',
-        individualYearly: 'price_1R4qRxD8oruRmlHjtY5k2Vrl',
+        individualYearly: 'price_1RP9yoD8oruRmlHjbPFVDloj',
         corporateMonthly:  'price_1R4qG0D8oruRmlHjOq2GNu0m',
         corporateYearly:   'price_1R4qSGD8oruRmlHjybN2PL0j',
     };
