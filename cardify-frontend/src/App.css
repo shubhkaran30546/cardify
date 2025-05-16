@@ -1,4 +1,17 @@
 /* Navbar */
+button {
+    width: 50%; /* Adjust the button width */
+    padding: 10px;
+    font-size: 16px;
+    color: #fff;
+    /*background-color: #3498db;*/
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#root{
+    width:100%;
+}
 .navbar {
     display: flex;  /* Use Flexbox for layout */
     /*justify-content: flex-end;  !* Align items to the left *!*/
@@ -88,7 +101,7 @@ a {
 /* Portfolio Section */
 .homepage-main {
     margin: 70px auto;
-    max-width: 75%;
+    max-width: 100%;
     text-align: center;
     flex: 1;
     /*animation: fadeInAnimation ease 2s;*/

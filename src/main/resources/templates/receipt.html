@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment Receipt</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    .receipt-container {
+      background-color: #fff;
+      width: 90%;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 25px 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #2a7ae2;
+    }
+
+    .details {
+      margin-top: 20px;
+    }
+
+    .details table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .details th, .details td {
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .details th {
+      background-color: #f1f1f1;
+    }
+
+    .total {
+      text-align: right;
+      font-weight: bold;
+      font-size: 1.1em;
+      margin-top: 20px;
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 0.9em;
+      color: #777;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="receipt-container">
+  <div class="header">
+    <img src="cid:logo" alt="Cardify Logo" class="logo">
+    <h2>Payment Receipt</h2>
+    <p>Thank you for your purchase, <strong>{firstName}</strong>!</p>
+  </div>
+
+  <div class="details">
+    <table>
+      <tr>
+        <th>Receipt ID</th>
+        <td>{receiptId}</td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td>{email}</td>
+      </tr>
+      <tr>
+        <th>Plan</th>
+        <td>{planName}</td>
+      </tr>
+      <tr>
+        <th>Subscription ID</th>
+        <td>{subscriptionId}</td>
+      </tr>
+      <tr>
+        <th>Date</th>
+        <td>{date}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>Paid</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="total">
+    Total Paid: <span>{amount} {currency}</span>
+  </div>
+
+  <div class="footer">
+    If you have any questions, please contact us at support@cardify.com.<br>
+    &copy; {year} Cardify. All rights reserved.
+  </div>
+</div>
+
+</body>
+</html>

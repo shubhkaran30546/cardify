@@ -79,7 +79,7 @@
 }
 .login-options {
     display: flex;
-    gap: 78%; /* Pushes items to the corners */
+    gap: 58%; /* Pushes items to the corners */
     align-items: center; /* Vertically centers the items */
     /*margin: 1.5rem 0;*/
     /*margin-top: -5%;*/

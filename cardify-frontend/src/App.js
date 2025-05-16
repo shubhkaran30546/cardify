@@ -6,8 +6,8 @@ import SignupForm from "./Email_signup";
 import Login from "./Login";
 import SlidingForm from "./Form";
 import Profile from "./Profile";
-import Navbar2 from "./Navbar2";
 import Leads from "./Leads";
+import PaymentSuccess from "./PaymentSuccess";
 import BroadcastEmail from "./BroadcastEmail";
 import Support from "./Support";
 import Portfolio1 from "./Portfolio1";
@@ -92,6 +92,7 @@ function MainApp() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/create-ecard" element={<SlidingForm />} />
                         <Route path="/portfolio/:userId" element={<Portfolio1 />} />
+                        <Route path="/payment-success" element={<PaymentSuccess />} />
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/edit-portfolio/:userId" element={<SlidingForm />} />
                         <Route path="/api/leads/:userId" element={<Leads />} />

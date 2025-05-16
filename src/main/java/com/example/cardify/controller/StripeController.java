@@ -3,10 +3,7 @@ package com.example.cardify.controller;
 import com.example.cardify.Models.Response;
 import com.example.cardify.Models.User;
 import com.example.cardify.repository.UserRepository;
-import com.example.cardify.service.JwtService;
-import com.example.cardify.service.PortfolioService;
-import com.example.cardify.service.StripeService;
-import com.example.cardify.service.UserService;
+import com.example.cardify.service.*;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
@@ -34,11 +31,13 @@ public class StripeController {
     private String stripeSecretKey;
     private final JwtService jwtService;
     private final StripeService stripeService;
+    private final EmailService emailService;
 
-    public StripeController(UserRepository userRepository, JwtService jwtService, StripeService stripeService) {
+    public StripeController(UserRepository userRepository, JwtService jwtService, StripeService stripeService, EmailService emailService) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
         this.stripeService = stripeService;
+        this.emailService = emailService;
     }
 
     @PostConstruct
@@ -55,13 +54,15 @@ public class StripeController {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-                .setMode(SessionCreateParams.Mode.SUBSCRIPTION) // or .setMode(SessionCreateParams.Mode.PAYMENT) for one-time payments
-                .setSuccessUrl("http://localhost:3000/create-ecard")
+                .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
+                .setCustomerEmail(requestData.get("email"))  // <-- Add this
+                .setClientReferenceId(requestData.get("username"))  // <-- For linking to internal user
+                .setSuccessUrl("http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl("http://localhost:3000")
                 .addLineItem(
                         SessionCreateParams.LineItem.builder()
                                 .setQuantity(1L)
-                                .setPrice(priceId)  // Ensure this is a recurring price
+                                .setPrice(priceId)
                                 .build()
                 )
                 .build();
@@ -78,27 +79,102 @@ public class StripeController {
         }
     }
 
+    @GetMapping("/confirm-subscription")
+    public ResponseEntity<?> confirmSubscription(@RequestParam String session_id) {
+        try {
+            Session session = Session.retrieve(session_id);
+            String email = session.getCustomerEmail();
+            String subscriptionId = session.getSubscription();
+            String username = session.getClientReferenceId();
+
+            User user = userRepository.findByUsername(username);
+            if (user == null) return ResponseEntity.status(404).body("User not found");
+
+            user.setStripeSubscriptionId(subscriptionId);
+            userRepository.save(user);
+
+            try {
+
+                Subscription subscription = Subscription.retrieve(subscriptionId);
+                var item = subscription.getItems().getData().get(0);
+                var price = item.getPrice();
+
+                Map<String, String> placeholders = new HashMap<>();
+                placeholders.put("firstName", user.getUsername()); // or split name from email if needed
+                placeholders.put("email", user.getEmail());
+                placeholders.put("planName", price.getNickname() != null ? price.getNickname() : "Unnamed Plan");
+                placeholders.put("amount", String.format("%.2f", price.getUnitAmount() / 100.0));
+                placeholders.put("currency", price.getCurrency().toUpperCase());
+                placeholders.put("subscriptionId", subscription.getId());
+                placeholders.put("receiptId", UUID.randomUUID().toString()); // or get from Stripe if needed
+                placeholders.put("date", new Date().toString());
+
+                emailService.sendReceiptEmail(
+                        user.getEmail(),
+                        "Your Cardify Subscription Receipt",
+                        placeholders
+                );
+
+            } catch (Exception e) {
+                System.err.println("⚠️ Failed to send receipt email: " + e.getMessage());
+            }
+            return ResponseEntity.ok("Subscription saved successfully");
+        } catch (StripeException e) {
+            return ResponseEntity.status(500).body("Stripe error: " + e.getMessage());
+        }
+    }
+
     @PostMapping("/create-subscription")
     public @ResponseBody Response createSubscription(String email, String token, String plan) {
 
         if (token == null || plan.isEmpty()) {
-            return new Response(false, "Stripe payment token is missing. Please try again later.");
+            return new Response(false, "Stripe payment token is missing.");
         }
 
         String customerId = stripeService.createCustomer(email, token);
-
         if (customerId == null) {
-            return new Response(false, "An error accurred while trying to create customer");
+            return new Response(false, "Error creating customer");
         }
 
-        String subscriptionId = stripeService.createSubscription(customerId, plan,email);
-
+        String subscriptionId = stripeService.createSubscription(customerId, plan, email);
         if (subscriptionId == null) {
-            return new Response(false, "An error accurred while trying to create subscription");
+            return new Response(false, "Error creating subscription");
         }
 
-        return new Response(true, "Success! your subscription id is " + subscriptionId);
+        // Fetch user and subscription details to populate receipt
+        try {
+            User user = userRepository.findByEmail(email);
+            if (user == null) {
+                return new Response(false, "User not found.");
+            }
+
+//            Subscription subscription = Subscription.retrieve(subscriptionId);
+//            var item = subscription.getItems().getData().get(0);
+//            var price = item.getPrice();
+//
+//            Map<String, String> placeholders = new HashMap<>();
+//            placeholders.put("firstName", user.getUsername()); // or split name from email if needed
+//            placeholders.put("email", user.getEmail());
+//            placeholders.put("planName", price.getNickname() != null ? price.getNickname() : "Unnamed Plan");
+//            placeholders.put("amount", String.format("%.2f", price.getUnitAmount() / 100.0));
+//            placeholders.put("currency", price.getCurrency().toUpperCase());
+//            placeholders.put("subscriptionId", subscription.getId());
+//            placeholders.put("receiptId", UUID.randomUUID().toString()); // or get from Stripe if needed
+//            placeholders.put("date", new Date().toString());
+//
+//            emailService.sendReceiptEmail(
+//                    user.getEmail(),
+//                    "Your Cardify Subscription Receipt",
+//                    placeholders
+//            );
+
+        } catch (Exception e) {
+            System.err.println("⚠️ Failed to send receipt email: " + e.getMessage());
+        }
+
+        return new Response(true, "Success! Subscription ID: " + subscriptionId);
     }
+
 
     @PostMapping("/change-plan")
     public ResponseEntity<?> changePlan(@RequestBody Map<String, String> requestData) {
