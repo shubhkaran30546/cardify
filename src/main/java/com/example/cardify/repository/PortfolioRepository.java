@@ -18,6 +18,7 @@ public interface PortfolioRepository extends JpaRepository<Portfolio, Long> {
     @Transactional
     @Query("SELECT p FROM Portfolio p LEFT JOIN FETCH p.socialLinks WHERE p.user = :user")
     Optional<Portfolio> findPortfolioWithSocialLinksByUser(@Param("user") User user);
+    void deleteByUser(User user);
 
 //    void deleteByUserId(Long userId);
 
