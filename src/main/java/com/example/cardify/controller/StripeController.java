@@ -50,39 +50,59 @@ public class StripeController {
     private UserService userService;
 
     @PostMapping("/create-checkout-session")
-    public ResponseEntity<Map<String, String>> createCheckoutSession(@RequestBody Map<String, String> requestData) {
-        String priceId = requestData.get("priceId");
-
-        SessionCreateParams params = SessionCreateParams.builder()
-                .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
-                .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
-                .setCustomerEmail(requestData.get("email"))  // <-- Add this
-                .setClientReferenceId(requestData.get("username"))  // <-- For linking to internal user
-                .setSuccessUrl("http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}")
-                .setCancelUrl("http://localhost:3000")
-                .addLineItem(
-                        SessionCreateParams.LineItem.builder()
-                                .setQuantity(1L)
-                                .setPrice(priceId)
-                                .build()
-                )
-                .build();
-
+    public ResponseEntity<Map<String, String>> createCheckoutSession(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody Map<String, String> requestData) {
         try {
+            // 1. Extract username from JWT
+            String username = getUserNameFromToken(authHeader);
+
+            // 2. Lookup user in DB
+            User user = userRepository.findByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "User not found"));
+            }
+
+            String priceId = requestData.get("priceId");
+
+            // 3. Create Stripe Checkout Session
+            SessionCreateParams params = SessionCreateParams.builder()
+                    .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+                    .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
+                    .setCustomerEmail(user.getEmail())
+                    .setClientReferenceId(user.getUsername())
+                    .setSuccessUrl("http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl("http://localhost:3000")
+                    .addLineItem(
+                            SessionCreateParams.LineItem.builder()
+                                    .setQuantity(1L)
+                                    .setPrice(priceId)
+                                    .build()
+                    )
+                    .build();
+
             Session session = Session.create(params);
-            Map<String, String> responseData = new HashMap<>();
-            responseData.put("url", session.getUrl());
-            return ResponseEntity.ok(responseData);
+
+            return ResponseEntity.ok(Map.of("url", session.getUrl()));
+
         } catch (StripeException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonMap("error", e.getMessage()));
+                    .body(Map.of("error", "Stripe error: " + e.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("error", "Something went wrong: " + e.getMessage()));
         }
     }
+
+
 
     @GetMapping("/confirm-subscription")
     public ResponseEntity<?> confirmSubscription(@RequestParam String session_id) {
         try {
+            System.out.println("inside confirm subscription");
             Session session = Session.retrieve(session_id);
             String email = session.getCustomerEmail();
             String subscriptionId = session.getSubscription();
@@ -126,56 +146,6 @@ public class StripeController {
         }
     }
 
-    @PostMapping("/create-subscription")
-    public @ResponseBody Response createSubscription(String email, String token, String plan) {
-
-        if (token == null || plan.isEmpty()) {
-            return new Response(false, "Stripe payment token is missing.");
-        }
-
-        String customerId = stripeService.createCustomer(email, token);
-        if (customerId == null) {
-            return new Response(false, "Error creating customer");
-        }
-
-        String subscriptionId = stripeService.createSubscription(customerId, plan, email);
-        if (subscriptionId == null) {
-            return new Response(false, "Error creating subscription");
-        }
-
-        // Fetch user and subscription details to populate receipt
-        try {
-            User user = userRepository.findByEmail(email);
-            if (user == null) {
-                return new Response(false, "User not found.");
-            }
-
-//            Subscription subscription = Subscription.retrieve(subscriptionId);
-//            var item = subscription.getItems().getData().get(0);
-//            var price = item.getPrice();
-//
-//            Map<String, String> placeholders = new HashMap<>();
-//            placeholders.put("firstName", user.getUsername()); // or split name from email if needed
-//            placeholders.put("email", user.getEmail());
-//            placeholders.put("planName", price.getNickname() != null ? price.getNickname() : "Unnamed Plan");
-//            placeholders.put("amount", String.format("%.2f", price.getUnitAmount() / 100.0));
-//            placeholders.put("currency", price.getCurrency().toUpperCase());
-//            placeholders.put("subscriptionId", subscription.getId());
-//            placeholders.put("receiptId", UUID.randomUUID().toString()); // or get from Stripe if needed
-//            placeholders.put("date", new Date().toString());
-//
-//            emailService.sendReceiptEmail(
-//                    user.getEmail(),
-//                    "Your Cardify Subscription Receipt",
-//                    placeholders
-//            );
-
-        } catch (Exception e) {
-            System.err.println("⚠️ Failed to send receipt email: " + e.getMessage());
-        }
-
-        return new Response(true, "Success! Subscription ID: " + subscriptionId);
-    }
 
 
     @PostMapping("/change-plan")
