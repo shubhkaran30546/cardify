@@ -114,7 +114,7 @@ const Home = () => {
     // 5) Stripe Checkout handler function
     const handleCheckout = async (priceId) => {
         const stripe = await stripePromise;
-
+        console.log("yearly price : " + priceIds.individualYearly );
         const response = await fetch('http://localhost:8080/api/create-checkout-session', {
             method: 'POST',
             headers: {
