@@ -115,13 +115,25 @@ const Home = () => {
     const handleCheckout = async (priceId) => {
         const stripe = await stripePromise;
         console.log("yearly price : " + priceIds.individualYearly );
+        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+        if (!token) {
+            // If no token, redirect to login first
+            navigate("/login", { state: { from: location, priceId } });
+            return;
+        }
         const response = await fetch('http://localhost:8080/api/create-checkout-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({ priceId }),
         });
+        if (response.status === 401) {
+            // Token is invalid or expired — redirect to login
+            navigate("/login", { state: { from: location, priceId } });
+            return;
+        }
 
         const session = await response.json();
 

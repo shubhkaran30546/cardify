@@ -13,6 +13,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -24,6 +25,31 @@ public class EmailService {
     private JavaMailSender mailSender;
     @Autowired
     private SpringTemplateEngine templateEngine;
+
+    public void sendReceiptEmail(String to, String subject, Map<String, String> placeholders) throws MessagingException, IOException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        String htmlContent = loadTemplate("templates/receipt.html");
+
+        for (Map.Entry<String, String> entry : placeholders.entrySet()) {
+            htmlContent = htmlContent.replace("{" + entry.getKey() + "}", entry.getValue());
+        }
+
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(htmlContent, true);
+
+        // Inline logo
+        ClassPathResource logo = new ClassPathResource("static/logo.png");
+        helper.addInline("logo", logo);
+
+        mailSender.send(message);
+    }
+    private String loadTemplate(String path) throws IOException {
+        ClassPathResource resource = new ClassPathResource(path);
+        return Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+    }
 
     public void sendWelcomeEmail(String to, String firstName) throws MessagingException, IOException {
 
