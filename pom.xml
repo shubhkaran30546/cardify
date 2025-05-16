@@ -163,13 +163,14 @@
 				<version>4.7.3.0</version>
 				<executions>
 					<execution>
+						<phase>verify</phase> <!-- after compile and test -->
 						<goals>
 							<goal>spotbugs</goal>
 						</goals>
-						<phase>verify</phase>
 					</execution>
 				</executions>
 			</plugin>
+
 
 
 		</plugins>
