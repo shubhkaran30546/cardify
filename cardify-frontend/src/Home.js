@@ -3,6 +3,7 @@ import Footer from './Footer';
 import { useNavigate, useLocation } from "react-router-dom";
 import { FaYoutube, FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { loadStripe } from '@stripe/stripe-js';
+import {jwtDecode} from "jwt-decode";
 
 // 1) Replace these with your real publishable key.
 const stripePromise = loadStripe('pk_test_51R4pAYD8oruRmlHjNcig752oNyfhuwVtIm9smcVSjuAIyTl2XcWfHeCGwrUxw3pEBLDlNvD0gGE2AwduMq0IG7NQ00kPgWj0bJ');
@@ -20,9 +21,24 @@ const Home = () => {
         corporateMonthly:  'price_1R4qG0D8oruRmlHjOq2GNu0m',
         corporateYearly:   'price_1R4qSGD8oruRmlHjybN2PL0j',
     };
+    const isTokenExpired = (token) => {
+        try {
+            const decoded = jwtDecode(token);
+            return decoded.exp * 1000 < Date.now(); // Convert to milliseconds
+        } catch (error) {
+            return true; // Assume expired if there's an error
+        }
+    };
 
     // Create E-Card
     const handleCreate = () => {
+        const token = localStorage.getItem('token');
+
+        if (!token || isTokenExpired(token)) {
+            localStorage.setItem("redirectAfterLogin", location.pathname);
+            localStorage.removeItem('token'); // Clear token
+            navigate("/login"); // Redirect to login/signup
+        }
         navigate("/create-ecard");
     };
     useEffect(() => {
