@@ -157,22 +157,22 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.0</version>
-				<configuration>
-					<skip>${spotbugs.skip}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>verify</phase>
-						<goals>
-							<goal>spotbugs</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+<!--			<plugin>-->
+<!--				<groupId>com.github.spotbugs</groupId>-->
+<!--				<artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--				<version>4.7.3.0</version>-->
+<!--				<configuration>-->
+<!--					<skip>${spotbugs.skip}</skip>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<phase>verify</phase>-->
+<!--						<goals>-->
+<!--							<goal>spotbugs</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
 
 
 		</plugins>

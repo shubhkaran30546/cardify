@@ -205,7 +205,7 @@ const Home = () => {
                         with a simple QR code, and manage your leads effortlessly—all in one place.
                     </p>
                     <section className="buttons">
-                        <button className="signup-button" onClick={handleCreate}>GET STARTED</button>
+                       <a href="#pricing" className="signup-button1">GET STARTED</a>
                         <button className="login-button2" onClick={login}>LOG IN</button>
                     </section>
                 </section>
