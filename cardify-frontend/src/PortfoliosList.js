@@ -7,6 +7,7 @@ import Footer from "./Footer";
 const PortfoliosList = () => {
     const [portfolios, setPortfolios] = useState([]);
     const navigate = useNavigate();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const fetchPortfolios = async () => {
@@ -17,7 +18,7 @@ const PortfoliosList = () => {
                     navigate("/login");
                     return;
                 }
-                const response = await axios.get("http://localhost:8080/api/admin/portfolios", {
+                const response = await axios.get(`${BACKEND_BASE_URL}/api/admin/portfolios`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -42,7 +43,7 @@ const PortfoliosList = () => {
 
         try {
             const token = localStorage.getItem("token");
-            await axios.delete(`http://localhost:8080/api/admin/portfolios/${portfolioId}`, {
+            await axios.delete(`${BACKEND_BASE_URL}/api/admin/portfolios/${portfolioId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

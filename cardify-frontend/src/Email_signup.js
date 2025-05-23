@@ -7,6 +7,7 @@ import Footer from "./Footer";
 function SignupForm() {
     const navigate = useNavigate();
     const location = useLocation();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -37,7 +38,7 @@ function SignupForm() {
         e.preventDefault();
 
         try {
-            const response = await axios.post("http://localhost:8080/api/users/signup", formData);
+            const response = await axios.post(`${BACKEND_BASE_URL}/api/users/signup`, formData);
             console.log("Response:", response.data);
             alert("Account Created Successfully!");
             setFormData({
@@ -59,17 +60,8 @@ function SignupForm() {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+        window.location.href = `${BACKEND_BASE_URL}/oauth2/authorization/google`;
     };
-    const handleFacebookLogin = async () => {
-        try {
-            const response = await axios.get("http://localhost:8080/api/users/auth/facebook");
-            window.location.href = response.data.redirectUrl;
-        } catch (error) {
-            console.error("Error initiating Facebook login:", error);
-        }
-    };
-
     return (
         <div className="signup-page">
 
@@ -153,15 +145,7 @@ function SignupForm() {
                             <img src="/1-6fa0a792.png" alt="Google"/>
                             Log in with Google
                         </button>
-                        <button type="button" className="facebook-btn" onClick={handleFacebookLogin}>
-                            <img src="/fb.png" alt="Facebook"/>
-                            Log in with Facebook
-                        </button>
                     </div>
-                    {/*<button type="button" onClick={() => console.log('Go Back clicked')}>*/}
-                    {/*    Go Back*/}
-                    {/*</button>*/}
-                    {/*</div>*/}
                 </form>
             </div>
             <div>

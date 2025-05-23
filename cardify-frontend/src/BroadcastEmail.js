@@ -12,6 +12,7 @@ function BroadcastEmail() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
         // Create a FormData object for the multipart/form-data request
         const formData = new FormData();
@@ -24,7 +25,7 @@ function BroadcastEmail() {
 
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/contact/broadcast',
+                '${BACKEND_BASE_URL}/api/contact/broadcast',
                 formData,
                 {
                     headers: {

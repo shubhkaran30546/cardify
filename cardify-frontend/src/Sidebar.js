@@ -5,7 +5,6 @@ import "./Profile.css";
 function Sidebar({ isAdmin, isOpen, toggleSidebar }) {
     const navigate = useNavigate();
     let userName = localStorage.getItem("userName");
-
     if (localStorage.getItem("role") === "admin") {
         isAdmin = true;
     }

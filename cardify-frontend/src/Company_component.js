@@ -7,12 +7,13 @@ function Company_component({ companies }) {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState(null);
     const navigate = useNavigate();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     const deleteCompany = async (name) => {
         try {
             const token = localStorage.getItem("token");
             const response = await axios.post(
-                `http://localhost:8080/api/company/delete/${name}`,
+                `${BACKEND_BASE_URL}/api/company/delete/${name}`,
                 {},
                 {
                     headers: { Authorization: `Bearer ${token}` },
@@ -31,7 +32,7 @@ function Company_component({ companies }) {
     const handleViewCompany = async (companyName) => {
         try {
             const token = localStorage.getItem("token");
-            const response = await axios.get(`http://localhost:8080/api/admin/company-users/${companyName}`, {
+            const response = await axios.get(`${BACKEND_BASE_URL}/api/admin/company-users/${companyName}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

@@ -7,13 +7,14 @@ const CompanyList = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [companies, setCompanies] = useState([]);
     const [newCompany, setNewCompany] = useState("");
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const userRole = localStorage.getItem("role");
         setIsAdmin(userRole === "ADMIN");
         const token = localStorage.getItem("token");
         // Fetch companies on load
-        fetch("http://localhost:8080/api/company", {
+        fetch(`${BACKEND_BASE_URL}/api/company`, {
             headers: {
                 "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
@@ -34,7 +35,7 @@ const CompanyList = () => {
 
         try {
             const token = localStorage.getItem("token");
-            const response = await fetch("http://localhost:8080/api/company", {
+            const response = await fetch(`${BACKEND_BASE_URL}/api/company`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

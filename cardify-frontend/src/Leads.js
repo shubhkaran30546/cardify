@@ -6,9 +6,10 @@ import "./Leads.css";
 const Leads = () => {
     const [leads, setLeads] = useState([]);
     const { userId } = useParams();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const deleteLead = async (leadId) => {
         try {
-            await axios.delete(`http://localhost:8080/api/contact/leads/${userId}/${leadId}`);
+            await axios.delete(`${BACKEND_BASE_URL}/api/contact/leads/${userId}/${leadId}`);
             setLeads(leads.filter(lead => lead.leadId !== leadId));
         } catch (error) {
             console.error("Error deleting lead:", error);
@@ -19,7 +20,7 @@ const Leads = () => {
         const fetchLeads = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8080/api/contact/leads/${userId}`
+                    `${BACKEND_BASE_URL}/api/contact/leads/${userId}`
                 );
                 setLeads(response.data);
             } catch (error) {
