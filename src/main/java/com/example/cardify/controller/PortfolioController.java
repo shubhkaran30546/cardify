@@ -19,7 +19,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/portfolio")
-@CrossOrigin(origins = "https://cardify-ecard.herokuapp.com", allowCredentials = "true")
 public class PortfolioController {
 
     private final PortfolioService portfolioService;

@@ -10,7 +10,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/support")
-@CrossOrigin(origins = "https://cardify-ecard.herokuapp.com", allowCredentials = "true")
 public class SupportController {
     @Autowired
     private EmailService emailService;

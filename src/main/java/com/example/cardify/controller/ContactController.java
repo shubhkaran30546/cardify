@@ -22,7 +22,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin(origins = "https://cardify-ecard.herokuapp.com", allowCredentials = "true") // Allow frontend access
 public class ContactController {
 
     @Autowired
