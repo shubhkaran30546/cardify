@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/profile")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "https://cardify-ecard.herokuapp.com", allowCredentials = "true")
 public class ProfileController {
 
     private final UserService userService;

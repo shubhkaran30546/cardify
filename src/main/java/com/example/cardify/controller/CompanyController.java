@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@CrossOrigin(origins = "https://cardify-ecard.herokuapp.com", allowCredentials = "true")
 public class CompanyController {
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
