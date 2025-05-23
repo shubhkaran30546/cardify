@@ -20,6 +20,7 @@ const getSocialIcon = (url) => {
 
 const Portfolio1 = () => {
     const qrRef = useRef();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const { userId } = useParams();
     const [portfolio, setPortfolio] = useState(null);
     const [imageUrl, setImageUrl] = useState("");
@@ -67,7 +68,7 @@ END:VCARD
         };
 
         try {
-            const response = await fetch("http://localhost:8080/api/contact/send", {
+            const response = await fetch(`${BACKEND_BASE_URL}/api/contact/send`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -86,7 +87,7 @@ END:VCARD
     useEffect(() => {
         const recordVisit = async () => {
             try {
-                await axios.post(`http://localhost:8080/api/portfolio/visit/${userId}`);
+                await axios.post(`${BACKEND_BASE_URL}/api/portfolio/visit/${userId}`);
             } catch (err) {
                 console.error("Error recording visit:", err);
             }
@@ -102,7 +103,7 @@ END:VCARD
         const fetchImage = async (userId) => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8080/api/portfolio/get/${userId}/image`,
+                    `${BACKEND_BASE_URL}/api/portfolio/get/${userId}/image`,
                     { responseType: "blob" }
                 );
                 setImageUrl(URL.createObjectURL(response.data));
@@ -113,7 +114,7 @@ END:VCARD
 
         (async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/portfolio/get/${userId}`);
+                const response = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/get/${userId}`);
                 setPortfolio(response.data);
 
                 if (response.data?.imageName) {

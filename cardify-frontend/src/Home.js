@@ -12,6 +12,7 @@ const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const videoRef = useRef(null);
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     // 2) Price ID map (for monthly/yearly)
     //    Replace these placeholders with your real Stripe price IDs:
@@ -137,7 +138,7 @@ const Home = () => {
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
-        const response = await fetch('http://localhost:8080/api/create-checkout-session', {
+        const response = await fetch('${BACKEND_BASE_URL}/api/create-checkout-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

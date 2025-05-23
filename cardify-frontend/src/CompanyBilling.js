@@ -8,7 +8,7 @@ const CompanyBilling = () => {
     const [userCount, setUserCount] = useState(0);
     const [billingAmount, setBillingAmount] = useState(0);
     const [loading, setLoading] = useState(true);
-
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const COST_PER_USER = 500; // ₹500 per user/month
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const CompanyBilling = () => {
             try {
                 const token = localStorage.getItem("token");
                 const response = await axios.get(
-                    `http://localhost:8080/api/admin/company-users/${companyName}`,
+                    `${BACKEND_BASE_URL}/api/admin/company-users/${companyName}`,
                     {
                         headers: { Authorization: `Bearer ${token}` },
                     }

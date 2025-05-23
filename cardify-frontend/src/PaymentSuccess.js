@@ -8,6 +8,7 @@ const PaymentSuccess = () => {
     const [message, setMessage] = useState("Confirming your subscription...");
     const [userData, setUserData] = useState(null);
     const sessionId = searchParams.get("session_id");
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const confirmSubscription = async () => {
@@ -18,7 +19,7 @@ const PaymentSuccess = () => {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:8080/api/confirm-subscription?session_id=${sessionId}`
+                    `${BACKEND_BASE_URL}/api/confirm-subscription?session_id=${sessionId}`
                 );
 
                 const { username, email, planName, subscriptionId } = response.data;

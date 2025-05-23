@@ -5,6 +5,7 @@ import './ManageBilling.css';
 function ManageBilling() {
     const navigate = useNavigate();
     const [subscription, setSubscription] = useState(null);
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [plans, setPlans] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -14,7 +15,7 @@ function ManageBilling() {
     useEffect(() => {
         const fetchSubscription = async () => {
             try {
-                const res = await fetch("http://localhost:8080/api/get-subscription", {
+                const res = await fetch(`${BACKEND_BASE_URL}/api/get-subscription`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 if (!res.ok) throw new Error("Failed to fetch subscription");
@@ -30,7 +31,7 @@ function ManageBilling() {
 
         const fetchPlans = async () => {
             try {
-                const res = await fetch("http://localhost:8080/api/get-plans");
+                const res = await fetch(`${BACKEND_BASE_URL}/api/get-plans`);
                 if (!res.ok) throw new Error("Failed to fetch plans");
                 const data = await res.json();
                 setPlans(data);
@@ -43,23 +44,10 @@ function ManageBilling() {
         fetchPlans();
     }, [token]);
 
-    // we only have one plan right now.
-    // const handleChangePlan = async (newPriceId) => {
-    //     try {
-    //         await axios.post("http://localhost:8080/api/change-plan",
-    //             { subscriptionId: subscription.id, newPriceId },
-    //             { headers: { Authorization: `Bearer ${token}` } }
-    //         );
-    //         alert("Plan changed successfully!");
-    //         window.location.reload();
-    //     } catch (error) {
-    //         console.error("Error changing plan:", error);
-    //     }
-    // };
 
     const handleCancelSubscription = async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/cancel-subscription", {
+            const res = await fetch(`${BACKEND_BASE_URL}/api/cancel-subscription`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -97,19 +85,6 @@ function ManageBilling() {
                     <button onClick={handleCancelSubscription} className="cancel-button">
                         Cancel Subscription
                     </button>
-
-                    {/*<h3>Available Plans</h3>*/}
-                    {/*<div className="plans-grid">*/}
-                    {/*    {plans.map((plan) => (*/}
-                    {/*        <button*/}
-                    {/*            key={plan.id}*/}
-                    {/*            className="plan-button"*/}
-                    {/*            onClick={() => handleChangePlan(plan.priceId)}*/}
-                    {/*        >*/}
-                    {/*            Switch to {plan.name}*/}
-                    {/*        </button>*/}
-                    {/*    ))}*/}
-                    {/*</div>*/}
                 </div>
             ) : (
                 <p>No active subscription found.</p>

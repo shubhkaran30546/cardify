@@ -12,6 +12,7 @@ const SlidingForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false); // Loader state
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [portfolio, setPortfolio] = useState({
         firstName: '',
         lastName: '',
@@ -49,7 +50,7 @@ const SlidingForm = () => {
             // Fetch the existing portfolio if userId is present (for editing)
             const fetchPortfolio = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8080/api/portfolio/get/${userName}`, {
+                    const response = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/get/${userName}`, {
                         headers: {
                             "Authorization": `Bearer ${token}`,
                         }
@@ -129,7 +130,7 @@ const SlidingForm = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/api/portfolio/save", {
+            const response = await fetch(`${BACKEND_BASE_URL}/api/portfolio/save`, {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${token}`,

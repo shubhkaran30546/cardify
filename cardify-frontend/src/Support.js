@@ -5,6 +5,7 @@ import axios from "axios";
 import Footer from "./Footer";
 
 const Support = () => {
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -20,7 +21,7 @@ const Support = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post("http://localhost:8080/api/support", formData);
+            await axios.post(`${BACKEND_BASE_URL}/api/support`, formData);
             alert("Your message has been sent successfully.");
             setFormData({ firstName: "", lastName: "", email: "", message: "" });
         } catch (error) {

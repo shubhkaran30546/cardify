@@ -6,13 +6,14 @@ import './Login.css';
 import './Portfolio.css'
 function Login() {
     const navigate = useNavigate();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleGoogleLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/google";
+        window.location.href = `${BACKEND_BASE_URL}/oauth2/authorization/google`;
     };
 
     const handleFacebookLogin = () => {
@@ -26,7 +27,7 @@ function Login() {
 
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/users/login',
+                `${BACKEND_BASE_URL}/api/users/login`,
                 { email, password },
                 { withCredentials: true }
             );

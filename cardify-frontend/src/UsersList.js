@@ -7,12 +7,13 @@ import Footer from "./Footer";
 const UsersList = () => {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const token = localStorage.getItem("token"); // Get token for authentication
-                const response = await axios.get("http://localhost:8080/api/admin/users", {
+                const response = await axios.get(`${BACKEND_BASE_URL}/api/admin/users`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -30,7 +31,7 @@ const UsersList = () => {
 
         try {
             const token = localStorage.getItem("token");
-            await axios.delete(`http://localhost:8080/api/admin/users/${userId}`, {
+            await axios.delete(`${BACKEND_BASE_URL}/api/admin/users/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

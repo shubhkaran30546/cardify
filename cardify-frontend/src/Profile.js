@@ -23,6 +23,7 @@ function Profile() {
     const toggleSidebar = () => setIsOpen(!isOpen);
     const [visitData, setVisitData] = useState([]);
     const qrRef = useRef();
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     const handleShare = async () => {
         const canvas = document.getElementById("qrCanvas");
@@ -77,7 +78,7 @@ function Profile() {
 
         const fetchVisitAnalytics = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/portfolio/visit/${userName}`);
+                const response = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/visit/${userName}`);
                 const formattedData = response.data.map(item => ({
                     date: item.visitDate,
                     visits: item.count
@@ -119,14 +120,14 @@ function Profile() {
         const fetchProfile = async () => {
             try {
                 const token = localStorage.getItem("token");
-                const response = await axios.get("http://localhost:8080/api/profile", {
+                const response = await axios.get(`${BACKEND_BASE_URL}/api/profile`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
                 setUserName(response.data.userName);
                 localStorage.setItem("userName", response.data.userName);
 
-                const portfolioResponse = await axios.get(`http://localhost:8080/api/portfolio/get/${response.data.userName}`);
+                const portfolioResponse = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/get/${response.data.userName}`);
                 if (portfolioResponse.status === 200) {
                     setPortfolioExists(true);
                 }
