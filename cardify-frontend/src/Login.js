@@ -17,7 +17,7 @@ function Login() {
     };
 
     const handleFacebookLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/facebook";
+        window.location.href = `${BACKEND_BASE_URL}/oauth2/authorization/facebook`;
     };
 
     const handleLogin = async (e) => {

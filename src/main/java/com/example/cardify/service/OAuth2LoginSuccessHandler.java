@@ -5,6 +5,7 @@ import com.example.cardify.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,6 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
     private final JwtService jwtService;
     private final UserService userService;
     private final EmailService emailService;
-
     public OAuth2LoginSuccessHandler(UserRepository userRepository, JwtService jwtService, UserService userService, EmailService emailService) {
         this.userRepository = userRepository;
         this.jwtService = jwtService;
@@ -46,13 +46,14 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
             userRepository.save(user);
         }
 
+
         // Generate JWT token
         String token = jwtService.generateToken(user);
         String role = user.getRole().toString();
         System.out.println("Generated JWT Token: " + token);
 
         // Optionally append the token as a query parameter.
-        String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/signup")
+        String redirectUrl = UriComponentsBuilder.fromUriString("https://cardify-ecard-69efed7c7c3e.herokuapp.com/signup")
                 .queryParam("token", token)
                 .queryParam("role", role)
                 .build().toUriString();

@@ -5,11 +5,12 @@ const AssignUserToCompany = () => {
     const [companies, setCompanies] = useState([]);
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedCompany, setSelectedCompany] = useState("");
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        fetch("http://localhost:8080/api/admin/users", {
+        fetch(`${BACKEND_BASE_URL}/api/admin/users`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
@@ -18,7 +19,7 @@ const AssignUserToCompany = () => {
                 setUsers(data);
             })
 
-        fetch("http://localhost:8080/api/company", {
+        fetch(`${BACKEND_BASE_URL}/api/company`, {
             headers: { Authorization: `Bearer ${token}` }
         })
             .then(res => res.json())
@@ -34,7 +35,7 @@ const AssignUserToCompany = () => {
         const token = localStorage.getItem("token");
 
         const res = await fetch(
-            `http://localhost:8080/api/company/${selectedCompany}/assign-user?userId=${selectedUser}&subscriptionType=CORPORATE`,
+            `${BACKEND_BASE_URL}/api/company/${selectedCompany}/assign-user?userId=${selectedUser}&subscriptionType=CORPORATE`,
             {
                 method: "POST",
                 headers: {
