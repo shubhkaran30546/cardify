@@ -13,15 +13,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // Forward root to index.html
-        registry.addViewController("/").setViewName("forward:/index.html");
-
-        // Forward all other paths to index.html (except those with dots)
-        registry.addViewController("/{path:[^\\.]*}")
+        registry.addViewController("/{spring:\\w+}")
                 .setViewName("forward:/index.html");
-
-        // For nested paths
-        registry.addViewController("/{path:[^\\.]*}/**")
+        registry.addViewController("/**/{spring:\\w+}")
+                .setViewName("forward:/index.html");
+        registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
                 .setViewName("forward:/index.html");
     }
 
@@ -31,4 +27,3 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:uploaded_images/");
     }
 }
-
