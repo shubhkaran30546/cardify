@@ -6,7 +6,7 @@ import "./Leads.css";
 const Leads = () => {
     const [leads, setLeads] = useState([]);
     const { userId } = useParams();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const deleteLead = async (leadId) => {
         try {
             await axios.delete(`${BACKEND_BASE_URL}/api/contact/leads/${userId}/${leadId}`);

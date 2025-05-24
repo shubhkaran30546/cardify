@@ -8,7 +8,7 @@ const PaymentSuccess = () => {
     const [message, setMessage] = useState("Confirming your subscription...");
     const [userData, setUserData] = useState(null);
     const sessionId = searchParams.get("session_id");
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     useEffect(() => {
         const confirmSubscription = async () => {

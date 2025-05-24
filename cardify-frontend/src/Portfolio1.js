@@ -20,7 +20,7 @@ const getSocialIcon = (url) => {
 
 const Portfolio1 = () => {
     const qrRef = useRef();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const { userId } = useParams();
     const [portfolio, setPortfolio] = useState(null);
     const [imageUrl, setImageUrl] = useState("");

@@ -7,7 +7,7 @@ import Footer from "./Footer";
 const PortfoliosList = () => {
     const [portfolios, setPortfolios] = useState([]);
     const navigate = useNavigate();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     useEffect(() => {
         const fetchPortfolios = async () => {

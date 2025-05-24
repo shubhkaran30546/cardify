@@ -7,7 +7,7 @@ const CompanyList = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const [companies, setCompanies] = useState([]);
     const [newCompany, setNewCompany] = useState("");
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     useEffect(() => {
         const userRole = localStorage.getItem("role");

@@ -23,7 +23,7 @@ function Profile() {
     const toggleSidebar = () => setIsOpen(!isOpen);
     const [visitData, setVisitData] = useState([]);
     const qrRef = useRef();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     const handleShare = async () => {
         const canvas = document.getElementById("qrCanvas");

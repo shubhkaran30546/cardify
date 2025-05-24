@@ -7,7 +7,7 @@ function Company_component({ companies }) {
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [selectedCompany, setSelectedCompany] = useState(null);
     const navigate = useNavigate();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     const deleteCompany = async (name) => {
         try {

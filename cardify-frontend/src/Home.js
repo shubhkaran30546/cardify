@@ -12,7 +12,7 @@ const Home = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const videoRef = useRef(null);
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     // 2) Price ID map (for monthly/yearly)
     //    Replace these placeholders with your real Stripe price IDs:
