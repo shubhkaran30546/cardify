@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import './ManageBilling.css';
+import Sidebar from "./Sidebar";
 
 function ManageBilling() {
     const navigate = useNavigate();
@@ -8,6 +9,9 @@ function ManageBilling() {
     const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [plans, setPlans] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleSidebar = () => setIsOpen(!isOpen);
 
     const token = localStorage.getItem("token");
     const userName = localStorage.getItem("userName");
@@ -71,6 +75,8 @@ function ManageBilling() {
 
     return (
         <div className="manage-billing">
+            <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</button>
+            <Sidebar userName={userName} isAdmin={isAdmin} isOpen={isOpen} toggleSidebar={toggleSidebar}/>
             <h1 className="billing-title">Manage Billing</h1>
 
             {subscription ? (

@@ -69,7 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("Invalid Authorization Header. Skipping authentication.");
+//            System.out.println("Invalid Authorization Header. Skipping authentication.");
             filterChain.doFilter(request, response);
             return;
         }
