@@ -71,7 +71,7 @@ public class User implements UserDetails {
     @Column(nullable = true)
     private String password; // Store as a hashed value
 
-    @Column(name = "provider", unique = true)
+    @Column(name = "provider", unique = false)
     private String provider; // GOOGLE, FACEBOOK, LOCAL
 
     @Column(name = "created_at", updatable = false)
