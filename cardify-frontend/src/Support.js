@@ -77,7 +77,7 @@ const Support = () => {
                     </div>
                 </form>
             </div>
-            <div>
+            <div className="support-footer">
                 <Footer />
             </div>
         </div>

@@ -45,8 +45,9 @@ public class UserService {
         // Hash the password before saving
         String hashedPassword = passwordEncoder.encode(password);
         String generatedUsername = generateUsername(firstName, lastName);
+        User.Role roleToAssign = userRepository.count() == 0 ? User.Role.ADMIN : User.Role.USER;
         User user = new User(firstName, lastName, email, phoneNumber, hashedPassword, generatedUsername);
-        user.setRole(User.Role.USER);
+        user.setRole(roleToAssign);
         return userRepository.save(user);
     }
     public User registerOAuthUser(String firstName, String lastName, String email, String provider) {
@@ -60,6 +61,8 @@ public class UserService {
         user.setPassword(dummyPassword);
         user.setProvider(provider);
         user.setUsername(generatedUsername);
+        User.Role roleToAssign = userRepository.count() == 0 ? User.Role.ADMIN : User.Role.USER;
+        user.setRole(roleToAssign);
         return userRepository.save(user);
     }
     public boolean isEmailRegistered(String email) {

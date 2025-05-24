@@ -13,7 +13,7 @@ class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin("https://cardify-ecard-69efed7c7c3e.herokuapp.com/"); // Use your frontend URL here
+        config.addAllowedOrigin("https://cardify-ecard-69efed7c7c3e.herokuapp.com"); // Use your frontend URL here
         config.addAllowedHeader("*");
         config.addAllowedMethod("*");
 

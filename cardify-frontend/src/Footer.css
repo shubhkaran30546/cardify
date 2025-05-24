@@ -72,6 +72,10 @@
 }
 
 @media (max-width: 600px) {
+    html, body {
+        margin: 0;
+        padding: 0;
+    }
 
      .main-content {
         flex: 1;

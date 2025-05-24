@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./Leads.css";
+import Sidebar from "./Sidebar";
 
 const Leads = () => {
     const [leads, setLeads] = useState([]);
     const { userId } = useParams();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
+    const userName = localStorage.getItem("userName");
+    const [isAdmin, setIsAdmin] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleSidebar = () => setIsOpen(!isOpen);
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const deleteLead = async (leadId) => {
         try {
-            await axios.delete(`${BACKEND_BASE_URL}/api/contact/leads/${userId}/${leadId}`);
+            await axios.delete(⁠ ${BACKEND_BASE_URL}/api/contact/leads/${userId}/${leadId} ⁠);
             setLeads(leads.filter(lead => lead.leadId !== leadId));
         } catch (error) {
             console.error("Error deleting lead:", error);
@@ -20,8 +25,8 @@ const Leads = () => {
         const fetchLeads = async () => {
             try {
                 const response = await axios.get(
-                    `${BACKEND_BASE_URL}/api/contact/leads/${userId}`
-                );
+                    ⁠ ${BACKEND_BASE_URL}/api/contact/leads/${userId} ⁠
+            );
                 setLeads(response.data);
             } catch (error) {
                 console.error("Error fetching leads:", error);
@@ -35,7 +40,9 @@ const Leads = () => {
         <div className="leads-container">
             {/* Header Section */}
             <div className="leads-header">
-                {/*<div className="leads-date">MAR'24</div>*/}
+                {/<div className="leads-date">MAR'24</div>/}
+                <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</button>
+                <Sidebar userName={userName} isAdmin={isAdmin} isOpen={isOpen} toggleSidebar={toggleSidebar}/>
                 <h2 className="leads-title">Leads</h2>
                 <div className="leads-actions">
                     <input
