@@ -13,16 +13,17 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // Forward root and direct paths without dots (i.e. no file extensions)
-        registry.addViewController("/{path:[^\\.]+}")
+        // Forward root to index.html
+        registry.addViewController("/").setViewName("forward:/index.html");
+
+        // Forward all other paths to index.html (except those with dots)
+        registry.addViewController("/{path:[^\\.]*}")
                 .setViewName("forward:/index.html");
 
-        // Forward any nested paths without dots in the last segment
-        registry.addViewController("/{path:[^\\.]+}/**/{subpath:[^\\.]+}")
+        // For nested paths
+        registry.addViewController("/{path:[^\\.]*}/**")
                 .setViewName("forward:/index.html");
     }
-
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -30,5 +31,4 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:uploaded_images/");
     }
 }
-
 
