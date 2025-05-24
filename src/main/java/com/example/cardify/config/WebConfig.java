@@ -13,11 +13,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/{spring:\\w+}")
+        // Match any path **without a dot** (i.e., not a file request)
+        registry.addViewController("/{path:^(?!.*\\.).*$}")
                 .setViewName("forward:/index.html");
-        registry.addViewController("/**/{spring:\\w+}")
-                .setViewName("forward:/index.html");
-        registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+
+        registry.addViewController("/**/{path:^(?!.*\\.).*$}")
                 .setViewName("forward:/index.html");
     }
 
