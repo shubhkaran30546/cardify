@@ -9,19 +9,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        // Simplify the patterns avoiding illegal ones:
-        registry.addViewController("/{spring:\\w+}")
-                .setViewName("forward:/index.html");
-
-        registry.addViewController("/{spring:\\w+}/**")
-                .setViewName("forward:/index.html");
-    }
-
-    @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploaded_images/**")
                 .addResourceLocations("file:uploaded_images/");
     }
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/{spring:[^\\.]+}")
+                .setViewName("forward:/index.html");
+        registry.addViewController("/**/{spring:[^\\.]+}")
+                .setViewName("forward:/index.html");
+    }
 }
+
