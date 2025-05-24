@@ -46,3 +46,27 @@
     justify-content: flex-end;
     margin-right: 60px;
 }
+
+@media (max-width: 600px) {
+    .support-footer{
+        width: 100%;
+    }
+    .support{
+        overflow-x: hidden;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+        height: 100%;
+        width: 100%;
+    }
+    .support-container {
+        padding: 20px 15px;
+        width: 90%;
+        height: 90%;
+        margin-top: 50px;
+    }
+
+    .support-form input{
+        width: 100%;
+    }
+}
