@@ -13,13 +13,15 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        // Match any path **without a dot** (i.e., not a file request)
-        registry.addViewController("/{path:^(?!.*\\.).*$}")
+        // Forward any path without a dot in the first segment (simple)
+        registry.addViewController("/{path:[^\\.]*}")
                 .setViewName("forward:/index.html");
 
-        registry.addViewController("/**/{path:^(?!.*\\.).*$}")
+        // Forward paths with multiple segments that do not contain dots in any segment
+        registry.addViewController("/{path:^(?!.*\\.).*$}/**/{subpath:[^\\.]*}")
                 .setViewName("forward:/index.html");
     }
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
