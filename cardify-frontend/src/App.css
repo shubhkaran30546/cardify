@@ -118,13 +118,11 @@ a {
 
 /* Portfolio Section */
 .homepage-main {
-    margin: 70px auto;
+    /*margin: 70px auto;*/
     max-width: 100%;
     text-align: center;
     flex: 1;
-    /*animation: fadeInAnimation ease 2s;*/
-    /*animation-iteration-count: 1;*/
-    /*animation-fill-mode: forwards;*/
+    overflow-x: hidden;
 
 }
 .portfolio-preview {
@@ -529,6 +527,9 @@ input:checked + .slider:before {
 
 @media (max-width: 600px) {
     /* Adjust Navbar: Stack items vertically and reduce padding */
+    nav li {
+        font-size: small;
+    }
     .navbar {
         height: auto;
         padding-bottom: 10px;
@@ -543,7 +544,6 @@ input:checked + .slider:before {
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-left: 40px;
     }
 
     /* Intro Section: Change layout from inline-flex to column */
@@ -572,12 +572,14 @@ input:checked + .slider:before {
         padding-right: 0;
     }
     .para {
-        width: 100%;
         margin-bottom: 20px;
     }
     .portfolio-preview {
         width: 90%;
         margin: 0 auto;
+    }
+    .portfolio-preview img{
+        height: 90%;
     }
 
     /* Buttons: Stack buttons vertically with full width */
@@ -597,10 +599,12 @@ input:checked + .slider:before {
     .features-section {
         width: 100%;
         background: none;
+        padding: 0;
     }
     .scroll-container {
         width: 90%;
-        margin: 0 auto;
+        margin-left: 0;
+        padding: 0;
         height: 120px; /* adjust height if needed */
     }
     .features-list {
@@ -628,6 +632,10 @@ input:checked + .slider:before {
         width: 90%;
         margin-left: auto;
         margin-right: auto;
+    }
+    .video{
+        width: 80%;
+        height: 100%;
     }
 
 }
