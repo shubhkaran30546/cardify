@@ -1,9 +1,6 @@
 package com.example.cardify.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -13,11 +10,20 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
+        // Match root ("/")
+        registry.addViewController("/")
+                .setViewName("forward:/index.html");
+
+        // Match any single path segment (e.g., "/home", "/about")
         registry.addViewController("/{spring:\\w+}")
                 .setViewName("forward:/index.html");
-        registry.addViewController("/**/{spring:\\w+}")
+
+        // Match any two path segments (e.g., "/foo/bar")
+        registry.addViewController("/{spring:\\w+}/{spring:\\w+}")
                 .setViewName("forward:/index.html");
-        registry.addViewController("/{spring:\\w+}/**{spring:?!(\\.js|\\.css)$}")
+
+        // Catch-all for any other paths (e.g., "/foo/bar/baz")
+        registry.addViewController("/{spring:^(?!.*\\.(js|css)$).*$}/**")
                 .setViewName("forward:/index.html");
     }
 
@@ -26,4 +32,5 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/uploaded_images/**")
                 .addResourceLocations("file:uploaded_images/");
     }
+
 }
