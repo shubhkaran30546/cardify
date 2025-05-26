@@ -138,7 +138,7 @@ const Home = () => {
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
-        const response = await fetch('${BACKEND_BASE_URL}/api/create-checkout-session', {
+        const response = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
