@@ -1,6 +1,7 @@
 {
   "name": "cardify-frontend",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@stripe/stripe-js": "^6.1.0",
