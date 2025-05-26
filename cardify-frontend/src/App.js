@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react";
-import { HashRouter as Router, Routes, Route, useLocation, Navigate, matchPath } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate, matchPath } from "react-router-dom";
 import Home from './Home';
 import Navbar from "./Navbar";
 import SignupForm from "./Email_signup";
