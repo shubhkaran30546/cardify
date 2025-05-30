@@ -205,29 +205,57 @@ const Home = () => {
                         with a simple QR code, and manage your leads effortlessly—all in one place.
                     </p>
                     <section className="buttons">
-                       <a href="#pricing"
-                            className="signup-button1"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: '48px',
-                                padding: '0 2rem',
-                                fontSize: '1.2rem',
-                                background: '#e74c3c',
-                                color: '#fff',
-                                border: 'none',
-                                borderRadius: '8px',
-                                textDecoration: 'none',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                                cursor: 'pointer',
-                                lineHeight: 1,
-                            }}
-                            >
-                            GET STARTED
-                        </a>
+                       <a
+  href="#pricing"
+  className="signup-button1"
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '48px',
+    minWidth: '200px',          // Ensures both buttons are the same width
+    padding: '0 2rem',
+    fontSize: '1.2rem',
+    background: '#e74c3c',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '10px',
+    textDecoration: 'none',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+    cursor: 'pointer',
+    lineHeight: 1,
+    fontWeight: 500,
+    marginRight: '22px'
+  }}
+>
+  GET STARTED
+</a>
 
-                        <button className="login-button2" onClick={login}>LOG IN</button>
+<button
+  className="login-button2"
+  onClick={login}
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '48px',
+    minWidth: '200px',          // Same as above
+    padding: '0 2rem',
+    fontSize: '1.2rem',
+    background: '#f8f8f8',
+    color: '#222',
+    border: '3px solid #222',
+    borderRadius: '10px',
+    textDecoration: 'none',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+    cursor: 'pointer',
+    lineHeight: 1,
+    fontWeight: 500,
+  }}
+>
+  LOG IN
+</button>
+
                     </section>
                 </section>
                 <div className="portfolio-preview anim">
