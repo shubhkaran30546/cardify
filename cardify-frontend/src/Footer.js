@@ -35,9 +35,9 @@ const Footer = () => {
                     {/* <a href="#"><FaYoutube /></a> */}
                     {/* <a href="#"><FaFacebookF /></a> */}
                     {/* <a href="#"><FaTwitter /></a> */}
-                    <a href="#" style={{ display: "flex", alignItems: "center" }}>
-                        <XIcon size={22} color="white" />
-                    </a>
+                    {/* <a href="#" style={{ display: "flex", alignItems: "center" }}>
+                        <XIcon size={18} color="white" />
+                    </a> */}
                     {/* <a href="#"><FaInstagram /></a>? */}
                     <a href="#"><FaLinkedinIn /></a>
                 </div>
