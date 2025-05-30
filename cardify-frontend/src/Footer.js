@@ -15,10 +15,10 @@ const Footer = () => {
                     <img src="logo.png" alt="Cardify Logo" />
                 </div>
                 <div className="footer-social">
-                    <a href="#"><FaYoutube /></a>
-                    <a href="#"><FaFacebookF /></a>
+                    {/* <a href="#"><FaYoutube /></a> */}
+                    {/* <a href="#"><FaFacebookF /></a> */}
                     <a href="#"><FaTwitter /></a>
-                    <a href="#"><FaInstagram /></a>
+                    {/* <a href="#"><FaInstagram /></a>? */}
                     <a href="#"><FaLinkedinIn /></a>
                 </div>
             </div>
