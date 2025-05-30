@@ -239,32 +239,32 @@ const Home = () => {
 
             {/* FEATURES SECTION */}
             <div className="features-section anim" style={{ marginBottom: '2rem' }}>
-    <h2>WHY CHOOSE US?</h2>
-    <ul className="why-choose-list" style={{
-        maxWidth: '500px',
-        margin: '1.5rem auto',
-        padding: '2rem',
-        border: '2px solid #e74c3c',
-        borderRadius: '16px',
-        background: '#fff',
-        boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
-        listStyleType: 'none',
-        fontSize: '1.15rem'
-    }}>
-        <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
-            Hassle-free digital identity creation.
-        </li>
-        <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
-            E-portfolios without tech burden.
-        </li>
-        <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
-            Scalable for teams &amp; businesses.
-        </li>
-        <li style={{ marginBottom: 0, textAlign: 'center', fontWeight: 500 }}>
-            Affordable, professional, and modern.
-        </li>
-    </ul>
-</div>
+                <h2>WHY CHOOSE US?</h2>
+                <ul className="why-choose-list" style={{
+                    maxWidth: '500px',
+                    margin: '1.5rem auto',
+                    padding: '2rem',
+                    border: '2px solid #e74c3c',
+                    borderRadius: '16px',
+                    background: '#fff',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+                    listStyleType: 'none',
+                    fontSize: '1.15rem'
+                }}>
+                    <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
+                        Hassle-free digital identity creation.
+                    </li>
+                    <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
+                        E-portfolios without tech burden.
+                    </li>
+                    <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
+                        Scalable for teams &amp; businesses.
+                    </li>
+                    <li style={{ marginBottom: 0, textAlign: 'center', fontWeight: 500 }}>
+                        Affordable, professional, and modern.
+                    </li>
+                </ul>
+            </div>
 
 
             {/* PARTNER SECTION */}
