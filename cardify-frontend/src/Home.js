@@ -380,22 +380,19 @@ const Home = () => {
                                     <span className="new-price">Contact Us</span>
                                 ) : (
                                     <>
-                                        {/* If the Yearly plan is selected, show the discounted price */}
-                                        {isYearly ? (
-                                            <>
-                    <span className="original-price">
-                        ${plan.yearlyPrice} {/* Original Price */}
-                    </span>
-                                                <span className="discounted-price">
-                        ${(plan.yearlyPrice * 0.8).toFixed(2)} {/* 20% off */}
-                    </span>
-                                            </>
-                                        ) : (
-                                            <span className="new-price">${plan.monthlyPrice}</span>
-                                        )}
+                                    {isYearly ? (
+                                        <span className="new-price">
+                                        ${(plan.yearlyPrice * 0.8).toFixed(2)}<span style={{ fontWeight: 400 }}>/month</span>
+                                        </span>
+                                    ) : (
+                                        <span className="new-price">
+                                        ${plan.monthlyPrice}<span style={{ fontWeight: 400 }}>/month</span>
+                                        </span>
+                                    )}
                                     </>
                                 )}
                             </p>
+
 
                             <button
                                 className="get-started-btn"
