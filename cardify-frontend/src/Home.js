@@ -81,7 +81,6 @@ const Home = () => {
                 "Custom profile picture & branding",
                 "Basic contact management",
                 "Mobile-friendly design",
-                "Up to 100 profile views per month",
                 "Access to standard templates",
             ],
         },
