@@ -1,4 +1,4 @@
-/footer/
+/*footer*/
 .footer {
     position: absolute;
     left:0;
@@ -27,6 +27,7 @@
 
 .footer-logo img {
     width:120px;
+    /*height: 40px;*/
     margin-right: 10px;
 }
 
@@ -71,10 +72,6 @@
 }
 
 @media (max-width: 600px) {
-    html, body {
-        margin: 0;
-        padding: 0;
-    }
 
      .main-content {
         flex: 1;
