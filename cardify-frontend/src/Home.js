@@ -238,33 +238,45 @@ const Home = () => {
             </section>
 
             {/* FEATURES SECTION */}
-            <div className="features-section anim" style={{ marginBottom: '2rem' }}>
-                <h2>WHY CHOOSE US?</h2>
-                <ul className="why-choose-list" style={{
-                    maxWidth: '500px',
-                    margin: '1.5rem auto',
-                    padding: '2rem',
-                    border: '2px solid #e74c3c',
-                    borderRadius: '16px',
-                    background: '#fff',
-                    boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
-                    listStyleType: 'none',
-                    fontSize: '1.15rem'
-                }}>
-                    <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
-                        Hassle-free digital identity creation.
-                    </li>
-                    <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
-                        E-portfolios without tech burden.
-                    </li>
-                    <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
-                        Scalable for teams &amp; businesses.
-                    </li>
-                    <li style={{ marginBottom: 0, textAlign: 'center', fontWeight: 500 }}>
-                        Affordable, professional, and modern.
-                    </li>
-                </ul>
-            </div>
+            <ul style={{
+    maxWidth: '600px',
+    margin: '1.5rem auto',
+    padding: 0,
+    listStyle: 'none',
+}}>
+    {[
+        "Hassle-free digital identity creation.",
+        "E-portfolios without tech burden.",
+        "Scalable for teams & businesses.",
+        "Affordable, professional, and modern."
+    ].map((text, idx) => (
+        <li key={idx} style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            margin: '1.3rem 0',
+            fontWeight: 500,
+            fontSize: '1.2rem',
+        }}>
+            <span style={{
+                display: 'inline-flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: 34, height: 34,
+                borderRadius: '50%',
+                background: '#e74c3c',
+                color: 'white',
+                fontWeight: 700,
+                fontSize: '1.1rem',
+                flexShrink: 0,
+                boxShadow: '0 2px 8px rgba(231,76,60,0.08)',
+            }}>{idx + 1}</span>
+            {text}
+        </li>
+    ))}
+</ul>
+
+
 
 
             {/* PARTNER SECTION */}
