@@ -381,11 +381,11 @@ const Home = () => {
                                     <>
                                     {isYearly ? (
                                         <span className="new-price">
-                                        ${(plan.yearlyPrice * 0.8).toFixed(2)}<span style={{ fontWeight: 400 }}>/month</span>
+                                        C${(plan.yearlyPrice * 0.8).toFixed(2)}<span style={{ fontWeight: 400 }}>/month</span>
                                         </span>
                                     ) : (
                                         <span className="new-price">
-                                        ${plan.monthlyPrice}<span style={{ fontWeight: 400 }}>/month</span>
+                                        C${plan.monthlyPrice}<span style={{ fontWeight: 400 }}>/month</span>
                                         </span>
                                     )}
                                     </>
