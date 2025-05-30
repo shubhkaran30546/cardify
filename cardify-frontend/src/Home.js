@@ -205,28 +205,27 @@ const Home = () => {
                         with a simple QR code, and manage your leads effortlessly—all in one place.
                     </p>
                     <section className="buttons">
-                       <a
-  href="#pricing"
-  className="signup-button1"
-  style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '48px',
-    padding: '0 2rem',
-    fontSize: '1.2rem',
-    background: '#e74c3c',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-    cursor: 'pointer',
-    lineHeight: 1,
-  }}
->
-  GET STARTED
-</a>
+                       <a href="#pricing"
+                            className="signup-button1"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                height: '48px',
+                                padding: '0 2rem',
+                                fontSize: '1.2rem',
+                                background: '#e74c3c',
+                                color: '#fff',
+                                border: 'none',
+                                borderRadius: '8px',
+                                textDecoration: 'none',
+                                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                                cursor: 'pointer',
+                                lineHeight: 1,
+                            }}
+                            >
+                            GET STARTED
+                        </a>
 
                         <button className="login-button2" onClick={login}>LOG IN</button>
                     </section>
