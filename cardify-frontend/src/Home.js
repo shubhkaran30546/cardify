@@ -338,7 +338,19 @@ const Home = () => {
             </div>
 
             {/* PRICING SECTION */}
-            <div id="pricing" className="pricing-section anim">
+            <div
+                id="pricing"
+                className="pricing-section anim"
+                style={{
+                    background: "#fff",
+                    borderRadius: "20px",
+                    boxShadow: "0 4px 28px rgba(44,62,80,0.07)",
+                    padding: "2.5rem 1.5rem",
+                    margin: "3rem auto",
+                    maxWidth: 1200
+                }}
+                >
+
                 <h2 className="pricing-title">YOUR PRICING OPTIONS</h2>
                 <p className="pricing-description">
                     Choose the perfect plan for your needs. Whether you're a freelancer, growing a business, or managing
