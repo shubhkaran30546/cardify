@@ -238,7 +238,9 @@ const Home = () => {
             </section>
 
             {/* FEATURES SECTION */}
-            <ul style={{
+            <div className="features-section anim" style={{ marginBottom: '2rem' }}>
+    <h2>WHY CHOOSE US?</h2>
+    <ul style={{
     maxWidth: '600px',
     margin: '1.5rem auto',
     padding: 0,
@@ -276,6 +278,7 @@ const Home = () => {
     ))}
 </ul>
 
+</div>
 
 
 
