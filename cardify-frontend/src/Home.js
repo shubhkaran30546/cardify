@@ -343,11 +343,6 @@ const Home = () => {
                 className="pricing-section anim"
                 style={{
                     background: "#fff",
-                    borderRadius: "20px",
-                    boxShadow: "0 4px 28px rgba(44,62,80,0.07)",
-                    padding: "2.5rem 1.5rem",
-                    margin: "3rem auto",
-                    maxWidth: 1200
                 }}
                 >
 
