@@ -81,7 +81,7 @@ const Home = () => {
                 "Custom profile picture & branding",
                 "Basic contact management",
                 "Mobile-friendly design",
-                "Access to standard templates",
+                "Access to standard template",
             ],
         },
         {
