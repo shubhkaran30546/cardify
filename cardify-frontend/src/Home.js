@@ -354,18 +354,21 @@ const Home = () => {
                 </p>
 
                 <div className="toggle-switch">
-                    <span className="discount-badge">20% OFF</span>
+                    {!isYearly ? null : (
+                        <span className="discount-badge">20% OFF</span>
+                    )}
                     <span>Yearly</span>
                     <label className="switch">
                         <input
-                            type="checkbox"
-                            checked={!isYearly}
-                            onChange={() => setIsYearly(!isYearly)}
+                        type="checkbox"
+                        checked={!isYearly}
+                        onChange={() => setIsYearly(!isYearly)}
                         />
                         <span className="slider"></span>
                     </label>
                     <span>Monthly</span>
                 </div>
+
 
                 <div className="pricing-cards">
                     {plans.map((plan, index) => (
