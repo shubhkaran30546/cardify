@@ -1,14 +1,15 @@
 .support {
     min-height: 100vh;
     width: 100%;
-    background: #f7f9fa; /* subtle light gray for contrast */
+    background: #f7f9fa;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0;
+    padding-top: 60px; /* pushes everything down */
     margin: 0;
 }
+
 
 .support-container {
     width: 100%;
