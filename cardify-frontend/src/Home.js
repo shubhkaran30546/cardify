@@ -239,46 +239,79 @@ const Home = () => {
 
             {/* FEATURES SECTION */}
             <div className="features-section anim" style={{ marginBottom: '2rem' }}>
-    <h2>WHY CHOOSE US?</h2>
-    <ul style={{
-    maxWidth: '600px',
-    margin: '1.5rem auto',
-    padding: 0,
-    listStyle: 'none',
-}}>
+  <h2 style={{ marginBottom: '2.5rem' }}>WHY CHOOSE US?</h2>
+  <div style={{
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    gap: '2rem',
+    flexWrap: 'wrap',
+    maxWidth: 950,
+    margin: '0 auto'
+  }}>
     {[
-        "Hassle-free digital identity creation.",
-        "E-portfolios without tech burden.",
-        "Scalable for teams & businesses.",
-        "Affordable, professional, and modern."
-    ].map((text, idx) => (
-        <li key={idx} style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            margin: '1.3rem 0',
-            fontWeight: 500,
-            fontSize: '1.2rem',
-        }}>
-            <span style={{
-                display: 'inline-flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: 34, height: 34,
-                borderRadius: '50%',
-                background: '#e74c3c',
-                color: 'white',
-                fontWeight: 700,
-                fontSize: '1.1rem',
-                flexShrink: 0,
-                boxShadow: '0 2px 8px rgba(231,76,60,0.08)',
-            }}>{idx + 1}</span>
-            {text}
-        </li>
+      {
+        title: "Hassle-free digital identity creation.",
+        icon: "🌟"
+      },
+      {
+        title: "E-portfolios without tech burden.",
+        icon: "📁"
+      },
+      {
+        title: "Scalable for teams & businesses.",
+        icon: "👥"
+      },
+      {
+        title: "Affordable, professional, and modern.",
+        icon: "💸"
+      }
+    ].map((item, idx) => (
+      <div
+        key={idx}
+        className="why-card"
+        style={{
+          flex: '1 1 200px',
+          minWidth: 220,
+          maxWidth: 270,
+          background: '#fff',
+          borderRadius: '18px',
+          boxShadow: '0 2px 12px rgba(44,62,80,0.08)',
+          padding: '2.2rem 1.6rem 1.7rem 1.6rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center',
+          transition: 'box-shadow 0.25s, transform 0.25s, border 0.25s',
+          cursor: 'pointer',
+          border: '2px solid transparent'
+        }}
+        onMouseEnter={e => {
+          e.currentTarget.style.boxShadow = '0 6px 24px 0 rgba(231,76,60,0.15)';
+          e.currentTarget.style.transform = 'translateY(-7px) scale(1.04)';
+          e.currentTarget.style.border = '2px solid #e74c3c';
+        }}
+        onMouseLeave={e => {
+          e.currentTarget.style.boxShadow = '0 2px 12px rgba(44,62,80,0.08)';
+          e.currentTarget.style.transform = 'none';
+          e.currentTarget.style.border = '2px solid transparent';
+        }}
+      >
+        <div style={{
+          fontSize: '2.5rem',
+          marginBottom: '1.1rem',
+          userSelect: 'none'
+        }}>{item.icon}</div>
+        <div style={{
+          fontWeight: 500,
+          fontSize: '1.13rem',
+          color: '#222'
+        }}>{item.title}</div>
+      </div>
     ))}
-</ul>
-
+  </div>
 </div>
+
 
 
 
