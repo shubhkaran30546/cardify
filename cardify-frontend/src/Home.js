@@ -238,53 +238,34 @@ const Home = () => {
             </section>
 
             {/* FEATURES SECTION */}
-            <div className="features-section anim">
-                <h2>WHY CHOOSE US?</h2>
-                <div className="scroll-container">
-                    <div className="scroll-row row1">
-                        <ul className="features-list">
-                            <li>Social media integration</li>
-                            <li>Save contacts instantly</li>
-                            <li>Easy sharing options</li>
-                            <li>One-click call, text, and email</li>
-                            <li>QR code support</li>
-                            <li>Social media integration</li>
-                            <li>Save contacts instantly</li>
-                            <li>Easy sharing options</li>
-                            <li>One-click call, text, and email</li>
-                            <li>QR code support</li>
-                        </ul>
-                    </div>
-                    <div className="scroll-row row2">
-                        <ul className="features-list">
-                            <li>No downloads needed</li>
-                            <li>Display customer reviews</li>
-                            <li>Customizable designs</li>
-                            <li>Eco-friendly and paperless</li>
-                            <li>Usage analytics</li>
-                            <li>No downloads needed</li>
-                            <li>Display customer reviews</li>
-                            <li>Customizable designs</li>
-                            <li>Eco-friendly and paperless</li>
-                            <li>Usage analytics</li>
-                        </ul>
-                    </div>
-                    <div className="scroll-row row3">
-                        <ul className="features-list">
-                            <li>Secure data sharing</li>
-                            <li>Fast contact exchange</li>
-                            <li>Real-time updates</li>
-                            <li>Cross-platform support</li>
-                            <li>Easy to use</li>
-                            <li>Secure data sharing</li>
-                            <li>Fast contact exchange</li>
-                            <li>Real-time updates</li>
-                            <li>Cross-platform support</li>
-                            <li>Easy to use</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            <div className="features-section anim" style={{ marginBottom: '2rem' }}>
+    <h2>WHY CHOOSE US?</h2>
+    <ul className="why-choose-list" style={{
+        maxWidth: '500px',
+        margin: '1.5rem auto',
+        padding: '2rem',
+        border: '2px solid #e74c3c',
+        borderRadius: '16px',
+        background: '#fff',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.04)',
+        listStyleType: 'none',
+        fontSize: '1.15rem'
+    }}>
+        <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
+            Hassle-free digital identity creation.
+        </li>
+        <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
+            E-portfolios without tech burden.
+        </li>
+        <li style={{ marginBottom: '1.2rem', textAlign: 'center', fontWeight: 500 }}>
+            Scalable for teams &amp; businesses.
+        </li>
+        <li style={{ marginBottom: 0, textAlign: 'center', fontWeight: 500 }}>
+            Affordable, professional, and modern.
+        </li>
+    </ul>
+</div>
+
 
             {/* PARTNER SECTION */}
             <div className="anim">
