@@ -50,7 +50,6 @@ const Leads = () => {
                         placeholder="Search"
                         className="leads-search-input"
                     />
-                    <button className="leads-add-button">+</button>
                 </div>
             </div>
 

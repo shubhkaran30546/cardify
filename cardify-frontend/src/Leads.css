@@ -3,32 +3,32 @@
     background-color: #fff;
     border-radius: 8px;
     padding: 1.5rem;
-    /*margin: 2rem auto;*/
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     color: #333;
-    /*position: relative;*/
-    margin-left: 25%;
-    width: 70%;
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 1000px;
 }
 
 /* Header Section */
 .leads-header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    gap: 0.75rem;
 }
 
 .leads-date {
     font-size: 0.9rem;
     color: #999;
-    margin-right: 1rem;
 }
 
 .leads-title {
-    flex: 1;
+    flex: 1 1 100%;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-left: auto;
 }
 
 .leads-search-input {
@@ -54,6 +55,7 @@
 }
 
 .leads-add-button {
+    display: flex;
     justify-content: center;
     align-items: center;
     background-color: #f36a2f;
@@ -75,7 +77,8 @@
 .leads-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 0.5rem; /* Adds spacing between rows for a modern look */
+    border-spacing: 0 0.5rem;
+    overflow-x: auto;
 }
 
 .leads-table thead tr {
@@ -97,7 +100,6 @@
     transition: background-color 0.2s ease;
 }
 
-/* Give rows a "card-like" feel by applying a border on top & bottom */
 .leads-table tbody tr td {
     padding: 0.75rem;
     border-top: 1px solid #eee;
@@ -109,50 +111,84 @@
     background-color: #fafafa;
 }
 
-/* Center "No leads found" text */
+/* No leads text */
 .leads-table tbody tr td[colspan="5"] {
     text-align: center;
     color: #999;
     font-style: italic;
 }
+
+/* Delete button */
 .delete_lead {
     background-color: #f36a2f;
     width: 100%;
 }
 
-@media (max-width: 600px){
-    .login-page {
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .leads-container {
+        width: 95%;
+        padding: 1rem;
+    }
+
+    .leads-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .leads-title {
+        text-align: left;
+        font-size: 1.3rem;
+    }
+
+    .leads-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .leads-search-input {
+        flex: 1;
         width: 100%;
     }
-}
-@media (max-width: 768px){
-    .leads-container {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        justify-items: center;
-        margin-left: 10%;
-        width: 80%;
-    }
-    .leads-table tbody tr td {
-        padding: 0.75rem;
-    }
-}
-@media (max-width: 500px){
-    .leads-container {
-        flex-direction: column;
-        display: flex;
-        margin-left: 8%;
-        width: 490px;
 
+    .leads-add-button {
+        width: 2.4rem;
+        height: 2.4rem;
+        font-size: 1.4rem;
     }
-    .leads-table thead tr{
-        padding: 0.1rem;
+
+    .leads-table th,
+    .leads-table td {
+        padding: 0.6rem;
+        font-size: 0.85rem;
     }
-    .leads-table tbody{
-        margin-left: 10%;
+}
+
+@media (max-width: 500px) {
+    .leads-header {
+        flex-direction: column;
+        align-items: stretch;
     }
-    .leads-table tbody tr td {
-        padding: 0.1rem;
+
+    .leads-title {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+
+    .leads-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .leads-add-button {
+        width: 100%;
+        border-radius: 8px;
+    }
+
+    .leads-table {
+        display: block;
+        overflow-x: auto;
     }
 }
