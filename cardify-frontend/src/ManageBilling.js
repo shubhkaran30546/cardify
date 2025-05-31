@@ -6,7 +6,7 @@ import Sidebar from "./Sidebar";
 function ManageBilling() {
     const navigate = useNavigate();
     const [subscription, setSubscription] = useState(null);
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const [plans, setPlans] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState(false);

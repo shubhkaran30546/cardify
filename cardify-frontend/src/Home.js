@@ -119,8 +119,7 @@ const Home = () => {
                 "Custom profile picture & branding",
                 "Basic contact management",
                 "Mobile-friendly design",
-                "Up to 100 profile views per month",
-                "Access to standard templates",
+                "Access to standard template",
             ],
         },
         {
@@ -175,20 +174,19 @@ const Home = () => {
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
-
-        try {
-            // Call backend to check if subscription is active
-            const response = await fetch(`${BACKEND_BASE_URL}/api/users/subscription-status`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.status === 401) {
-                navigate("/login", { state: { from: location, priceId } });
-                return;
-            }
+        const response = await fetch('${BACKEND_BASE_URL}/api/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+    },
+        body: JSON.stringify({ priceId }),
+    });
+        if (response.status === 401) {
+            // Token is invalid or expired — redirect to login
+            navigate("/login", { state: { from: location, priceId } });
+            return;
+        }
 
             const data = await response.json();
             console.log("Subscription status response:", data);
@@ -270,7 +268,29 @@ const Home = () => {
                         with a simple QR code, and manage your leads effortlessly—all in one place.
                     </p>
                     <section className="buttons">
-                       <a href="#pricing" className="signup-button1">GET STARTED</a>
+                        <a href="#pricing"
+                           className="signup-button1"
+                           style={{
+                               display: 'flex',
+                               alignItems: 'center',
+                               justifyContent: 'center',
+                               height: '46px',
+                               weidth: '10%',
+                               padding: '0 2rem',
+                               fontSize: '1rem',
+                               background: '#e74c3c',
+                               color: '#fff',
+                               border: 'none',
+                               borderRadius: '8px',
+                               textDecoration: 'none',
+                               boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                               cursor: 'pointer',
+                               lineHeight: 1,
+                           }}
+                        >
+                            GET STARTED
+                        </a>
+
                         <button className="login-button2" onClick={login}>LOG IN</button>
                     </section>
                 </section>
@@ -280,58 +300,87 @@ const Home = () => {
             </section>
 
             {/* FEATURES SECTION */}
-            <div className="features-section anim">
-                <h2>WHY CHOOSE US?</h2>
-                <div className="scroll-container">
-                    <div className="scroll-row row1">
-                        <ul className="features-list">
-                            <li>Social media integration</li>
-                            <li>Save contacts instantly</li>
-                            <li>Easy sharing options</li>
-                            <li>One-click call, text, and email</li>
-                            <li>QR code support</li>
-                            <li>Social media integration</li>
-                            <li>Save contacts instantly</li>
-                            <li>Easy sharing options</li>
-                            <li>One-click call, text, and email</li>
-                            <li>QR code support</li>
-                        </ul>
-                    </div>
-                    <div className="scroll-row row2">
-                        <ul className="features-list">
-                            <li>No downloads needed</li>
-                            <li>Display customer reviews</li>
-                            <li>Customizable designs</li>
-                            <li>Eco-friendly and paperless</li>
-                            <li>Usage analytics</li>
-                            <li>No downloads needed</li>
-                            <li>Display customer reviews</li>
-                            <li>Customizable designs</li>
-                            <li>Eco-friendly and paperless</li>
-                            <li>Usage analytics</li>
-                        </ul>
-                    </div>
-                    <div className="scroll-row row3">
-                        <ul className="features-list">
-                            <li>Secure data sharing</li>
-                            <li>Fast contact exchange</li>
-                            <li>Real-time updates</li>
-                            <li>Cross-platform support</li>
-                            <li>Easy to use</li>
-                            <li>Secure data sharing</li>
-                            <li>Fast contact exchange</li>
-                            <li>Real-time updates</li>
-                            <li>Cross-platform support</li>
-                            <li>Easy to use</li>
-                        </ul>
-                    </div>
+            <div className="features-section anim" style={{ marginBottom: '2rem' }}>
+                <h2 style={{ marginBottom: '2.5rem' }}>WHY CHOOSE US?</h2>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'stretch',
+                    gap: '2rem',
+                    flexWrap: 'wrap',
+                    maxWidth: 950,
+                    margin: '0 auto'
+                }}>
+                    {[
+                        {
+                            title: "Hassle-free digital identity creation.",
+                            icon: "🌟"
+                        },
+                        {
+                            title: "E-portfolios without tech burden.",
+                            icon: "📁"
+                        },
+                        {
+                            title: "Scalable for teams & businesses.",
+                            icon: "👥"
+                        },
+                        {
+                            title: "Affordable, professional, and modern.",
+                            icon: "💸"
+                        }
+                    ].map((item, idx) => (
+                        <div
+                            key={idx}
+                            className="why-card"
+                            style={{
+                                flex: '1 1 200px',
+                                minWidth: 220,
+                                maxWidth: 270,
+                                background: '#fff',
+                                borderRadius: '18px',
+                                boxShadow: '0 2px 12px rgba(44,62,80,0.08)',
+                                padding: '2.2rem 1.6rem 1.7rem 1.6rem',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                transition: 'box-shadow 0.25s, transform 0.25s, border 0.25s',
+                                cursor: 'pointer',
+                                border: '2px solid transparent'
+                            }}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.boxShadow = '0 6px 24px 0 rgba(231,76,60,0.15)';
+                                e.currentTarget.style.transform = 'translateY(-7px) scale(1.04)';
+                                e.currentTarget.style.border = '2px solid #e74c3c';
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.boxShadow = '0 2px 12px rgba(44,62,80,0.08)';
+                                e.currentTarget.style.transform = 'none';
+                                e.currentTarget.style.border = '2px solid transparent';
+                            }}
+                        >
+                            <div style={{
+                                fontSize: '2.5rem',
+                                marginBottom: '1.1rem',
+                                userSelect: 'none'
+                            }}>{item.icon}</div>
+                            <div style={{
+                                fontWeight: 500,
+                                fontSize: '1.13rem',
+                                color: '#222'
+                            }}>{item.title}</div>
+                        </div>
+                    ))}
                 </div>
             </div>
+
+
+
 
             {/* PARTNER SECTION */}
             <div className="anim">
                 <h2>WATCH HOW IT WORKS</h2>
-                {/*<img className="video" src="Video1.png" alt="video" />*/}
+                {/*{/<img className="video" src="Video1.png" alt="video" />/}*/}
                 <video
                     ref={videoRef}
                     className="video"
@@ -351,7 +400,14 @@ const Home = () => {
             </div>
 
             {/* PRICING SECTION */}
-            <div id="pricing" className="pricing-section anim">
+            <div
+                id="pricing"
+                className="pricing-section anim"
+                style={{
+                    background: "#fff",
+                }}
+            >
+
                 <h2 className="pricing-title">YOUR PRICING OPTIONS</h2>
                 <p className="pricing-description">
                     Choose the perfect plan for your needs. Whether you're a freelancer, growing a business, or managing
@@ -360,7 +416,9 @@ const Home = () => {
                 </p>
 
                 <div className="toggle-switch">
-                    <span className="discount-badge">20% OFF</span>
+                    {!isYearly ? null : (
+                        <span className="discount-badge">20% OFF</span>
+                    )}
                     <span>Yearly</span>
                     <label className="switch">
                         <input
@@ -385,20 +443,18 @@ const Home = () => {
                                     <>
                                         {/* If the Yearly plan is selected, show the discounted price */}
                                         {isYearly ? (
-                                            <>
-                    <span className="original-price">
-                        ${plan.yearlyPrice} {/* Original Price */}
-                    </span>
-                                                <span className="discounted-price">
-                        ${(plan.yearlyPrice * 0.8).toFixed(2)} {/* 20% off */}
-                    </span>
-                                            </>
+                                            <span className="new-price">
+                                        C${(plan.yearlyPrice * 0.8).toFixed(2)}<span style={{ fontWeight: 400 }}>/month</span>
+                                        </span>
                                         ) : (
-                                            <span className="new-price">${plan.monthlyPrice}</span>
+                                            <span className="new-price">
+                                        C${plan.monthlyPrice}<span style={{ fontWeight: 400 }}>/month</span>
+                                        </span>
                                         )}
                                     </>
                                 )}
                             </p>
+
 
                             <button
                                 className="get-started-btn"

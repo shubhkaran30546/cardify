@@ -16,7 +16,7 @@ function BroadcastEmail() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+        const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
         // Create a FormData object for the multipart/form-data request
         const formData = new FormData();

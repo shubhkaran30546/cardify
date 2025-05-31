@@ -5,7 +5,7 @@ const AssignUserToCompany = () => {
     const [companies, setCompanies] = useState([]);
     const [selectedUser, setSelectedUser] = useState("");
     const [selectedCompany, setSelectedCompany] = useState("");
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     useEffect(() => {
         const token = localStorage.getItem("token");

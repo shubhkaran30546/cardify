@@ -26,7 +26,7 @@ const Leads = () => {
             try {
                 const response = await axios.get(
                     `${BACKEND_BASE_URL}/api/contact/leads/${userId}`
-                );
+            );
                 setLeads(response.data);
             } catch (error) {
                 console.error("Error fetching leads:", error);
@@ -40,7 +40,7 @@ const Leads = () => {
         <div className="leads-container">
             {/* Header Section */}
             <div className="leads-header">
-                {/*<div className="leads-date">MAR'24</div>*/}
+                {/*{/<div className="leads-date">MAR'24</div>/}*/}
                 <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</button>
                 <Sidebar userName={userName} isAdmin={isAdmin} isOpen={isOpen} toggleSidebar={toggleSidebar}/>
                 <h2 className="leads-title">Leads</h2>
