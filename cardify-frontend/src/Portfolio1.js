@@ -162,7 +162,7 @@ END:VCARD
                 <nav className="navbar-port">
                     <h1 className="logo1">{portfolio?.firstName || "User"}<span className="dot">.</span></h1>
                     <ul className="nav-links12">
-                        <li><button onClick={() => navigate("/")} className="#about12">Home</button></li>
+                        <li className="#about12" onClick={() => navigate("/")}>Home</li>
                         <li><a href="#about12">About</a></li>
                         <li className="active12">
                             <a href="#contact-container1">
