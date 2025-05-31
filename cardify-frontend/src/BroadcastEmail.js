@@ -29,7 +29,7 @@ function BroadcastEmail() {
 
         try {
             const response = await axios.post(
-                '${BACKEND_BASE_URL}/api/contact/broadcast',
+                `${BACKEND_BASE_URL}/api/contact/broadcast`,
                 formData,
                 {
                     headers: {
