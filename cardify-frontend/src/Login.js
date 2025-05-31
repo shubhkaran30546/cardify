@@ -81,9 +81,9 @@ function Login() {
                             />
                         </div>
 
-                        <div className="password-requirements">
-                            I want to be commissioned and secure in letters, numbers, and symbols.
-                        </div>
+                        {/*<div className="password-requirements">*/}
+                        {/*    I want to be commissioned and secure in letters, numbers, and symbols.*/}
+                        {/*</div>*/}
 
                         <div className="login-options">
                             <div className="remember-me">
@@ -116,9 +116,8 @@ function Login() {
                     </form>
                 </div>
             </div>
-            <div>
+
                 <Footer />
-            </div>
         </div>
     );
 }

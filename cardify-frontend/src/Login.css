@@ -201,4 +201,10 @@
         margin-top: 50px;
         width: 90%;
     }
+    .remember-me {
+        margin-left: 0;
+    }
+    .login-options {
+        gap: 10%;
+    }
 }

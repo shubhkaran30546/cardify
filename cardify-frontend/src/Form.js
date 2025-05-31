@@ -317,9 +317,8 @@ const SlidingForm = () => {
                 </div>
             </form>
         </div>
-        <div>
             <Footer />
-         </div>
+
         </div>
     );
 };

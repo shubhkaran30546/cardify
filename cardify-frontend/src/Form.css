@@ -153,3 +153,10 @@ p {
         transform: rotate(1turn);
     }
 }
+
+@media (max-width: 500px) {
+    .form-container1 {
+        width: 80%;
+        margin-top: 100px;
+    }
+}

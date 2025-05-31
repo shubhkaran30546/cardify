@@ -54,7 +54,7 @@ public class OAuth2LoginSuccessHandler implements org.springframework.security.w
         System.out.println("Generated JWT Token: " + token);
 
         // Optionally append the token as a query parameter.
-        String redirectUrl = UriComponentsBuilder.fromUriString("https://cardify-ecard-69efed7c7c3e.herokuapp.com/signup")
+        String redirectUrl = UriComponentsBuilder.fromUriString("http://localhost:3000/signup")
                 .queryParam("token", token)
                 .queryParam("role", role)
                 .build().toUriString();
