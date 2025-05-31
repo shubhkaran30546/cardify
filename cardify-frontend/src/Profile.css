@@ -1,12 +1,13 @@
-/* General resets & body */
+/* Reset & basics */
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #f9fafb;
     color: #333;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Profile container layout */
+/* Container: flex layout */
 .profile-container {
     display: flex;
     min-height: 100vh;
@@ -14,7 +15,7 @@ body {
     background: #f9fafb;
 }
 
-/* Sidebar */
+/* Sidebar: fixed width, fixed position */
 .sidebar {
     width: 280px;
     height: 100vh;
@@ -27,11 +28,17 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    transition: left 0.3s ease;
-    z-index: 1001;
+    transition: transform 0.3s ease;
+    z-index: 1100;
     border-right: 1px solid #eee;
 }
 
+/* Hide sidebar offscreen on mobile */
+.sidebar.closed {
+    transform: translateX(-100%);
+}
+
+/* Sidebar header */
 .sidebar h2 {
     font-size: 1.75rem;
     font-weight: 700;
@@ -81,13 +88,14 @@ body {
     outline: none;
 }
 
+/* Sidebar SVG icons */
 .sidebar-btn svg {
     fill: currentColor;
     width: 20px;
     height: 20px;
 }
 
-/* Main content */
+/* Main content: shifted right to sidebar width on desktop */
 .main-content {
     margin-left: 280px;
     flex: 1;
@@ -95,9 +103,16 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    min-height: 100vh;
+    transition: margin-left 0.3s ease;
 }
 
-/* Profile card */
+/* When sidebar is closed on desktop (optional) */
+/* .sidebar.closed + .main-content {
+    margin-left: 0;
+} */
+
+/* Profile card styling */
 .profile-card {
     background: white;
     padding: 2rem;
@@ -108,9 +123,11 @@ body {
     gap: 2rem;
     max-width: 800px;
     margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-/* Profile avatar */
+/* Avatar */
 .profile-avatar {
     width: 130px;
     height: 130px;
@@ -118,11 +135,14 @@ body {
     border: 4px solid #dc3545;
     object-fit: cover;
     box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+    flex-shrink: 0;
 }
 
 /* Profile info */
 .profile-info {
-    flex: 1;
+    flex: 1 1 350px;
+    min-width: 250px;
+    max-width: 100%;
 }
 
 .profile-info h1 {
@@ -139,11 +159,12 @@ body {
     line-height: 1.5;
 }
 
-/* Button group */
+/* Buttons group */
 .button-group {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .profile-btn,
@@ -157,6 +178,8 @@ body {
     font-weight: 600;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    white-space: nowrap;
+    min-width: 140px;
 }
 
 .profile-btn {
@@ -183,7 +206,7 @@ body {
     outline: none;
 }
 
-/* QR Code Section */
+/* QR code section */
 .qr-section {
     max-width: 800px;
     margin: 0 auto;
@@ -213,40 +236,70 @@ body {
     position: fixed;
     top: 15px;
     left: 15px;
-    z-index: 1100;
+    z-index: 1200;
 }
 
-/* Sidebar toggle on mobile */
+/* Overlay behind sidebar on mobile */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.35);
+    z-index: 1050;
+    display: none;
+}
+
+/* Show overlay when sidebar open */
+.sidebar.open ~ .sidebar-overlay {
+    display: block;
+}
+
+/* Responsive mobile styles */
 @media (max-width: 768px) {
+    /* Sidebar slides from left */
     .sidebar {
-        left: -280px;
+        width: 260px;
+        transform: translateX(-100%);
         box-shadow: 2px 0 15px rgba(0,0,0,0.15);
+        border-right: none;
     }
 
+    /* When sidebar open */
     .sidebar.open {
-        left: 0;
+        transform: translateX(0);
+        border-right: 1px solid #eee;
     }
 
+    /* Hamburger visible */
     .hamburger {
         display: block;
     }
 
+    /* Main content takes full width */
     .main-content {
         margin-left: 0;
         padding: 3rem 1.5rem 2rem 1.5rem;
+        transition: none;
     }
 
-    .profile-card,
-    .qr-section {
-        margin: 0 1rem;
-        max-width: 100%;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
+    /* Profile card stack vertically, centered */
     .profile-card {
+        flex-direction: column;
         gap: 1.5rem;
+        padding: 1.5rem;
+        max-width: 100%;
+        margin: 1rem auto;
+    }
+
+    .profile-avatar {
+        width: 110px;
+        height: 110px;
+    }
+
+    .profile-info {
+        text-align: center;
     }
 
     .profile-info h1 {
@@ -262,5 +315,12 @@ body {
         flex: none;
         width: 90%;
         max-width: 300px;
+    }
+
+    /* QR section full width */
+    .qr-section {
+        margin: 1rem auto;
+        max-width: 100%;
+        padding: 1.5rem;
     }
 }
