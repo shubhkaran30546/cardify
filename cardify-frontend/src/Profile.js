@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
@@ -42,9 +40,9 @@ function Profile() {
                 if (navigator.canShare && navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         title: `${userName}'s Business Card`,
-                        text: "Check out my digital business card",
+                    text: "Check out my digital business card",
                         files: [file],
-                    });
+                });
                 } else {
                     // Fallback: open image in new tab
                     const url = URL.createObjectURL(blob);
@@ -162,7 +160,7 @@ function Profile() {
                 setPortfolioData(res.data);
 
                 const portfolioResponse = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/get/${response.data.userName}`, {
-                    headers: { Authorization: `Bearer ${token}` },});
+                    headers: { Authorization: `Bearer ${token}`},});
                 if (portfolioResponse.status === 200) {
                     setPortfolioExists(true);
                 }
@@ -232,27 +230,33 @@ function Profile() {
                     {portfolioData ? (
                         <div id="businessCard" className="business-card">
                             <div className="qr-wrapper">
-                            <QRCodeCanvas
-                                value={`${BACKEND_BASE_URL}/portfolio/${portfolioData.username}`}
-                                size={120}
-                                className="business-card-avatar"
-                            /></div>
+                                <QRCodeCanvas
+                                    value={`${BACKEND_BASE_URL}/portfolio/${portfolioData.username}`}
+                                    size={110}
+                                    className="business-card-avatar"
+                                />
+                            </div>
                             <div className="business-card-info">
                                 <h2>{portfolioData.firstName} {portfolioData.lastName}</h2>
-                                <p>{portfolioData.title || 'Software Developer'}</p>
-                                <p>📧 {portfolioData.email}</p>
-                                <p>📞 {portfolioData.phoneNumber}</p> {/* Update if phone number is added */}
+                                <p>{portfolioData.title}</p>
+                                <p className="email-row">
+                                    <span className="emoji" role="img" aria-label="email">📧</span>
+                                    {portfolioData.email}
+                                </p>
+                                <p className="phone-row">
+                                    <span className="emoji" role="img" aria-label="phone">📞</span>
+                                    {portfolioData.phoneNumber}
+                                </p>
                             </div>
                         </div>
                     ) : (
                         <p>Loading your business card...</p>
                     )}
-
-
                     <button onClick={handleShareBusinessCard} className="profile-btn">
                         Share My Card
                     </button>
                 </div>
+
 
 
             </div>
