@@ -72,8 +72,8 @@ public class StripeController {
                     .setMode(SessionCreateParams.Mode.SUBSCRIPTION)
                     .setCustomerEmail(user.getEmail())
                     .setClientReferenceId(user.getUsername())
-                    .setSuccessUrl("http://localhost:3000/payment-success?session_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl("http://localhost:3000/")
+                    .setSuccessUrl("https://cardify-ecard-69efed7c7c3e.herokuapp.com/payment-success?session_id={CHECKOUT_SESSION_ID}")
+                    .setCancelUrl("https://cardify-ecard-69efed7c7c3e.herokuapp.com/")
                     .addLineItem(
                             SessionCreateParams.LineItem.builder()
                                     .setQuantity(1L)
