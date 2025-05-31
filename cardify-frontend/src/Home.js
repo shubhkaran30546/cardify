@@ -174,22 +174,18 @@ const Home = () => {
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
-        const response = await fetch('${BACKEND_BASE_URL}/api/create-checkout-session', {
+        const response = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-    },
-        body: JSON.stringify({ priceId }),
-    });
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ priceId }),
+        });
         if (response.status === 401) {
             // Token is invalid or expired — redirect to login
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
 
-            const data = await response.json();
-            console.log("Subscription status response:", data);
+        const data = await response.json();
 
             if (data.active) {
                 // Subscription is active → redirect to create-ecard page
@@ -217,9 +213,7 @@ const Home = () => {
                     console.error("Failed to create checkout session:", session);
                 }
             }
-        } catch (error) {
-            console.error("Error during checkout:", error);
-        }
+
     };
 
 
@@ -270,23 +264,23 @@ const Home = () => {
                     <section className="buttons">
                         <a href="#pricing"
                            className="signup-button1"
-                           style={{
-                               display: 'flex',
-                               alignItems: 'center',
-                               justifyContent: 'center',
-                               height: '46px',
-                               weidth: '10%',
-                               padding: '0 2rem',
-                               fontSize: '1rem',
-                               background: '#e74c3c',
-                               color: '#fff',
-                               border: 'none',
-                               borderRadius: '8px',
-                               textDecoration: 'none',
-                               boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                               cursor: 'pointer',
-                               lineHeight: 1,
-                           }}
+                           // style={{
+                           //     display: 'flex',
+                           //     alignItems: 'center',
+                           //     justifyContent: 'center',
+                           //     height: '46px',
+                           //     weidth: '10%',
+                           //     padding: '0 2rem',
+                           //     fontSize: '1rem',
+                           //     background: '#e74c3c',
+                           //     color: '#fff',
+                           //     border: 'none',
+                           //     borderRadius: '8px',
+                           //     textDecoration: 'none',
+                           //     boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                           //     cursor: 'pointer',
+                           //     lineHeight: 1,
+                           // }}
                         >
                             GET STARTED
                         </a>
