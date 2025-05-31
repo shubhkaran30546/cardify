@@ -32,16 +32,54 @@ const Home = () => {
     };
 
     // Create E-Card
-    const handleCreate = () => {
+    const handleCreateEcard = async () => {
         const token = localStorage.getItem('token');
 
         if (!token || isTokenExpired(token)) {
             localStorage.setItem("redirectAfterLogin", location.pathname);
-            localStorage.removeItem('token'); // Clear token
-            navigate("/login"); // Redirect to login/signup
+            localStorage.removeItem('token');
+            navigate("/login");
+            return;
         }
-        navigate("/create-ecard");
+
+        try {
+            // Check if user already has an active subscription
+            const checkRes = await fetch(`${BACKEND_BASE_URL}/api/users/subscription-status`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const { active, subscriptionType } = await checkRes.json();
+
+            if (active) {
+                navigate("/create-ecard");
+                return;
+            }
+
+            // If not subscribed, proceed to Stripe checkout
+            const response = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    priceId: priceIds.individualMonthly,
+                    planType: "individual",
+                }),
+            });
+
+            const session = await response.json();
+            if (session && session.url) {
+                window.location.href = session.url;
+            }
+
+        } catch (error) {
+            console.error("Error initiating Stripe checkout:", error);
+        }
     };
+
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
@@ -129,36 +167,55 @@ const Home = () => {
 
     // 5) Stripe Checkout handler function
     const handleCheckout = async (priceId) => {
-        const stripe = await stripePromise;
-        console.log("yearly price : " + priceIds.individualYearly );
-        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-        if (!token) {
-            // If no token, redirect to login first
+        const token = localStorage.getItem("token");
+
+        if (!token || isTokenExpired(token)) {
+            // No token or expired → redirect to login
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
-        const response = await fetch('${BACKEND_BASE_URL}/api/create-checkout-session', {
+        const response = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-    },
-        body: JSON.stringify({ priceId }),
-    });
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ priceId }),
+        });
         if (response.status === 401) {
             // Token is invalid or expired — redirect to login
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
 
-        const session = await response.json();
+        const data = await response.json();
 
-        if (session.url) {
-            window.location.href = session.url; // redirect to Stripe Checkout
-        } else {
-            console.error('Failed to create session:', session);
-        }
+            if (data.active) {
+                // Subscription is active → redirect to create-ecard page
+                navigate("/create-ecard");
+            } else {
+                // No active subscription → create Stripe checkout session
+                const sessionRes = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ priceId }),
+                });
+
+                if (sessionRes.status === 401) {
+                    navigate("/login", { state: { from: location, priceId } });
+                    return;
+                }
+
+                const session = await sessionRes.json();
+                if (session.url) {
+                    window.location.href = session.url;
+                } else {
+                    console.error("Failed to create checkout session:", session);
+                }
+            }
+
     };
+
 
     // 6) Intersection Observer (animations)
     useEffect(() => {
@@ -207,23 +264,23 @@ const Home = () => {
                     <section className="buttons">
                         <a href="#pricing"
                            className="signup-button1"
-                           style={{
-                               display: 'flex',
-                               alignItems: 'center',
-                               justifyContent: 'center',
-                               height: '46px',
-                               weidth: '10%',
-                               padding: '0 2rem',
-                               fontSize: '1rem',
-                               background: '#e74c3c',
-                               color: '#fff',
-                               border: 'none',
-                               borderRadius: '8px',
-                               textDecoration: 'none',
-                               boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                               cursor: 'pointer',
-                               lineHeight: 1,
-                           }}
+                           // style={{
+                           //     display: 'flex',
+                           //     alignItems: 'center',
+                           //     justifyContent: 'center',
+                           //     height: '46px',
+                           //     weidth: '10%',
+                           //     padding: '0 2rem',
+                           //     fontSize: '1rem',
+                           //     background: '#e74c3c',
+                           //     color: '#fff',
+                           //     border: 'none',
+                           //     borderRadius: '8px',
+                           //     textDecoration: 'none',
+                           //     boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                           //     cursor: 'pointer',
+                           //     lineHeight: 1,
+                           // }}
                         >
                             GET STARTED
                         </a>
@@ -368,7 +425,6 @@ const Home = () => {
                     <span>Monthly</span>
                 </div>
 
-
                 <div className="pricing-cards">
                     {plans.map((plan, index) => (
                         <div key={index} className={`pricing-card ${plan.mostPopular ? "most-popular" : ""}`}>
@@ -379,6 +435,7 @@ const Home = () => {
                                     <span className="new-price">Contact Us</span>
                                 ) : (
                                     <>
+                                        {/* If the Yearly plan is selected, show the discounted price */}
                                         {isYearly ? (
                                             <span className="new-price">
                                         C${(plan.yearlyPrice * 0.8).toFixed(2)}<span style={{ fontWeight: 400 }}>/month</span>

@@ -81,6 +81,20 @@ public class UserService {
         }
         return null;
     }
+    public boolean hasActiveSubscription(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return false;
+
+        String status = user.getSubscriptionStatus(); // e.g., "active"
+        return status != null && status.equalsIgnoreCase("active");
+    }
+
+    public String getSubscriptionType(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) return null;
+        return user.getSubscriptionType().name(); // Returns "INDIVIDUAL", "CORPORATE", etc.
+    }
+
 
     public User GetUserByEmail(String email) {
         return userRepository.findByEmail(email);

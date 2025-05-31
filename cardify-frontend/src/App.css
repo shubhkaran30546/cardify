@@ -17,7 +17,7 @@ button {
     /* gap: 10%; */
     height: 24px;
     border-radius: 0.5rem;
-    background-color: #d94e28;
+    background-color: #e74c3c;
     width: 80%;
     margin: 0;
     padding-top: 10px;
@@ -589,11 +589,12 @@ input:checked + .slider:before {
         margin-bottom: 20px;
     }
     .portfolio-preview {
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
+        height: auto;
     }
     .portfolio-preview img{
-        height: 90%;
+        height: 70%;
     }
 
     /* Buttons: Stack buttons vertically with full width */
@@ -612,7 +613,7 @@ input:checked + .slider:before {
     /* Features Section: Reduce container width and font sizes */
     .features-section {
         width: 100%;
-        background: none;
+        margin: 0;
     }
     .scroll-container {
         width: 90%;

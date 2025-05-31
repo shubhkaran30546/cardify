@@ -102,7 +102,6 @@ public class StripeController {
     @GetMapping("/confirm-subscription")
     public ResponseEntity<?> confirmSubscription(@RequestParam String session_id) {
         try {
-            System.out.println("inside confirm subscription");
             Session session = Session.retrieve(session_id);
             String email = session.getCustomerEmail();
             String subscriptionId = session.getSubscription();
@@ -110,14 +109,17 @@ public class StripeController {
 
             User user = userRepository.findByUsername(username);
             if (user == null) return ResponseEntity.status(404).body("User not found");
+            Subscription subscription = Subscription.retrieve(subscriptionId);
+            String stripeStatus = subscription.getStatus(); // "active", "incomplete", "trialing", etc.
 
             user.setStripeSubscriptionId(subscriptionId);
+            user.setSubscriptionStatus(stripeStatus);
             user.setDeletionScheduledAt(null);
             userRepository.save(user);
 
             try {
 
-                Subscription subscription = Subscription.retrieve(subscriptionId);
+//                Subscription subscription = Subscription.retrieve(subscriptionId);
                 var item = subscription.getItems().getData().get(0);
                 var price = item.getPrice();
 
@@ -189,6 +191,7 @@ public class StripeController {
             subscription.cancel();
 
             // Optionally, clear the subscription ID from the user
+            user.setSubscriptionStatus("canceled");
             user.setStripeSubscriptionId(null);
             user.setDeletionScheduledAt(LocalDateTime.now().plusDays(30)); // Schedule deletion in 30 days
             userRepository.save(user);

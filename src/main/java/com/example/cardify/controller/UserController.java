@@ -14,9 +14,11 @@ import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import io.jsonwebtoken.Jwts;
@@ -42,6 +44,8 @@ public class UserController {
     private EmailService emailService;
     @Autowired
     private PasswordResetService passwordResetService;
+    @Autowired
+    private UserRepository userRepository;
 
     public UserController(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
@@ -103,6 +107,30 @@ public class UserController {
         return ResponseEntity.ok("Password reset successful.");
     }
 
+    @GetMapping("/subscription-status")
+    public ResponseEntity<?> getSubscriptionStatus(@RequestHeader(value = "Authorization", required = false) String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+        String userEmail = extractEmailFromToken(token);
+        System.out.println("userEmail: " + userEmail);
+        if (userEmail == null) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+        User user = userRepository.findByUsername(userEmail);
+        System.out.println("email: " + user.getEmail());
+        boolean active = userService.hasActiveSubscription(user.getUserId());
+        String type = userService.getSubscriptionType(user.getUserId());
+
+        return ResponseEntity.ok(Map.of(
+                "active", active,
+                "subscriptionType", type
+        ));
+    }
+    private String extractEmailFromToken(String token) {
+        token = token.replace("Bearer ", "").trim();
+        return jwtService.extractUsername(token);
+    }
 
 
 }

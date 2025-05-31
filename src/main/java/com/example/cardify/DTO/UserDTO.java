@@ -13,6 +13,8 @@ public class UserDTO {
     private String email;
     private String username;
     private User.Role role;
+    private String subscriptionStatus;
+    private String phoneNumber;
 
     public UserDTO(User user) {
         this.userId = user.getUserId();
@@ -21,5 +23,7 @@ public class UserDTO {
         this.email = user.getEmail();
         this.username = user.getUsername();
         this.role = user.getRole();
+        this.subscriptionStatus = user.getSubscriptionStatus();
+        this.phoneNumber = user.getPhoneNumber();
     }
 }

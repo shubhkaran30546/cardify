@@ -1,6 +1,7 @@
 
 package com.example.cardify.controller;
 
+import com.example.cardify.DTO.PortfolioDTO;
 import com.example.cardify.Models.Portfolio;
 import com.example.cardify.Models.User;
 import com.example.cardify.Models.VisitAnalytics;
@@ -118,5 +119,16 @@ public class PortfolioController {
     private String extractEmailFromToken(String token) {
         token = token.replace("Bearer ", "").trim(); // Remove the "Bearer " prefix
         return jwtService.extractUsername(token); // Extract username (email) from token
+    }
+
+    @GetMapping("/info/{username}")
+    public ResponseEntity<PortfolioDTO> getPortfolioByUsername(@PathVariable String username) {
+        Portfolio portfolio = portfolioService.getPortfolioByIdAndName(username);
+
+        if (portfolio == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(new PortfolioDTO(portfolio));
     }
 }
