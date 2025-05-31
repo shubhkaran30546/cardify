@@ -91,3 +91,10 @@
     color: #2a871d;
     text-align: center;
 }
+
+@media (max-width: 500px){
+    .broadcast-container {
+        width: 85%;
+        margin-left: 15px;
+    }
+}

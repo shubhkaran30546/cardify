@@ -232,7 +232,7 @@ function Profile() {
                             <div className="qr-wrapper">
                                 <QRCodeCanvas
                                     value={`${BACKEND_BASE_URL}/portfolio/${portfolioData.username}`}
-                                    size={110}
+                                    size={80}
                                     className="business-card-avatar"
                                 />
                             </div>

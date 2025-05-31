@@ -140,11 +140,12 @@
 }
 
 /* Main Content - Positioned to the Right */
-.main-content {
+.main-content1 {
     display: flex;
     flex-direction: column;
     padding-left: 150px;
     flex: 1;
+    overflow-x: hidden;
 }
 
 /* Profile Card */
@@ -299,13 +300,26 @@
         z-index: 1000;
         padding: 1rem;
     }
+    .business-card{
+        width: 80%;
+    }
 
     .sidebar.open {
         left: 0; /* shows when open */
     }
+    .business-card-info p {
+        font-size: 0.8rem;
+    }
+    .business-card-info h2{
+        font-size: 1rem;
+    }
+
+    .business-card-info p.email-row{
+        font-size: 0.7rem;
+    }
 
 
-    .main-content {
+    .main-content1 {
         margin-left: 0 !important;
         padding: 20px;
     }
