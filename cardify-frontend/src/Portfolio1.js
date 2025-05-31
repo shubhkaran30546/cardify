@@ -162,7 +162,6 @@ END:VCARD
                 <nav className="navbar-port">
                     <h1 className="logo1">{portfolio?.firstName || "User"}<span className="dot">.</span></h1>
                     <ul className="nav-links12">
-                        <li>Home</li>
                         <li><a href="#about12">About</a></li>
                         <li className="active12">
                             <a href="#contact-container1"><button className="contact-btn12">Contact Me</button></a>
