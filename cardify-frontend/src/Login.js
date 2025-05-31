@@ -6,7 +6,7 @@ import './Login.css';
 import './Portfolio.css'
 function Login() {
     const navigate = useNavigate();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -17,7 +17,7 @@ function Login() {
     };
 
     const handleFacebookLogin = () => {
-        window.location.href = "http://localhost:8080/oauth2/authorization/facebook";
+        window.location.href = `${BACKEND_BASE_URL}/oauth2/authorization/facebook`;
     };
 
     const handleLogin = async (e) => {

@@ -142,9 +142,9 @@ const Home = () => {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ priceId }),
-        });
+    },
+        body: JSON.stringify({ priceId }),
+    });
         if (response.status === 401) {
             // Token is invalid or expired — redirect to login
             navigate("/login", { state: { from: location, priceId } });
@@ -205,26 +205,26 @@ const Home = () => {
                         with a simple QR code, and manage your leads effortlessly—all in one place.
                     </p>
                     <section className="buttons">
-                       <a href="#pricing"
-                            className="signup-button1"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                height: '46px',
-                                weidth: '10%',
-                                padding: '0 2rem',
-                                fontSize: '1rem',
-                                background: '#e74c3c',
-                                color: '#fff',
-                                border: 'none',
-                                borderRadius: '8px',
-                                textDecoration: 'none',
-                                boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-                                cursor: 'pointer',
-                                lineHeight: 1,
-                            }}
-                            >
+                        <a href="#pricing"
+                           className="signup-button1"
+                           style={{
+                               display: 'flex',
+                               alignItems: 'center',
+                               justifyContent: 'center',
+                               height: '46px',
+                               weidth: '10%',
+                               padding: '0 2rem',
+                               fontSize: '1rem',
+                               background: '#e74c3c',
+                               color: '#fff',
+                               border: 'none',
+                               borderRadius: '8px',
+                               textDecoration: 'none',
+                               boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+                               cursor: 'pointer',
+                               lineHeight: 1,
+                           }}
+                        >
                             GET STARTED
                         </a>
 
@@ -249,64 +249,64 @@ const Home = () => {
                     margin: '0 auto'
                 }}>
                     {[
-                    {
-                        title: "Hassle-free digital identity creation.",
-                        icon: "🌟"
-                    },
-                    {
-                        title: "E-portfolios without tech burden.",
-                        icon: "📁"
-                    },
-                    {
-                        title: "Scalable for teams & businesses.",
-                        icon: "👥"
-                    },
-                    {
-                        title: "Affordable, professional, and modern.",
-                        icon: "💸"
-                    }
+                        {
+                            title: "Hassle-free digital identity creation.",
+                            icon: "🌟"
+                        },
+                        {
+                            title: "E-portfolios without tech burden.",
+                            icon: "📁"
+                        },
+                        {
+                            title: "Scalable for teams & businesses.",
+                            icon: "👥"
+                        },
+                        {
+                            title: "Affordable, professional, and modern.",
+                            icon: "💸"
+                        }
                     ].map((item, idx) => (
-                    <div
-                        key={idx}
-                        className="why-card"
-                        style={{
-                        flex: '1 1 200px',
-                        minWidth: 220,
-                        maxWidth: 270,
-                        background: '#fff',
-                        borderRadius: '18px',
-                        boxShadow: '0 2px 12px rgba(44,62,80,0.08)',
-                        padding: '2.2rem 1.6rem 1.7rem 1.6rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        textAlign: 'center',
-                        transition: 'box-shadow 0.25s, transform 0.25s, border 0.25s',
-                        cursor: 'pointer',
-                        border: '2px solid transparent'
-                        }}
-                        onMouseEnter={e => {
-                        e.currentTarget.style.boxShadow = '0 6px 24px 0 rgba(231,76,60,0.15)';
-                        e.currentTarget.style.transform = 'translateY(-7px) scale(1.04)';
-                        e.currentTarget.style.border = '2px solid #e74c3c';
-                        }}
-                        onMouseLeave={e => {
-                        e.currentTarget.style.boxShadow = '0 2px 12px rgba(44,62,80,0.08)';
-                        e.currentTarget.style.transform = 'none';
-                        e.currentTarget.style.border = '2px solid transparent';
-                        }}
-                    >
-                        <div style={{
-                        fontSize: '2.5rem',
-                        marginBottom: '1.1rem',
-                        userSelect: 'none'
-                        }}>{item.icon}</div>
-                        <div style={{
-                        fontWeight: 500,
-                        fontSize: '1.13rem',
-                        color: '#222'
-                        }}>{item.title}</div>
-                    </div>
+                        <div
+                            key={idx}
+                            className="why-card"
+                            style={{
+                                flex: '1 1 200px',
+                                minWidth: 220,
+                                maxWidth: 270,
+                                background: '#fff',
+                                borderRadius: '18px',
+                                boxShadow: '0 2px 12px rgba(44,62,80,0.08)',
+                                padding: '2.2rem 1.6rem 1.7rem 1.6rem',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                textAlign: 'center',
+                                transition: 'box-shadow 0.25s, transform 0.25s, border 0.25s',
+                                cursor: 'pointer',
+                                border: '2px solid transparent'
+                            }}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.boxShadow = '0 6px 24px 0 rgba(231,76,60,0.15)';
+                                e.currentTarget.style.transform = 'translateY(-7px) scale(1.04)';
+                                e.currentTarget.style.border = '2px solid #e74c3c';
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.boxShadow = '0 2px 12px rgba(44,62,80,0.08)';
+                                e.currentTarget.style.transform = 'none';
+                                e.currentTarget.style.border = '2px solid transparent';
+                            }}
+                        >
+                            <div style={{
+                                fontSize: '2.5rem',
+                                marginBottom: '1.1rem',
+                                userSelect: 'none'
+                            }}>{item.icon}</div>
+                            <div style={{
+                                fontWeight: 500,
+                                fontSize: '1.13rem',
+                                color: '#222'
+                            }}>{item.title}</div>
+                        </div>
                     ))}
                 </div>
             </div>
@@ -317,7 +317,7 @@ const Home = () => {
             {/* PARTNER SECTION */}
             <div className="anim">
                 <h2>WATCH HOW IT WORKS</h2>
-                {/*<img className="video" src="Video1.png" alt="video" />*/}
+                {/*{/<img className="video" src="Video1.png" alt="video" />/}*/}
                 <video
                     ref={videoRef}
                     className="video"
@@ -343,7 +343,7 @@ const Home = () => {
                 style={{
                     background: "#fff",
                 }}
-                >
+            >
 
                 <h2 className="pricing-title">YOUR PRICING OPTIONS</h2>
                 <p className="pricing-description">
@@ -359,9 +359,9 @@ const Home = () => {
                     <span>Yearly</span>
                     <label className="switch">
                         <input
-                        type="checkbox"
-                        checked={!isYearly}
-                        onChange={() => setIsYearly(!isYearly)}
+                            type="checkbox"
+                            checked={!isYearly}
+                            onChange={() => setIsYearly(!isYearly)}
                         />
                         <span className="slider"></span>
                     </label>
@@ -379,15 +379,15 @@ const Home = () => {
                                     <span className="new-price">Contact Us</span>
                                 ) : (
                                     <>
-                                    {isYearly ? (
-                                        <span className="new-price">
+                                        {isYearly ? (
+                                            <span className="new-price">
                                         C${(plan.yearlyPrice * 0.8).toFixed(2)}<span style={{ fontWeight: 400 }}>/month</span>
                                         </span>
-                                    ) : (
-                                        <span className="new-price">
+                                        ) : (
+                                            <span className="new-price">
                                         C${plan.monthlyPrice}<span style={{ fontWeight: 400 }}>/month</span>
                                         </span>
-                                    )}
+                                        )}
                                     </>
                                 )}
                             </p>

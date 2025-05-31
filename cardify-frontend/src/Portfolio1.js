@@ -20,7 +20,7 @@ const getSocialIcon = (url) => {
 
 const Portfolio1 = () => {
     const qrRef = useRef();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const { userId } = useParams();
     const [portfolio, setPortfolio] = useState(null);
     const [imageUrl, setImageUrl] = useState("");
@@ -208,7 +208,7 @@ END:VCARD
                 {/* About Section */}
                 <div className="about12" id="about12">
                     <div className="about-left">
-                        <QRCodeCanvas ref={qrRef} value={`http://localhost.com/portfolio/${userId}`} size={200}/>
+                        <QRCodeCanvas ref={qrRef} value={`${BACKEND_BASE_URL}/portfolio/${userId}`} size={200}/>
                     </div>
                     <div className="about-right">
                         <h1>About Me</h1>

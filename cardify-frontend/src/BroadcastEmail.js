@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './BroadcastEmail.css';
+import Sidebar from "./Sidebar";
 
 function BroadcastEmail() {
     const [portfolioEmail, setPortfolioEmail] = useState('');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
+    const userName = localStorage.getItem("userName");
     const [image, setImage] = useState(null);
     const [responseMessage, setResponseMessage] = useState('');
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleSidebar = () => setIsOpen(!isOpen);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+        const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
         // Create a FormData object for the multipart/form-data request
         const formData = new FormData();
@@ -42,6 +46,8 @@ function BroadcastEmail() {
 
     return (
         <div className="broadcast-container">
+            <button className="hamburger" onClick={() => setIsOpen(!isOpen)}>☰</button>
+            <Sidebar userName={userName} isAdmin={isAdmin} isOpen={isOpen} toggleSidebar={toggleSidebar}/>
             <h2 className="broadcast-title">Broadcast Email</h2>
 
             <form onSubmit={handleSubmit} className="broadcast-form">

@@ -10,7 +10,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/support")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class SupportController {
     @Autowired
     private EmailService emailService;

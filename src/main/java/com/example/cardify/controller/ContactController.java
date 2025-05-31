@@ -22,7 +22,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/contact")
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true") // Allow frontend access
 public class ContactController {
 
     @Autowired

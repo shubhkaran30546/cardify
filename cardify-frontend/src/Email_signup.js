@@ -7,7 +7,7 @@ import Footer from "./Footer";
 function SignupForm() {
     const navigate = useNavigate();
     const location = useLocation();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',

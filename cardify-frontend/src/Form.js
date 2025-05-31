@@ -12,7 +12,7 @@ const SlidingForm = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoading, setIsLoading] = useState(false); // Loader state
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
     const [portfolio, setPortfolio] = useState({
         firstName: '',
         lastName: '',

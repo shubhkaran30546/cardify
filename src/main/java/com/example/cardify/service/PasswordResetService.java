@@ -40,7 +40,7 @@ public class PasswordResetService {
         tokenRepository.save(resetToken);
 
         // Send email with reset link
-        String resetLink = "http://localhost:3000/reset-password?token=" + token;
+        String resetLink = "https://cardify-ecard-69efed7c7c3e.herokuapp.com/reset-password?token=" + token;
         emailService.sendEmail(email, "Password Reset Request",
                 "Click the link to reset your password: " + resetLink);
     }

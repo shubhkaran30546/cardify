@@ -23,7 +23,7 @@ function Profile() {
     const toggleSidebar = () => setIsOpen(!isOpen);
     const [visitData, setVisitData] = useState([]);
     const qrRef = useRef();
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
 
     const handleShare = async () => {
         const canvas = document.getElementById("qrCanvas");
@@ -172,16 +172,16 @@ function Profile() {
                 <div className="profile-card">
                     {userName && (
                         <div className="button-group">
-                            <a href={`http://localhost:3000/portfolio/${userName}`} target="_blank"
+                            <a href={`${BACKEND_BASE_URL}/portfolio/${userName}`} target="_blank"
                                rel="noopener noreferrer"
                                className="profile-btn">View Portfolio</a>
-                            <a href={`http://localhost:3000/create-ecard`} target="_blank" rel="noopener noreferrer"
+                            <a href={`${BACKEND_BASE_URL}/create-ecard`} target="_blank" rel="noopener noreferrer"
                                className="profile-btn">
                                 {portfolioExists ? "Edit Portfolio" : "Create Portfolio"}
                             </a>
-                            <a href={`http://localhost:3000/api/leads/${userName}`} rel="noopener noreferrer"
+                            <a href={`${BACKEND_BASE_URL}/api/leads/${userName}`} rel="noopener noreferrer"
                                className="profile-btn">View Leads</a>
-                            <a href={`http://localhost:3000/api/broadcast/${userName}`} rel="noopener noreferrer"
+                            <a href={`${BACKEND_BASE_URL}/api/broadcast/${userName}`} rel="noopener noreferrer"
                                className="profile-btn">Send Email</a>
                             {isAdmin && (
                                 <a onClick={() => navigate("/admin")} className="admin-btn">
@@ -196,7 +196,7 @@ function Profile() {
                 <div className="qr-section">
                     <QRCodeCanvas
                         id="qrCanvas"
-                        value={`http://localhost:3000/portfolio/${userName}`}
+                        value={`${BACKEND_BASE_URL}/portfolio/${userName}`}
                         size={200}
                         className="qr-code"
                     />
