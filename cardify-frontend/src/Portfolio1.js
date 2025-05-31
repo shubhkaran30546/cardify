@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
 import {
     FaLinkedin, FaGithub, FaTwitter, FaFacebook, FaInstagram,
@@ -95,7 +95,7 @@ END:VCARD
 
         recordVisit();
     }, [userId]);
-
+    const navigate = useNavigate();
     // Fetch Portfolio Data
     useEffect(() => {
         if (!userId) return;
@@ -162,7 +162,7 @@ END:VCARD
                 <nav className="navbar-port">
                     <h1 className="logo1">{portfolio?.firstName || "User"}<span className="dot">.</span></h1>
                     <ul className="nav-links12">
-                        <li className="#about12">Home</li>
+                        <li className="#about12" onClick={() => navigate("/")}>Home</li>
                         <li><a href="#about12">About</a></li>
                         <li className="active12">
                             <a href="#contact-container1">
