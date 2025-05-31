@@ -1,5 +1,6 @@
 package com.example.cardify.controller;
 
+import com.example.cardify.DTO.UserDTO;
 import com.example.cardify.Models.User;
 import com.example.cardify.repository.UserRepository;
 import com.example.cardify.service.JwtService;
@@ -20,11 +21,13 @@ public class ProfileController {
     private final UserService userService;
     private final JwtService jwtService;
     private final UserDetailsServiceImpl userDetailsService;
+    public UserRepository userRepository;
 
-    public ProfileController(UserService userService, JwtService jwtService, UserDetailsServiceImpl userDetailsService) {
+    public ProfileController(UserService userService, JwtService jwtService, UserDetailsServiceImpl userDetailsService, UserRepository userRepository) {
         this.userService = userService;
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -53,6 +56,14 @@ public class ProfileController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+    @GetMapping("/info/{username}")
+    public ResponseEntity<UserDTO> getProfileInfo(@PathVariable String username) {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(new UserDTO(user));
     }
 
     private String extractEmailFromToken(String token) {

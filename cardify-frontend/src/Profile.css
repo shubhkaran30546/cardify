@@ -1,5 +1,47 @@
 
 /* Profile Page Layout */
+
+.business-card {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f46526;
+    max-width: 400px;
+    text-align: center;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+}
+
+.qr-wrapper {
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.business-card-info{
+    margin-top: 0;
+    margin-left: 20px;
+}
+.business-card-info h2 {
+    margin: 0.2rem 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.business-card-info p {
+    margin: 0.2rem 0;
+    color: #fcefe7;
+}
+
+
 .profile-container {
     display: flex;
     min-height: 100vh;

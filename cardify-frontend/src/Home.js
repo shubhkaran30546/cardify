@@ -32,16 +32,54 @@ const Home = () => {
     };
 
     // Create E-Card
-    const handleCreate = () => {
+    const handleCreateEcard = async () => {
         const token = localStorage.getItem('token');
 
         if (!token || isTokenExpired(token)) {
             localStorage.setItem("redirectAfterLogin", location.pathname);
-            localStorage.removeItem('token'); // Clear token
-            navigate("/login"); // Redirect to login/signup
+            localStorage.removeItem('token');
+            navigate("/login");
+            return;
         }
-        navigate("/create-ecard");
+
+        try {
+            // Check if user already has an active subscription
+            const checkRes = await fetch(`${BACKEND_BASE_URL}/api/users/subscription-status`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const { active, subscriptionType } = await checkRes.json();
+
+            if (active) {
+                navigate("/create-ecard");
+                return;
+            }
+
+            // If not subscribed, proceed to Stripe checkout
+            const response = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                    priceId: priceIds.individualMonthly,
+                    planType: "individual",
+                }),
+            });
+
+            const session = await response.json();
+            if (session && session.url) {
+                window.location.href = session.url;
+            }
+
+        } catch (error) {
+            console.error("Error initiating Stripe checkout:", error);
+        }
     };
+
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
@@ -130,36 +168,62 @@ const Home = () => {
 
     // 5) Stripe Checkout handler function
     const handleCheckout = async (priceId) => {
-        const stripe = await stripePromise;
-        console.log("yearly price : " + priceIds.individualYearly );
-        const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-        if (!token) {
-            // If no token, redirect to login first
-            navigate("/login", { state: { from: location, priceId } });
-            return;
-        }
-        const response = await fetch('${BACKEND_BASE_URL}/api/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ priceId }),
-        });
-        if (response.status === 401) {
-            // Token is invalid or expired — redirect to login
+        const token = localStorage.getItem("token");
+
+        if (!token || isTokenExpired(token)) {
+            // No token or expired → redirect to login
             navigate("/login", { state: { from: location, priceId } });
             return;
         }
 
-        const session = await response.json();
+        try {
+            // Call backend to check if subscription is active
+            const response = await fetch(`${BACKEND_BASE_URL}/api/users/subscription-status`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
-        if (session.url) {
-            window.location.href = session.url; // redirect to Stripe Checkout
-        } else {
-            console.error('Failed to create session:', session);
+            if (response.status === 401) {
+                navigate("/login", { state: { from: location, priceId } });
+                return;
+            }
+
+            const data = await response.json();
+            console.log("Subscription status response:", data);
+
+            if (data.active) {
+                // Subscription is active → redirect to create-ecard page
+                navigate("/create-ecard");
+            } else {
+                // No active subscription → create Stripe checkout session
+                const sessionRes = await fetch(`${BACKEND_BASE_URL}/api/create-checkout-session`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ priceId }),
+                });
+
+                if (sessionRes.status === 401) {
+                    navigate("/login", { state: { from: location, priceId } });
+                    return;
+                }
+
+                const session = await sessionRes.json();
+                if (session.url) {
+                    window.location.href = session.url;
+                } else {
+                    console.error("Failed to create checkout session:", session);
+                }
+            }
+        } catch (error) {
+            console.error("Error during checkout:", error);
         }
     };
+
 
     // 6) Intersection Observer (animations)
     useEffect(() => {

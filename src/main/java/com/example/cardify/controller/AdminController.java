@@ -64,6 +64,14 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
     }
+    @PutMapping("/users/{userId}/subscription/active")
+    public ResponseEntity<String> setSubscriptionActive(@PathVariable Long userId) {
+        return userRepository.findById(userId).map(user -> {
+            user.setSubscriptionStatus("active");
+            userRepository.save(user);
+            return ResponseEntity.ok("Subscription set to active");
+        }).orElse(ResponseEntity.notFound().build());
+    }
 
 
 

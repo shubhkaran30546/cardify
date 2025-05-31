@@ -48,10 +48,15 @@ public class PortfolioService {
             existingPortfolio.setAddress(portfolio.getAddress());
             existingPortfolio.setPhoneNumber(portfolio.getPhoneNumber());
             existingPortfolio.setExpirationDateTime(portfolio.getExpirationDateTime());
-            existingPortfolio.setImageName(imageFile.getOriginalFilename());
-            existingPortfolio.setImageType(imageFile.getContentType());
-            existingPortfolio.setImageDate(imageFile.getBytes());
+            if (imageFile != null && !imageFile.isEmpty()) {
+                existingPortfolio.setImageName(imageFile.getOriginalFilename());
+                existingPortfolio.setImageType(imageFile.getContentType());
+                existingPortfolio.setImageDate(imageFile.getBytes());
+            }
             existingPortfolio.setCompanyName(portfolio.getCompanyName());
+
+
+
 
             // Update social links
             List<SocialLink> existingLinks = existingPortfolio.getSocialLinks();
@@ -73,11 +78,15 @@ public class PortfolioService {
 
         // New portfolio: associate user and save the portfolio
         portfolio.setUser(user);  // Set the user reference
-        portfolio.setImageName(imageFile.getOriginalFilename());
-        portfolio.setImageType(imageFile.getContentType());
-        portfolio.setImageDate(imageFile.getBytes());
+        if (imageFile != null && !imageFile.isEmpty()) {
+            portfolio.setImageName(imageFile.getOriginalFilename());
+            portfolio.setImageType(imageFile.getContentType());
+            portfolio.setImageDate(imageFile.getBytes());
+        }
         portfolio.setCompanyName(portfolio.getCompanyName());
         List<SocialLink> newSocialLinks = new ArrayList<>();
+
+
         for (SocialLink socialLink : portfolio.getSocialLinks()) {
             socialLink.setPortfolio(portfolio); // Ensure links are assigned correctly
             newSocialLinks.add(socialLink);

@@ -41,6 +41,29 @@ const UsersList = () => {
             alert("Failed to delete user. Please try again.");
         }
     };
+    const handleSetActive = async (userId) => {
+        try {
+            const token = localStorage.getItem("token");
+            await axios.put(`${BACKEND_BASE_URL}/api/admin/users/${userId}/subscription/active`,
+                { status: "active" },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            );
+
+            // Optionally update user in state to reflect new status
+            setUsers(prevUsers =>
+                prevUsers.map(user =>
+                    user.userId === userId ? { ...user, subscriptionStatus: "active" } : user
+                )
+            );
+            alert("User subscription set to active.");
+        } catch (error) {
+            console.error("Error setting subscription to active:", error);
+            alert("Failed to set subscription. Please try again.");
+        }
+    };
+
 
 
 
@@ -62,7 +85,13 @@ const UsersList = () => {
                         </div>
                         <span className="user-name">{user.firstName + " " + user.lastName + " | " || "New User"}</span>
                         <span className="user-email">{user.email}</span>
+                        <span className="subscription-status">
+        {user.subscriptionStatus || "No Status"}
+    </span>
                         <button className="delete-user" onClick={() => handleDelete(user.userId)}>DELETE</button>
+                        <button className="delete-user" onClick={() => handleSetActive(user.userId)}>
+                            Set Active
+                        </button>
                     </li>
                 ))}
             </ul>

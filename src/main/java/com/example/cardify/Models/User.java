@@ -94,7 +94,8 @@ public class User implements UserDetails {
 
 //    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 //    private Portfolio portfolio;
-
+@Column(name = "subscription_status")
+private String subscriptionStatus; // E.g., active, canceled, incomplete
     public enum Role {
         USER, ADMIN
     }

@@ -16,6 +16,7 @@ public class PortfolioDTO {
     private String imageName;
     private String imageData; // ✅ Base64 Encoded Image Data
     private String username;
+    private String phoneNumber;
 
     public PortfolioDTO(Portfolio portfolio) {
         this.portfolioId = portfolio.getPortfolioId();
@@ -25,6 +26,7 @@ public class PortfolioDTO {
         this.title = portfolio.getTitle();
         this.imageName = portfolio.getImageName();
         this.username = portfolio.getUser().getUsername();
+        this.phoneNumber = portfolio.getPhoneNumber();
 
         // ✅ Debugging Logs
         System.out.println("Processing Portfolio ID: " + this.portfolioId);

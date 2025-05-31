@@ -59,6 +59,7 @@ const SlidingForm = () => {
 
                     // Set portfolio data
                     setPortfolio(data);
+                    console.log(data);
 
                     // Populate socialLinks
                     setUrls(data.socialLinks.map(link => ({ url: link.url })));
@@ -123,10 +124,6 @@ const SlidingForm = () => {
 
         if (file) {
             formData.append('profileImage', file);
-        } else {
-            alert("Please upload a profile image.");
-            setIsLoading(false); // Hide loader
-            return;
         }
 
         try {

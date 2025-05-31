@@ -7,7 +7,7 @@ import { jwtDecode } from "jwt-decode";
 import Sidebar from "./Sidebar.js";
 import { QRCodeCanvas } from "qrcode.react";
 import axios from "axios";
-
+import html2canvas from "html2canvas";
 import "./Profile.css"; // Import separate CSS
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import Footer from "./Footer";
@@ -22,8 +22,40 @@ function Profile() {
     const [isOpen, setIsOpen] = useState(false);
     const toggleSidebar = () => setIsOpen(!isOpen);
     const [visitData, setVisitData] = useState([]);
+    const [portfolioData, setPortfolioData] = useState(null);
     const qrRef = useRef();
     const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
+    const handleShareBusinessCard = async () => {
+        const cardElement = document.getElementById("businessCard");
+        if (!cardElement) {
+            console.error("Business card element not found");
+            return;
+        }
+
+        try {
+            const canvas = await html2canvas(cardElement, { backgroundColor: null });
+            canvas.toBlob(async (blob) => {
+                if (!blob) return;
+
+                const file = new File([blob], "business-card.png", { type: "image/png" });
+
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        title: `${userName}'s Business Card`,
+                        text: "Check out my digital business card",
+                        files: [file],
+                    });
+                } else {
+                    // Fallback: open image in new tab
+                    const url = URL.createObjectURL(blob);
+                    window.open(url, "_blank");
+                }
+            }, "image/png");
+        } catch (error) {
+            console.error("Error sharing business card:", error);
+        }
+    };
+
 
     const handleShare = async () => {
         const canvas = document.getElementById("qrCanvas");
@@ -126,8 +158,11 @@ function Profile() {
 
                 setUserName(response.data.userName);
                 localStorage.setItem("userName", response.data.userName);
+                const res = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/info/${response.data.userName}`);
+                setPortfolioData(res.data);
 
-                const portfolioResponse = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/get/${response.data.userName}`);
+                const portfolioResponse = await axios.get(`${BACKEND_BASE_URL}/api/portfolio/get/${response.data.userName}`, {
+                    headers: { Authorization: `Bearer ${token}` },});
                 if (portfolioResponse.status === 200) {
                     setPortfolioExists(true);
                 }
@@ -175,7 +210,7 @@ function Profile() {
                             <a href={`${BACKEND_BASE_URL}/portfolio/${userName}`} target="_blank"
                                rel="noopener noreferrer"
                                className="profile-btn">View Portfolio</a>
-                            <a href={`${BACKEND_BASE_URL}/create-ecard`} target="_blank" rel="noopener noreferrer"
+                            <a href={`${BACKEND_BASE_URL}/create-ecard/${userName}`} target="_blank" rel="noopener noreferrer"
                                className="profile-btn">
                                 {portfolioExists ? "Edit Portfolio" : "Create Portfolio"}
                             </a>
@@ -194,16 +229,31 @@ function Profile() {
 
                 {/* QR Code Section */}
                 <div className="qr-section">
-                    <QRCodeCanvas
-                        id="qrCanvas"
-                        value={`${BACKEND_BASE_URL}/portfolio/${userName}`}
-                        size={200}
-                        className="qr-code"
-                    />
-                    <button onClick={handleShare} className="profile-btn">
-                        Share QR Code
+                    {portfolioData ? (
+                        <div id="businessCard" className="business-card">
+                            <div className="qr-wrapper">
+                            <QRCodeCanvas
+                                value={`${BACKEND_BASE_URL}/portfolio/${portfolioData.username}`}
+                                size={120}
+                                className="business-card-avatar"
+                            /></div>
+                            <div className="business-card-info">
+                                <h2>{portfolioData.firstName} {portfolioData.lastName}</h2>
+                                <p>{portfolioData.title || 'Software Developer'}</p>
+                                <p>📧 {portfolioData.email}</p>
+                                <p>📞 {portfolioData.phoneNumber}</p> {/* Update if phone number is added */}
+                            </div>
+                        </div>
+                    ) : (
+                        <p>Loading your business card...</p>
+                    )}
+
+
+                    <button onClick={handleShareBusinessCard} className="profile-btn">
+                        Share My Card
                     </button>
                 </div>
+
 
             </div>
         </div>

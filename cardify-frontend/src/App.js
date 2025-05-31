@@ -97,6 +97,7 @@ function MainApp() {
                         <Route path="/edit-portfolio/:userId" element={<SlidingForm />} />
                         <Route path="/api/leads/:userId" element={<Leads />} />
                         <Route path="/api/broadcast/:userId" element={<BroadcastEmail />} />
+                        <Route path="/create-ecard/:userName" element={<SlidingForm />} />
                         <Route path="/support" element={<Support />} />
                         <Route path="/forgot-password" element={<ForgotPassword />} />
                         <Route path="/reset-password" element={<ResetPassword />} />
