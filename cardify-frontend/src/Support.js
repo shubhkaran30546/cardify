@@ -5,7 +5,7 @@ import axios from "axios";
 import Footer from "./Footer";
 
 const Support = () => {
-    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL ?? 'http://localhost:8080';
+    const BACKEND_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8080';
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -77,7 +77,7 @@ const Support = () => {
                     </div>
                 </form>
             </div>
-            <div className="support-footer">
+            <div>
                 <Footer />
             </div>
         </div>
